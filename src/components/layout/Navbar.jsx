@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { label: "Achievements", href: "/achievements" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
+  { label: "Downloads", href: "/downloads" },
 ];
 
 // Oscilloscope-style trace — the site's one signature mark
@@ -72,12 +73,13 @@ export default function Navbar() {
               </Link>
             );
           })}
-          <Link
-            href="/downloads"
-            className="ml-3 rounded-md border border-[var(--ink)] px-4 py-1.5 font-[family-name:var(--font-mono)] text-xs uppercase tracking-wide text-[var(--ink)] transition-colors hover:bg-[var(--ink)] hover:text-[var(--paper)]"
-          >
-            CV
-          </Link>
+          {/* <DownloadButton
+            href={cvDownload.filePath}
+            fileName={cvDownload.fileName}
+            label="CV"
+            variant="navbar"
+            className="ml-3"
+          /> */}
           <ThemeToggle />
         </nav>
 
