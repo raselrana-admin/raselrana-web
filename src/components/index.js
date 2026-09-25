@@ -30,3 +30,9 @@ export { default as AchievementsCompetitions } from "./sections/achievements/Ach
 export { default as AchievementsHero } from "./sections/achievements/AchievementsHero";
 export { default as AchievementsLeadership } from "./sections/achievements/AchievementsLeadership";
 export { default as AchievementsPress } from "./sections/achievements/AchievementsPress";
+
+// Downloads
+export { default as DownloadCard } from "@/components/sections/downloads/DownloadCard";
+export { default as DownloadsGrid } from "@/components/sections/downloads/DownloadsGrid";
+export { default as DownloadsHero } from "@/components/sections/downloads/DownloadsHero";
+export { default as DownloadButton } from "@/components/ui/DownloadButton";
