@@ -22,7 +22,7 @@ function FileIcon() {
   );
 }
 
-export default function DownloadCard({ item }) {
+export default function DownloadCard({ item, count = 0 }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -47,16 +47,21 @@ export default function DownloadCard({ item }) {
         <p className="mt-1 text-sm text-[var(--slate)]">{item.description}</p>
       </div>
 
-      <div className="flex items-center gap-3 font-[family-name:var(--font-mono)] text-xs text-[var(--slate)]">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-[family-name:var(--font-mono)] text-xs text-[var(--slate)]">
         <span>{item.fileSize}</span>
         <span aria-hidden="true">·</span>
         <span>Updated {item.lastUpdated}</span>
+        <span aria-hidden="true">·</span>
+        <span>
+          {count} {count === 1 ? "download" : "downloads"}
+        </span>
       </div>
 
       <div className="mt-2 flex flex-wrap gap-3">
         <DownloadButton
           href={item.filePath}
           fileName={item.fileName}
+          docId={item.id}
           label="Download"
           variant="solid"
           eventName={`${item.id}_download`}

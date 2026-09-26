@@ -33,6 +33,5 @@ export { default as AchievementsPress } from "./sections/achievements/Achievemen
 
 // Downloads
 export { default as DownloadCard } from "@/components/sections/downloads/DownloadCard";
-export { default as DownloadsGrid } from "@/components/sections/downloads/DownloadsGrid";
 export { default as DownloadsHero } from "@/components/sections/downloads/DownloadsHero";
 export { default as DownloadButton } from "@/components/ui/DownloadButton";
