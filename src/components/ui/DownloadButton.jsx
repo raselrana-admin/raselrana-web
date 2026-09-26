@@ -24,15 +24,21 @@ function DownloadIcon() {
 }
 
 /**
- * Generic download CTA. Fires a Vercel Analytics event on click so you can
- * see download counts in the Vercel dashboard without any extra backend.
+ * Generic download CTA. Fires a Vercel Analytics event AND increments a
+ * MongoDB-backed counter via POST /api/downloads/track, so download counts
+ * show up both in the Vercel dashboard and on the site itself.
  *
  * Usage:
- *   <DownloadButton href={cvDownload.filePath} fileName={cvDownload.fileName} />
+ *   <DownloadButton
+ *     href={cvDownload.filePath}
+ *     fileName={cvDownload.fileName}
+ *     docId={cvDownload.id}
+ *   />
  */
 export default function DownloadButton({
   href,
   fileName,
+  docId, // matches an entry's `id` in lib/data/downloads.js — used for DB tracking
   label = "Download CV",
   variant = "solid", // "solid" | "outline" | "ghost" | "navbar"
   eventName = "cv_download",
@@ -44,6 +50,23 @@ export default function DownloadButton({
       track(eventName, { file: fileName });
     } catch (err) {
       // Analytics failures should never block the actual download
+    }
+
+    if (docId) {
+      try {
+        // keepalive lets the request complete even if the browser starts
+        // navigating away (e.g. opening the PDF) right after the click.
+        fetch("/api/downloads/track", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: docId }),
+          keepalive: true,
+        }).catch(() => {
+          // Silently ignore — a failed DB write should never block the download
+        });
+      } catch (err) {
+        // Same — never let tracking break the actual download
+      }
     }
   };
 

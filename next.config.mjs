@@ -3,15 +3,16 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/blog',
+        source: "/blog",
         destination: `${process.env.BLOG_DOMAIN}/blog`,
       },
       {
-        source: '/blog/:path+',
+        source: "/blog/:path+",
         destination: `${process.env.BLOG_DOMAIN}/blog/:path+`,
       },
     ];
   },
+  serverExternalPackages: ["mongodb"],
 };
 
 export default nextConfig;
