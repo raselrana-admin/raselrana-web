@@ -1,35 +1,36 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
-@theme {
-  --color-bg: #0b1120;
-  --color-bg-elevated: #10182b;
-  --color-fg: #edeff2;
-  --color-fg-muted: #8b93a7;
-  --color-accent: #f4a93b;
-  --color-accent-dim: rgba(244, 169, 59, 0.15);
-  --color-line: #1e293b;
-
-  --font-display: var(--font-display);
-  --font-body: var(--font-body);
-  --font-mono: var(--font-mono);
-
-  --tracking-widest2: 0.28em;
+:root {
+  --ink: #0f2438; /* primary text, footer bg */
+  --slate: #5b6b7a; /* secondary text */
+  --paper: #f5f6f4; /* page background */
+  --signal: #0e7c86; /* accent — links, active states */
+  --pulse: #3fa796; /* status/live accent, used sparingly */
+  --line: #d8dde1; /* hairline borders */
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.dark {
+  --ink: #eef1f0;
+  --slate: #93a1ab;
+  --paper: #0b1420;
+  --signal: #2dd4c7;
+  --pulse: #52c9a6;
+  --line: #223244;
+}
 
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: #0b1120;
-  color: #edeff2;
+  background-color: var(--paper);
+  color: var(--ink);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
-/* subtle grain / noise texture so the deep background never feels flat */
 .bg-noise {
   position: fixed;
   inset: 0;
@@ -38,14 +39,13 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* visible keyboard focus, always */
 :focus-visible {
-  outline: 2px solid #f4a93b;
+  outline: 2px solid var(--signal);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
 ::selection {
-  background: rgba(244, 169, 59, 0.25);
-  color: #edeff2;
+  background: var(--signal);
+  color: var(--paper);
 }

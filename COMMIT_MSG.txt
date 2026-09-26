@@ -1,0 +1,22 @@
+Connect MongoDB and add live CV download counts
+
+- Add src/lib/mongodb.js - MongoClient connection singleton, HMR-safe
+  in dev (standard Next.js pattern)
+- Add src/lib/getDownloadStats.js - server-side helper to fetch all
+  download counts in one query
+- Add src/app/api/downloads/track/route.js - POST increments a
+  document's counter (upserts download_stats collection automatically,
+  no manual setup), GET reads counts back
+- Update DownloadButton.jsx to accept a docId prop and POST to the
+  track route on click (fetch with keepalive so the request survives
+  navigation to the PDF), alongside the existing Vercel Analytics event
+- Update DownloadCard.jsx to accept and display a live count prop
+- Update DownloadsGrid.jsx to a Server Component that fetches counts
+  from Mongo at request time and passes them to each card
+- Set app/downloads/page.jsx to force-dynamic so counts stay live
+  instead of getting statically cached at build time
+- Add .env.local.example documenting MONGODB_URI and MONGODB_DB
+
+Requires: npm install mongodb, and MONGODB_URI / MONGODB_DB set in
+.env.local (and in Vercel project settings for the deployed site).
+See README.md section 6 for setup and testing steps.
