@@ -2,29 +2,30 @@
 // no component changes needed when you add a new document.
 export const downloads = [
   {
-    id: "cv",
-    title: "Curriculum Vitae",
+    id: "portfolio",
+    title: "Professional Portfolio",
     description:
-      "Full CV — education, professional experience, achievements, and technical skills.",
-    fileName: "Rasel_Rana_CV.pdf",
-    // Place the actual PDF at: public/documents/Rasel_Rana_CV.pdf
-    filePath: "/documents/Rasel_Rana_CV.pdf",
+      "An overview of my work — roles, responsibilities, and project outcomes across technical operations, facilities, and administration.",
+    fileName: "Rasel_Rana_Portfolio.pdf",
+    // Place the actual PDF at: public/documents/Rasel_Rana_Portfolio.pdf
+    filePath: "/documents/Rasel_Rana_Portfolio.pdf",
     fileType: "PDF",
     fileSize: "79.7 KB", // TODO: update to match the real file
     lastUpdated: "2026-09-01", // TODO: update whenever you replace the PDF
   },
-  // Example second entry — remove if you only want the CV here:
-  // {
-  //   id: "portfolio",
-  //   title: "Project Portfolio",
-  //   description: "Selected robotics and engineering project writeups.",
-  //   fileName: "Rasel_Rana_Portfolio.pdf",
-  //   filePath: "/documents/Rasel_Rana_Portfolio.pdf",
-  //   fileType: "PDF",
-  //   fileSize: "1.1 MB",
-  //   lastUpdated: "2026-09-01",
-  // },
+  {
+    id: "vcard",
+    title: "Contact Card",
+    description:
+      "Save my contact details directly to your phone or address book.",
+    fileName: "Rasel_Rana.vcf",
+    // Place the actual file at: public/documents/Rasel_Rana.vcf
+    filePath: "/documents/Rasel_Rana.vcf",
+    fileType: "VCF",
+    fileSize: "1 KB",
+    lastUpdated: "2026-09-26",
+  },
 ];
 
-// Convenience export — used by the Navbar's single CV button
-export const cvDownload = downloads.find((d) => d.id === "cv");
+// Convenience export — for anywhere you need just the portfolio document
+export const portfolioDownload = downloads.find((d) => d.id === "portfolio");
