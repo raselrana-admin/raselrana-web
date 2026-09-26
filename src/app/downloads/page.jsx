@@ -3,7 +3,8 @@ import DownloadsView from "@/views/downloads/DownloadsView";
 
 export const metadata = {
   title: "Downloads | Rasel Rana",
-  description: "Download Rasel Rana's CV and other professional documents.",
+  description:
+    "Download Rasel Rana's professional portfolio, contact card, and other documents.",
 };
 
 // This page reads live download counts from MongoDB (via DownloadsView) on

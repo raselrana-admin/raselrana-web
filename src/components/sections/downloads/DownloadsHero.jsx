@@ -19,7 +19,7 @@ export default function DownloadsHero() {
         transition={{ duration: 0.4, delay: 0.05 }}
         className="mt-3 font-[family-name:var(--font-display)] text-3xl font-semibold text-[var(--ink)] sm:text-4xl"
       >
-        CV &amp; Documents
+        Portfolio &amp; Documents
       </motion.h1>
       <motion.p
         initial={{ opacity: 0, y: 12 }}
@@ -27,7 +27,8 @@ export default function DownloadsHero() {
         transition={{ duration: 0.4, delay: 0.1 }}
         className="mx-auto mt-3 max-w-lg text-sm text-[var(--slate)]"
       >
-        Grab a copy of my CV, or preview it in your browser before downloading.
+        Grab a copy of my professional portfolio, or save my contact card
+        directly to your device.
       </motion.p>
     </section>
   );
