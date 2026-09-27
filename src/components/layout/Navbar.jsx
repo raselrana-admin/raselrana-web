@@ -1,5 +1,6 @@
 "use client";
 
+import BrandMark from "@/components/ui/BrandMark";
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
@@ -17,24 +18,6 @@ const NAV_LINKS = [
   { label: "Downloads", href: "/downloads" },
 ];
 
-// Oscilloscope-style trace — the site's one signature mark
-function SignalMark() {
-  return (
-    <svg width="34" height="20" viewBox="0 0 34 20" fill="none">
-      <motion.path
-        d="M0 10 H8 L11 3 L15 17 L18 10 H34"
-        stroke="var(--signal)"
-        strokeWidth="1.75"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 1.1, ease: "easeInOut" }}
-      />
-    </svg>
-  );
-}
-
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -46,7 +29,7 @@ export default function Navbar() {
           href="/"
           className="flex items-center gap-3 font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight text-[var(--ink)]"
         >
-          <SignalMark />
+          <BrandMark size={24} />
           Rasel Rana
         </Link>
 
