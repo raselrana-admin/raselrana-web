@@ -108,6 +108,50 @@ export const leadership = [
   },
 ];
 
+/**
+ * Judging & Mentoring. Events where you were invited as a judge/mentor.
+ * Placeholder entries — replace with real events, or delete unused ones.
+ */
+export const judging = [
+  {
+    slug: "placeholder-judging-1",
+    title: "[Placeholder Event Name]",
+    role: "Judge",
+    organizer: "[Placeholder Organizer]",
+    sortDate: "2024-01-01",
+    displayDate: "[Placeholder Date]",
+    description: "[Placeholder — what the event was and what you judged.]",
+    links: [],
+  },
+  {
+    slug: "placeholder-judging-2",
+    title: "[Placeholder Event Name]",
+    role: "Guest Judge",
+    organizer: "[Placeholder Organizer]",
+    sortDate: "2023-01-01",
+    displayDate: "[Placeholder Date]",
+    description: "[Placeholder — what the event was and what you judged.]",
+    links: [],
+  },
+];
+
+/**
+ * Sports & Beyond. Kept out of the Competitions section so the robotics
+ * record stays focused. Placeholder entries — replace or delete.
+ */
+export const sports = [
+  {
+    slug: "placeholder-sports-1",
+    title: "[Placeholder Tournament Name]",
+    result: "Champion",
+    organizer: "[Placeholder Organizer / Venue]",
+    sortDate: "2021-01-01",
+    displayDate: "[Placeholder Date]",
+    description: "[Placeholder — brief description of the tournament and your team's run.]",
+    links: [],
+  },
+];
+
 export const affiliations = [
   { org: "IEEE", status: "Member" },
   { org: "Institution of Engineers, Bangladesh (IEB)", status: "Student member" },
@@ -152,4 +196,30 @@ export function getPressForCompetition(slug) {
 
 export function getFeaturedPress() {
   return press.find((p) => p.featured) ?? press[0];
+}
+
+/**
+ * Looks a slug up across every achievement category, for the shared
+ * /achievements/[slug] detail route. Returns null if nothing matches.
+ */
+export function getAchievement(slug) {
+  const comp = competitions.find((c) => c.slug === slug);
+  if (comp) return { category: "competition", categoryLabel: "Competition", item: comp };
+
+  const judge = judging.find((j) => j.slug === slug);
+  if (judge) return { category: "judging", categoryLabel: "Judging & Mentoring", item: judge };
+
+  const sport = sports.find((s) => s.slug === slug);
+  if (sport) return { category: "sports", categoryLabel: "Sports & Beyond", item: sport };
+
+  return null;
+}
+
+/** All slugs across every category, for generateStaticParams. */
+export function getAllAchievementSlugs() {
+  return [
+    ...competitions.map((c) => c.slug),
+    ...judging.map((j) => j.slug),
+    ...sports.map((s) => s.slug),
+  ];
 }

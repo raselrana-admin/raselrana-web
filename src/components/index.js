@@ -28,8 +28,10 @@ export { default as AboutStory } from "./sections/about/AboutStory";
 // Sections — achievements page
 export { default as AchievementsCompetitions } from "./sections/achievements/AchievementsCompetitions";
 export { default as AchievementsHero } from "./sections/achievements/AchievementsHero";
+export { default as AchievementsJudging } from "./sections/achievements/AchievementsJudging";
 export { default as AchievementsLeadership } from "./sections/achievements/AchievementsLeadership";
 export { default as AchievementsPress } from "./sections/achievements/AchievementsPress";
+export { default as AchievementsSports } from "./sections/achievements/AchievementsSports";
 
 // Downloads
 export { default as DownloadCard } from "@/components/sections/downloads/DownloadCard";
