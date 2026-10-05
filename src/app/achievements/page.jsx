@@ -1,8 +1,10 @@
 import {
   AchievementsCompetitions,
   AchievementsHero,
+  AchievementsJudging,
   AchievementsLeadership,
   AchievementsPress,
+  AchievementsSports,
 } from "@/components";
 
 export default function AchievementsPage() {
@@ -12,6 +14,8 @@ export default function AchievementsPage() {
       <AchievementsCompetitions />
       <AchievementsLeadership />
       <AchievementsPress />
+      <AchievementsJudging />
+      <AchievementsSports />
     </>
   );
 }

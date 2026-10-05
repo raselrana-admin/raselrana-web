@@ -1,32 +1,44 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ExternalLinks from "@/components/ui/ExternalLinks";
 import {
-  competitions,
-  getCompetition,
+  getAchievement,
+  getAllAchievementSlugs,
   getPressForCompetition,
 } from "@/lib/data/achievements";
+import ExternalLinks from "@/components/ui/ExternalLinks";
 
 export function generateStaticParams() {
-  return competitions.map((c) => ({ slug: c.slug }));
+  return getAllAchievementSlugs().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const competition = getCompetition(slug);
-  if (!competition) return {};
+  const found = getAchievement(slug);
+  if (!found) return {};
+  const { item } = found;
   return {
-    title: `${competition.title}, ${competition.placement}`,
-    description: `${competition.placement} at ${competition.title}, organized by ${competition.organizer}.`,
+    title: item.title,
+    description: item.description || `${item.title}, ${item.organizer}`,
   };
 }
 
-export default async function CompetitionPage({ params }) {
-  const { slug } = await params;
-  const competition = getCompetition(slug);
-  if (!competition) notFound();
+// The badge text shown above the title, per category.
+function badgeFor({ category, item }) {
+  if (category === "competition") return item.placement;
+  if (category === "judging") return item.role;
+  if (category === "sports") return item.result;
+  return null;
+}
 
-  const clip = getPressForCompetition(slug);
+export default async function AchievementDetailPage({ params }) {
+  const { slug } = await params;
+  const found = getAchievement(slug);
+  if (!found) notFound();
+
+  const { category, categoryLabel, item } = found;
+  const clip =
+    category === "competition" ? getPressForCompetition(slug) : null;
+  const badge = badgeFor(found);
 
   return (
     <article className="bg-[var(--paper)]">
@@ -39,30 +51,28 @@ export default async function CompetitionPage({ params }) {
         </Link>
 
         <p className="mt-10 font-mono text-xs text-[var(--signal)]">
-          {competition.placement}
+          {categoryLabel}
+          {badge ? ` · ${badge}` : ""}
         </p>
         <h1 className="mt-2 font-display text-4xl text-[var(--ink)] md:text-5xl">
-          {competition.title}
+          {item.title}
         </h1>
         <p className="mt-4 text-lg text-[var(--slate)]">
-          Organized by {competition.organizer}, {competition.displayDate}
+          Organized by {item.organizer}, {item.displayDate}
         </p>
 
-        {competition.description ? (
+        {item.description ? (
           <p className="mt-10 max-w-[60ch] leading-relaxed text-[var(--slate)]">
-            {competition.description}
+            {item.description}
           </p>
         ) : (
           <p className="mt-10 max-w-[60ch] leading-relaxed text-[var(--slate)]">
-            The full story of this competition is coming soon.
+            The full story is coming soon.
           </p>
         )}
 
         <div className="mt-12">
-          <ExternalLinks
-            links={competition.links}
-            heading="Watch and read more"
-          />
+          <ExternalLinks links={item.links} heading="Watch and read more" />
         </div>
 
         {clip && (
