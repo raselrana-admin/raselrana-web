@@ -124,7 +124,7 @@ export default function ContactForm() {
           disabled={isLoading}
           whileHover={{ y: isLoading ? 0 : -1 }}
           whileTap={{ scale: isLoading ? 1 : 0.98 }}
-          className="inline-flex items-center gap-2 rounded-md bg-[color:var(--signal)] px-6 py-3 font-[family-name:var(--font-mono)] text-sm uppercase tracking-wide text-[color:var(--paper)] transition-opacity disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center gap-2 rounded-full bg-[color:var(--ink)] px-6 py-3 text-sm font-medium text-[color:var(--paper)] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isLoading ? "Sending…" : "Send Message"}
         </motion.button>
@@ -147,7 +147,7 @@ export default function ContactForm() {
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="font-[family-name:var(--font-mono)] text-sm text-red-500"
+              className="font-[family-name:var(--font-mono)] text-sm text-[color:var(--danger)]"
             >
               {errorMsg || contactFormCopy.errorBody}
             </motion.p>

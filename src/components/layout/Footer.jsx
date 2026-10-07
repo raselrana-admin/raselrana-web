@@ -1,81 +1,110 @@
 import Link from "next/link";
+import BrandMark from "@/components/ui/BrandMark";
+import { footerNav, siteInfo, socialLinks } from "@/lib/data/site";
 
-const SITEMAP = [
-  { label: "About", href: "/about" },
-  { label: "Experience", href: "/experience" },
-  { label: "Skills", href: "/skills" },
-  { label: "Projects", href: "/projects" },
-  { label: "Achievements", href: "/achievements" },
-  { label: "Education", href: "/education" },
-  { label: "Publications", href: "/publications" },
-  { label: "Blog", href: "/blog" },
-  { label: "Downloads", href: "/downloads" },
-  { label: "Contact", href: "/contact" },
-];
+const eyebrowClass =
+  "font-mono text-xs uppercase tracking-[0.2em] text-[var(--slate)]";
+const linkClass =
+  "text-sm text-[var(--ink)] transition-colors hover:text-[var(--signal)]";
 
 export default function Footer() {
+  // Hide social entries that have no URL yet
+  const socials = socialLinks.filter((link) =>
+    /^https?:\/\//i.test(link.href || ""),
+  );
+
   return (
-    <footer className="border-t border-[var(--line)] bg-[var(--ink)] text-[var(--paper)]">
-      <div className="mx-auto max-w-6xl px-6 py-14">
-        <div className="grid gap-10 md:grid-cols-[1.3fr_1fr_1fr]">
+    <footer
+      id="footer"
+      className="border-t border-[var(--line)] bg-[var(--surface)]"
+    >
+      <div className="mx-auto max-w-6xl px-6">
+        {/* Lead row: brand statement + direct email */}
+        <div className="flex flex-col gap-8 py-14 md:flex-row md:items-end md:justify-between md:py-16">
           <div>
-            <p className="font-[family-name:var(--font-display)] text-xl font-semibold">
-              Rasel Rana
-            </p>
-            <p className="mt-3 max-w-xs font-[family-name:var(--font-body)] text-sm text-[var(--paper)]/70">
-              Manager (Technical), BTCL — writing and building at the
-              intersection of telecommunications and electrical engineering.
+            <Link
+              href="/"
+              className="inline-flex items-center gap-3 font-display text-xl font-semibold tracking-tight text-[var(--ink)]"
+            >
+              <BrandMark size={32} />
+              {siteInfo.name}
+            </Link>
+            <p className="mt-4 max-w-[44ch] text-sm leading-relaxed text-[var(--slate)]">
+              {siteInfo.tagline}
             </p>
           </div>
 
           <div>
-            <p className="font-[family-name:var(--font-mono)] text-xs uppercase tracking-wide text-[var(--paper)]/50">
-              Sitemap
-            </p>
-            <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2">
-              {SITEMAP.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="font-[family-name:var(--font-body)] text-sm text-[var(--paper)]/80 hover:text-[var(--pulse)]"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <p className="font-[family-name:var(--font-mono)] text-xs uppercase tracking-wide text-[var(--paper)]/50">
-              Connect
-            </p>
-            <ul className="mt-3 space-y-2 font-[family-name:var(--font-body)] text-sm text-[var(--paper)]/80">
-              <li>
-                <a
-                  href="mailto:contact@raselrana.com.bd"
-                  className="hover:text-[var(--pulse)]"
-                >
-                  contact@raselrana.com.bd
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://linkedin.com/in/raselrana"
-                  className="hover:text-[var(--pulse)]"
-                >
-                  LinkedIn
-                </a>
-              </li>
-            </ul>
+            <p className={eyebrowClass}>Get in touch</p>
+            <a
+              href={`mailto:${siteInfo.email}`}
+              className="mt-3 inline-block font-display text-lg font-medium text-[var(--ink)] underline decoration-[var(--line)] decoration-1 underline-offset-[6px] transition-colors hover:text-[var(--signal)] hover:decoration-[var(--signal)] md:text-xl"
+            >
+              {siteInfo.email}
+            </a>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-start justify-between gap-2 border-t border-[var(--paper)]/15 pt-6 font-[family-name:var(--font-mono)] text-xs text-[var(--paper)]/50 sm:flex-row sm:items-center">
+        {/* Link columns */}
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 border-t border-[var(--line)] py-12 md:grid-cols-4">
+          {footerNav.map((group) => (
+            <nav key={group.title} aria-label={group.title}>
+              <p className={eyebrowClass}>{group.title}</p>
+              <ul className="mt-4 space-y-3">
+                {group.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className={linkClass}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+
+          <nav aria-label="Connect">
+            <p className={eyebrowClass}>Connect</p>
+            <ul className="mt-4 space-y-3">
+              <li>
+                <a href={`mailto:${siteInfo.email}`} className={linkClass}>
+                  Email
+                </a>
+              </li>
+              {socials.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={linkClass}
+                  >
+                    {link.label}
+                    <span aria-hidden className="ml-1 text-[var(--slate)]">
+                      ↗
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div>
+            <p className={eyebrowClass}>Based in</p>
+            <p className="mt-4 text-sm text-[var(--ink)]">{siteInfo.location}</p>
+            <p className="mt-2 font-mono text-xs text-[var(--slate)]">
+              {siteInfo.coordinates}
+            </p>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="flex flex-col items-start justify-between gap-3 border-t border-[var(--line)] py-6 font-mono text-xs text-[var(--slate)] sm:flex-row sm:items-center">
           <span>
-            © {new Date().getFullYear()} Rasel Rana. All rights reserved.
+            © {new Date().getFullYear()} {siteInfo.name}. All rights reserved.
           </span>
-          <span>Dhaka, Bangladesh — 23.8103° N, 90.4125° E</span>
+          <a href="#top" className="transition-colors hover:text-[var(--signal)]">
+            Back to top ↑
+          </a>
         </div>
       </div>
     </footer>

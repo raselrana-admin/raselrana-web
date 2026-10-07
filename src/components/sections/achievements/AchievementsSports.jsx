@@ -5,13 +5,13 @@ export default function AchievementsSports({ sports }) {
   if (sports.length === 0) return null;
 
   return (
-    <section className="bg-[var(--paper)] py-20">
-      <div className="mx-auto max-w-3xl px-6">
-        <h2 className="font-display text-2xl text-[var(--ink)] md:text-3xl">
+    <section className="border-t border-[var(--line)] py-20 md:py-24">
+      <div className="mx-auto max-w-6xl px-6">
+        <h2 className="font-display text-3xl font-semibold tracking-tight text-[var(--ink)] md:text-4xl">
           Sports &amp; beyond
         </h2>
 
-        <div className="mt-10 space-y-8">
+        <div className="mt-10 grid gap-10 md:grid-cols-2">
           {sports.map((s) => (
             <Link
               key={s.slug}

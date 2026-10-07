@@ -1,49 +1,38 @@
-"use client";
-
-import { motion } from "motion/react";
-import Link from "next/link";
+import SectionHeader from "@/components/ui/SectionHeader";
 import { experiencePreview } from "@/lib/data/home";
 
 export default function ExperiencePreview() {
   return (
-    <section className="px-6 py-20">
-      <div className="mx-auto max-w-3xl">
-        <div className="flex items-baseline justify-between">
-          <p className="font-mono text-xs tracking-[0.2em] text-[var(--signal)]">
-            EXPERIENCE
-          </p>
-          <Link
-            href="/experience"
-            className="font-mono text-sm text-[var(--slate)] hover:text-[var(--signal)]"
-          >
-            Full history →
-          </Link>
-        </div>
+    <section className="border-t border-[var(--line)] py-20 md:py-24">
+      <div className="mx-auto max-w-6xl px-6">
+        <SectionHeader
+          eyebrow="Experience"
+          heading="Where I've worked"
+          href="/experience"
+          linkLabel="Full history"
+        />
 
-        <div className="mt-8 border-l border-[var(--line)]">
-          {experiencePreview.map((item, i) => (
-            <motion.div
+        <ol className="reveal mt-12 divide-y divide-[var(--line)] border-y border-[var(--line)]">
+          {experiencePreview.map((item) => (
+            <li
               key={item.role + item.period}
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="relative py-6 pl-8"
+              className="grid gap-2 py-8 md:grid-cols-[1fr_2fr] md:gap-16"
             >
-              <span className="absolute left-[-4.5px] top-8 h-2 w-2 rounded-full bg-[var(--signal)]" />
-              <p className="font-mono text-xs text-[var(--slate)]">
+              <p className="font-mono text-sm text-[var(--slate)]">
                 {item.period}
               </p>
-              <h3 className="mt-1 font-display text-lg text-[var(--ink)]">
-                {item.role}
-              </h3>
-              <p className="text-sm text-[var(--slate)]">{item.org}</p>
-              <p className="mt-2 text-sm leading-relaxed text-[var(--slate)]">
-                {item.summary}
-              </p>
-            </motion.div>
+              <div>
+                <h3 className="font-display text-xl font-medium text-[var(--ink)]">
+                  {item.role}
+                </h3>
+                <p className="mt-1 text-sm text-[var(--signal)]">{item.org}</p>
+                <p className="mt-3 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]">
+                  {item.summary}
+                </p>
+              </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );

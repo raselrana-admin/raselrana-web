@@ -1,40 +1,58 @@
 import RaselPhoto from "@/assets/Rasel_profile_photo.jpg";
-import { SignalWave } from "@/components";
 import { aboutHero } from "@/lib/data/about";
 import Image from "next/image";
 
 export default function AboutHero() {
   return (
-    <section className="border-b border-[var(--line)] bg-[var(--paper)]">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 py-20 md:grid-cols-[1.2fr_0.8fr] md:py-28">
+    <section className="bg-[var(--paper)]">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 pt-16 pb-16 md:pt-24 md:pb-20 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
         <div>
-          <p className="font-mono text-sm text-[var(--slate)]">
+          <p className="rise flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-[var(--slate)]">
+            <span aria-hidden className="h-px w-10 bg-[var(--signal)]" />
             {aboutHero.eyebrow}
           </p>
-          <h1 className="mt-4 font-display text-4xl leading-tight text-[var(--ink)] md:text-5xl">
+          <h1
+            className="rise mt-6 font-display text-4xl font-semibold leading-[1.05] tracking-tight text-[var(--ink)] md:text-6xl"
+            style={{ "--delay": "80ms" }}
+          >
             {aboutHero.headline}
           </h1>
-          <p className="mt-6 max-w-[60ch] text-lg text-[var(--slate)]">
+          <p
+            className="rise mt-6 max-w-[60ch] text-lg leading-relaxed text-[var(--slate)] md:text-xl"
+            style={{ "--delay": "160ms" }}
+          >
             {aboutHero.intro}
           </p>
-          <p className="mt-4 font-mono text-sm text-[var(--slate)]">
+          <p
+            className="rise mt-6 font-mono text-sm text-[var(--slate)]"
+            style={{ "--delay": "240ms" }}
+          >
             {aboutHero.location}
           </p>
         </div>
 
-        <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl border border-[var(--line)]">
-          <Image
-            src={RaselPhoto}
-            alt="Rasel Rana"
-            fill
-            sizes="(max-width: 768px) 80vw, 400px"
-            className="object-cover"
-            priority
+        <div
+          className="rise relative mx-auto w-full max-w-xs sm:max-w-sm"
+          style={{ "--delay": "160ms" }}
+        >
+          {/* Offset outline behind the portrait */}
+          <div
+            aria-hidden
+            className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl border border-[var(--signal)] opacity-40"
           />
+          <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--line)]">
+            <Image
+              src={RaselPhoto}
+              alt="Portrait of Rasel Rana"
+              fill
+              priority
+              placeholder="blur"
+              sizes="(max-width: 768px) 80vw, 400px"
+              className="object-cover object-top"
+            />
+          </div>
         </div>
       </div>
-
-      <SignalWave variant="divider" />
     </section>
   );
 }

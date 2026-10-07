@@ -1,9 +1,6 @@
 // components/index.js
 // All component exports from this file for easier imports
 
-// UI
-export { default as SignalWave } from "./ui/SignalWave";
-
 // Sections — homepage
 export { default as AboutPreview } from "./sections/homepage/AboutPreview";
 export { default as AchievementsPreview } from "./sections/homepage/AchievementsPreview";
@@ -15,7 +12,6 @@ export { default as ProjectsPreview } from "./sections/homepage/ProjectsPreview"
 
 // Sections — contact page
 export { default as ContactForm } from "./sections/contact/ContactForm";
-export { default as ContactHero } from "./sections/contact/ContactHero";
 export { default as ContactInfo } from "./sections/contact/ContactInfo";
 
 // Sections — about page
@@ -35,5 +31,4 @@ export { default as AchievementsSports } from "./sections/achievements/Achieveme
 
 // Downloads
 export { default as DownloadCard } from "@/components/sections/downloads/DownloadCard";
-export { default as DownloadsHero } from "@/components/sections/downloads/DownloadsHero";
 export { default as DownloadButton } from "@/components/ui/DownloadButton";

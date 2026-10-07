@@ -31,9 +31,9 @@ export default function AchievementsCompetitions({ competitions, press }) {
   const others = sorted.filter((c) => c.placement !== "Champion");
 
   return (
-    <section className="bg-[var(--paper)] py-20">
+    <section className="border-t border-[var(--line)] py-20 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="font-display text-2xl text-[var(--ink)] md:text-3xl">
+        <h2 className="font-display text-3xl font-semibold tracking-tight text-[var(--ink)] md:text-4xl">
           Competitions
         </h2>
 
@@ -45,7 +45,7 @@ export default function AchievementsCompetitions({ competitions, press }) {
                 <Link
                   key={c.slug}
                   href={`/achievements/${c.slug}`}
-                  className="group flex flex-col rounded-2xl border border-[var(--signal)] bg-[color-mix(in_srgb,var(--signal)_6%,var(--paper))] p-7 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--signal)]"
+                  className="group flex flex-col rounded-2xl border border-[var(--signal)] bg-[color-mix(in_srgb,var(--signal)_6%,var(--surface))] p-7 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--signal)]"
                 >
                   <div className="flex items-center justify-between gap-4">
                     <PlacementBadge placement={c.placement} />

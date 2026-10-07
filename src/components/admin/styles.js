@@ -13,4 +13,4 @@ export const secondaryButtonClass =
   "inline-flex items-center justify-center rounded-md border border-[var(--line)] px-4 py-2 font-[family-name:var(--font-mono)] text-xs uppercase tracking-wide text-[var(--ink)] transition-colors hover:border-[var(--signal)] hover:text-[var(--signal)] disabled:cursor-not-allowed disabled:opacity-60";
 
 export const dangerButtonClass =
-  "inline-flex items-center justify-center rounded-md border border-[var(--line)] px-4 py-2 font-[family-name:var(--font-mono)] text-xs uppercase tracking-wide text-red-500 transition-colors hover:border-red-500 disabled:cursor-not-allowed disabled:opacity-60";
+  "inline-flex items-center justify-center rounded-md border border-[var(--line)] px-4 py-2 font-[family-name:var(--font-mono)] text-xs uppercase tracking-wide text-[var(--danger)] transition-colors hover:border-[var(--danger)] disabled:cursor-not-allowed disabled:opacity-60";

@@ -1,17 +1,16 @@
+import SectionHeader from "@/components/ui/SectionHeader";
 import { aboutStory } from "@/lib/data/about";
 
 export default function AboutStory() {
   return (
-    <section className="bg-[var(--paper)] py-20">
-      <div className="mx-auto max-w-3xl px-6">
-        <h2 className="font-display text-2xl text-[var(--ink)] md:text-3xl">
-          {aboutStory.heading}
-        </h2>
-        <div className="mt-6 space-y-5">
+    <section className="border-t border-[var(--line)] py-20 md:py-24">
+      <div className="reveal mx-auto grid max-w-6xl items-start gap-10 px-6 lg:grid-cols-[1fr_2fr] lg:gap-16">
+        <SectionHeader eyebrow="Story" heading={aboutStory.heading} />
+        <div className="space-y-6">
           {aboutStory.paragraphs.map((para, i) => (
             <p
               key={i}
-              className="max-w-[70ch] text-base leading-relaxed text-[var(--slate)]"
+              className="max-w-[65ch] text-lg leading-relaxed text-[var(--slate)]"
             >
               {para}
             </p>

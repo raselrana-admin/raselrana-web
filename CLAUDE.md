@@ -30,7 +30,6 @@ Next.js 16 (App Router) with React 19, Tailwind CSS v4, Motion (`motion/react`),
 
 Branch workflow: every feature gets its own `feature/<name>` branch, merged into `develop` by PR. `develop` is merged into `main` to release. Do not commit feature work directly on `develop` or `main`.
 
-The README is out of date (it describes the earlier "Coming Soon" page); trust the code over it.
 
 ## Architecture
 
@@ -44,7 +43,7 @@ The site is a content-driven portfolio with a strict three-layer split:
 2. `src/components/sections/<page>/` — one component per page section, which imports its own data from `lib/data`. Sections take few or no props.
 3. `src/app/<route>/page.jsx` — thin Server Components that set `metadata` and stack section components.
 
-Adding a page means adding a data file, a `sections/<page>/` folder, and a `page.jsx`, then registering the route in `NAV_LINKS` in `src/components/layout/Navbar.jsx` (the mobile menu reuses `NAV_LINKS`; the footer keeps its own `SITEMAP` list).
+Adding a page means adding a data file, a `sections/<page>/` folder, and a `page.jsx`, then registering the route in `NAV_LINKS` in `src/components/layout/Navbar.jsx` (the mobile menu reuses `NAV_LINKS`). Footer links are data: `src/lib/data/site.js` holds the footer's link columns (`footerNav`) and external links (`socialLinks`, where an entry with an empty `href` stays hidden), so not every page is in the navbar.
 
 Achievements are the exception to "content lives in `lib/data`": see "Achievements and the admin panel" below.
 
@@ -84,9 +83,11 @@ Note the two service locations: `src/services/` (email) and `src/lib/services/` 
 ### Styling and theming
 
 - Tailwind v4 with no `tailwind.config` — setup is `@import "tailwindcss"` in `src/app/globals.css`.
-- Colors are six CSS variables (`--ink`, `--slate`, `--paper`, `--signal`, `--pulse`, `--line`) defined for light in `:root` and overridden under `.dark`. Use them as arbitrary values (`text-[var(--ink)]`, `border-[var(--line)]`) rather than Tailwind palette colors or `dark:` variants, so both themes work automatically.
+- Colors are eight CSS variables (`--ink`, `--slate`, `--paper`, `--surface` for cards and panels, `--signal`, `--pulse`, `--line`, `--danger` for errors) defined for light in `:root` and overridden under `.dark`. Use them as arbitrary values (`text-[var(--ink)]`, `border-[var(--line)]`) rather than Tailwind palette colors or `dark:` variants, so both themes work automatically.
 - Dark mode is class-based through next-themes (`attribute="class"`, system default). Components that read the theme must guard against hydration mismatch as `ThemeToggle` does.
-- Fonts come from `src/app/fonts.js` as `--font-display` (Space Grotesk), `--font-body` (IBM Plex Sans), `--font-mono` (IBM Plex Mono). These are not registered in a Tailwind `@theme` block, so the reliable form is `font-[family-name:var(--font-display)]`. Some components use a bare `font-display` class, which has no theme entry behind it.
+- Fonts: `src/app/fonts.js` loads Space Grotesk, IBM Plex Sans and IBM Plex Mono as raw variables, and the `@theme static` block in `globals.css` maps them to `--font-display`, `--font-body` and `--font-mono`. Use the `font-display` / `font-body` / `font-mono` utilities; the older `font-[family-name:var(--font-display)]` form still works.
+- Layout: every page uses the navbar's `mx-auto max-w-6xl px-6` container, sections are separated by a hairline `border-t border-[var(--line)]`, and cards sit on `bg-[var(--surface)]`. `ui/PageHeader` is the single header for inner pages (About keeps its own two-column hero with the portrait); `ui/SectionHeader` gives sections their eyebrow + heading + optional link.
+- Motion is CSS-only (defined in `globals.css`): `.rise` fades content in on load (stagger with `style={{ "--delay": "80ms" }}`), `.reveal` fades it in on scroll where the browser supports scroll-driven animations, and `.net-*` drives the hero `ui/NetworkMap`. Never hide content pending JavaScript (no `motion` with `initial={{ opacity: 0 }}` for entrance effects) — pages must be readable in the server HTML. `motion` is still used for interactive pieces (navbar indicator, mobile menu, journey side nav, form feedback).
 
 ### Leftovers to be aware of
 

@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "motion/react";
 import { experienceOrganizations } from "@/lib/data/experience";
 
 function formatPeriod(period) {
@@ -9,51 +6,43 @@ function formatPeriod(period) {
 
 export default function ExperienceTimeline() {
   return (
-    <section className="px-6 pb-20">
-      <div className="mx-auto max-w-3xl space-y-16">
-        {experienceOrganizations.map((org, orgIndex) => (
-          <motion.div
-            key={org.id}
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.4, delay: orgIndex * 0.05 }}
-          >
-            {/* Organization header — the visual anchor that separates the two employers */}
-            <div className="mb-6 border-b border-[var(--line)] pb-3">
-              <h2 className="font-display text-2xl text-[var(--ink)]">
-                {org.organization}
-              </h2>
+    <>
+      {experienceOrganizations.map((org) => (
+        <section
+          key={org.id}
+          className="border-t border-[var(--line)] py-16 md:py-20"
+        >
+          <div className="mx-auto grid max-w-6xl items-start gap-10 px-6 lg:grid-cols-[1fr_2fr] lg:gap-16">
+            {/* Organization — the anchor that separates one employer from the next */}
+            <div className="lg:sticky lg:top-24">
               {org.sector && (
-                <p className="mt-1 font-mono text-sm text-[var(--signal)]">
+                <p className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--signal)]">
                   {org.sector}
                 </p>
               )}
+              <h2 className="mt-3 font-display text-2xl font-semibold tracking-tight text-[var(--ink)] md:text-3xl">
+                {org.organization}
+              </h2>
             </div>
 
-            <ol className="relative border-l border-[var(--line)] pl-8">
+            <ol className="divide-y divide-[var(--line)] border-y border-[var(--line)]">
               {org.positions.map((position) => (
-                <li key={position.id} className="mb-10 last:mb-0">
-                  <span
-                    aria-hidden
-                    className="absolute -left-[7px] mt-1.5 h-3 w-3 rounded-full bg-[var(--pulse)]"
-                  />
-
+                <li key={position.id} className="reveal py-8">
                   <p className="font-mono text-sm text-[var(--slate)]">
                     {formatPeriod(position.period)}
                   </p>
 
-                  <h3 className="mt-1 font-display text-xl text-[var(--ink)]">
+                  <h3 className="mt-2 font-display text-xl font-medium text-[var(--ink)]">
                     {position.role}
                   </h3>
 
-                  <p className="mt-0.5 text-[var(--slate)]">
+                  <p className="mt-1 text-sm text-[var(--slate)]">
                     {position.location}
                     {position.employmentType ? ` · ${position.employmentType}` : ""}
                   </p>
 
                   {position.summary && (
-                    <p className="mt-3 max-w-[60ch] leading-relaxed text-[var(--ink)]">
+                    <p className="mt-4 max-w-[60ch] leading-relaxed text-[var(--ink)]">
                       {position.summary}
                     </p>
                   )}
@@ -63,9 +52,12 @@ export default function ExperienceTimeline() {
                       {position.responsibilities.map((item) => (
                         <li
                           key={item}
-                          className="flex gap-3 text-[var(--slate)] leading-relaxed"
+                          className="flex max-w-[60ch] gap-3 text-sm leading-relaxed text-[var(--slate)]"
                         >
-                          <span aria-hidden className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-[var(--pulse)]" />
+                          <span
+                            aria-hidden
+                            className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--signal)]"
+                          />
                           {item}
                         </li>
                       ))}
@@ -74,9 +66,9 @@ export default function ExperienceTimeline() {
                 </li>
               ))}
             </ol>
-          </motion.div>
-        ))}
-      </div>
-    </section>
+          </div>
+        </section>
+      ))}
+    </>
   );
 }

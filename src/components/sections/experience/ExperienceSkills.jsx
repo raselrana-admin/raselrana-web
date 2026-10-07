@@ -1,27 +1,24 @@
-"use client";
-
+import SectionHeader from "@/components/ui/SectionHeader";
 import { experienceSkills } from "@/lib/data/experience";
 
 export default function ExperienceSkills() {
   if (!experienceSkills?.length) return null;
 
   return (
-    <section className="px-6 pb-24">
-      <div className="mx-auto max-w-3xl border-t border-[var(--line)] pt-10">
-        <h2 className="font-display text-2xl text-[var(--ink)]">
-          Tools & systems
-        </h2>
+    <section className="border-t border-[var(--line)] py-16 md:py-20">
+      <div className="mx-auto grid max-w-6xl items-start gap-10 px-6 lg:grid-cols-[1fr_2fr] lg:gap-16">
+        <SectionHeader eyebrow="Toolkit" heading="Tools & systems" />
 
-        <div className="mt-5 flex flex-wrap gap-2">
+        <ul className="reveal flex flex-wrap gap-2">
           {experienceSkills.map((skill) => (
-            <span
+            <li
               key={skill}
-              className="rounded-full border border-[var(--line)] px-3 py-1 font-mono text-sm text-[var(--slate)]"
+              className="rounded-full border border-[var(--line)] bg-[var(--surface)] px-4 py-1.5 font-mono text-sm text-[var(--slate)]"
             >
               {skill}
-            </span>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
