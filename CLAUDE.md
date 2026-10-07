@@ -76,7 +76,14 @@ Auth is a single admin account with no auth library:
 
 ### Contact form
 
-`sections/contact/ContactForm.jsx` POSTs to `/api/contact`, which validates input, silently accepts submissions that fill the `company` honeypot field, and sends through `src/services/email.js` (Resend). There is no rate limiting yet.
+`sections/contact/ContactForm.jsx` POSTs to `/api/contact`, which validates input, silently accepts submissions that fill the `company` honeypot field, and sends through `src/services/email.js` (Resend). Visitor input is escaped before it goes into the email HTML; keep it that way when changing the template.
+
+### Security
+
+- Public write endpoints are rate-limited per IP through `src/lib/services/rate-limit.js` (`isRateLimited`, Mongo-backed, fails open): contact form 5 per 10 minutes, download tracking 30 per 10 minutes. Use it for any new public endpoint that writes or sends.
+- `/api/downloads/track` only accepts ids listed in `lib/data/downloads.js`.
+- `next.config.mjs` sets security headers on every response, including `/blog`. The Content-Security-Policy is deliberately limited to `frame-ancestors`, `base-uri`, `form-action` and `object-src`; adding `script-src` would need nonces because Next and next-themes use inline scripts.
+- `next` is pinned to an exact version; check `npm audit --omit=dev` before releases. The remaining `npm audit` findings are in ESLint tooling only and are not shipped.
 
 Note the two service locations: `src/services/` (email) and `src/lib/services/` (downloads).
 

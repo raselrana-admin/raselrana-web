@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
+import { downloads } from "@/lib/data/downloads";
 import { getDownloadCounts, getDownloadCount, trackDownload } from "@/lib/services/downloads-service";
+import { getClientIp, isRateLimited } from "@/lib/services/rate-limit";
+
+// Only documents listed in lib/data/downloads.js can be counted. Without
+// this, anyone could POST arbitrary ids and fill the collection with junk.
+const KNOWN_IDS = new Set(downloads.map((d) => d.id));
 
 // POST /api/downloads/track  { id: "cv" }
 // Increments that document's download counter (upserts if it's the first).
@@ -7,11 +13,23 @@ export async function POST(request) {
   try {
     const { id } = await request.json();
 
-    if (!id || typeof id !== "string") {
+    if (typeof id !== "string" || !KNOWN_IDS.has(id)) {
       return NextResponse.json(
         { error: "Missing or invalid document id" },
         { status: 400 }
       );
+    }
+
+    // 30 per 10 minutes per IP: generous for real use, but stops a script
+    // from inflating the public download counts.
+    const limited = await isRateLimited({
+      bucket: "download",
+      ip: getClientIp(request),
+      max: 30,
+      windowSeconds: 10 * 60,
+    });
+    if (limited) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
     }
 
     const count = await trackDownload(id);
@@ -33,7 +51,7 @@ export async function GET(request) {
     const id = searchParams.get("id");
 
     if (id) {
-      const count = await getDownloadCount(id);
+      const count = KNOWN_IDS.has(id) ? await getDownloadCount(id) : 0;
       return NextResponse.json({ id, count });
     }
 
