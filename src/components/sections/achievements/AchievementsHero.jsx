@@ -1,9 +1,7 @@
 import { SignalWave } from "@/components";
-import { achievementsHero, getFeaturedPress } from "@/lib/data/achievements";
+import { achievementsHero } from "@/lib/data/achievements";
 
-export default function AchievementsHero() {
-  const featured = getFeaturedPress();
-
+export default function AchievementsHero({ featured }) {
   return (
     <section className="border-b border-[var(--line)] bg-[var(--paper)]">
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
