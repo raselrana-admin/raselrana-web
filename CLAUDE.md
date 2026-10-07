@@ -16,13 +16,13 @@ There is no test suite and no TypeScript — the project is plain JavaScript/JSX
 
 ## Environment
 
-Copy `.env.example` to `.env.local`. All `.env*` files are gitignored.
+Copy `.env.example` to `.env.local`. All other `.env*` files are gitignored.
 
 - `MONGODB_URI` — required by anything that imports `src/lib/mongodb.js`, which throws at import time if it is missing. `/downloads` and `/api/downloads/track` therefore fail without it.
 - `MONGODB_DB` — defaults to `raselrana`.
 - `RESEND_API_KEY`, `CONTACT_EMAIL_TO` — contact form. `CONTACT_EMAIL_FROM` is optional and falls back to Resend's `onboarding@resend.dev` sender.
 - `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`, `SESSION_SECRET` — admin login. Generate the last two with `npm run hash-password`. If any is missing (or the secret is under 32 characters) nobody can log in.
-- `BLOG_DOMAIN` — not in `.env.example`, but used by `next.config.mjs` to rewrite `/blog` and `/blog/*` to a separately deployed blog app. The blog is not part of this repo.
+- `BLOG_DOMAIN` — used by `next.config.mjs` to rewrite `/blog` and `/blog/*` to a separately deployed blog app. The blog is not part of this repo.
 
 ## Stack
 
@@ -39,7 +39,7 @@ Everything lives under `src/`, imported through the `@/*` alias (`jsconfig.json`
 
 The site is a content-driven portfolio with a strict three-layer split:
 
-1. `src/lib/data/<page>.js` — all copy and structured content as plain exported objects/arrays, plus small lookup helpers (e.g. `getAchievement(slug)`, `getAllAchievementSlugs()` in `achievements.js`). Editing site content means editing these files, not components.
+1. `src/lib/data/<page>.js` — all copy and structured content as plain exported objects/arrays, plus derived values where needed. Editing site content means editing these files, not components.
 2. `src/components/sections/<page>/` — one component per page section, which imports its own data from `lib/data`. Sections take few or no props.
 3. `src/app/<route>/page.jsx` — thin Server Components that set `metadata` and stack section components.
 
@@ -51,7 +51,8 @@ Achievements are the exception to "content lives in `lib/data`": see "Achievemen
 
 - `src/components/index.js` is a barrel that pages import sections from. It must only export components that are safe for a client bundle.
 - Anything that touches MongoDB (or other server-only code) goes in `src/views/`, not `src/components/`, and is imported by direct path. `src/views/downloads/DownloadsView.jsx` and `src/views/achievements/AchievementsView.jsx` are the examples: async Server Components that read from Mongo and pass plain data down to section components as props. Putting such a component in the barrel previously leaked the `mongodb` driver into a client bundle and broke the build.
-- Most section components are `"use client"` because they animate with Motion. Import it as `motion/react`; `framer-motion` is installed but not used.
+- Section components are Server Components unless they need interactivity. Where Motion is needed, import it as `motion/react`.
+- `src/lib/use-is-mounted.js` (`useIsMounted`) is the way to hold back browser-only UI without a hydration mismatch; do not use `setState` in an effect for this.
 
 ### Downloads tracking
 
@@ -96,8 +97,10 @@ Note the two service locations: `src/services/` (email) and `src/lib/services/` 
 - Layout: every page uses the navbar's `mx-auto max-w-6xl px-6` container, sections are separated by a hairline `border-t border-[var(--line)]`, and cards sit on `bg-[var(--surface)]`. `ui/PageHeader` is the single header for inner pages (About keeps its own two-column hero with the portrait); `ui/SectionHeader` gives sections their eyebrow + heading + optional link.
 - Motion is CSS-only (defined in `globals.css`): `.rise` fades content in on load (stagger with `style={{ "--delay": "80ms" }}`), `.reveal` fades it in on scroll where the browser supports scroll-driven animations, and `.net-*` drives the hero `ui/NetworkMap`. Never hide content pending JavaScript (no `motion` with `initial={{ opacity: 0 }}` for entrance effects) — pages must be readable in the server HTML. `motion` is still used for interactive pieces (navbar indicator, mobile menu, journey side nav, form feedback).
 
-### Leftovers to be aware of
+### SEO
 
-- `src/app/contact/contact.js` and `src/components/forms/ContactForm.jsx` are unused duplicates of `src/lib/data/contact.js` and `src/components/sections/contact/ContactForm.jsx`.
-- `/projects`, `/skills`, `/education`, `/publications` are simple pages (shared `ui/PageHeader` plus one list section each) filled with sample content from their `lib/data` files. They are linked from the footer, not the navbar.
-- `npm run lint` currently reports one existing error in `src/components/theme/ThemeToggle.jsx` (`react-hooks/set-state-in-effect`).
+`src/app/layout.js` sets `metadataBase` and site-wide Open Graph/Twitter defaults from `siteInfo` in `lib/data/site.js`. `src/app/sitemap.js` lists the public paths by hand (add new pages there) and `src/app/robots.js` blocks `/admin` and `/api`. Pages set their own `title` and `description`; they do not set per-page Open Graph values yet.
+
+### Still sample content
+
+Most `lib/data` files and many achievement entries in MongoDB still hold sample text (marked "Sample", "EXAMPLE", "TODO", "[Placeholder]" or "20XX"). `/projects`, `/skills`, `/education` and `/publications` are simple pages (shared `ui/PageHeader` plus one list section each) linked from the footer, not the navbar.

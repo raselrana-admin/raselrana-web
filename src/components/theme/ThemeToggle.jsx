@@ -2,13 +2,12 @@
 
 import { motion } from "motion/react";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useIsMounted } from "@/lib/use-is-mounted";
 
 export default function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useIsMounted();
 
-  useEffect(() => setMounted(true), []);
   if (!mounted) return <div className="h-8 w-8" />; // prevents hydration mismatch
 
   const isDark = resolvedTheme === "dark";

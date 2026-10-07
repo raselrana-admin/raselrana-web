@@ -2,18 +2,9 @@
 
 import { motion } from "motion/react";
 import Link from "next/link";
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
-
-const emptySubscribe = () => () => {};
-
-function useIsMounted() {
-  return useSyncExternalStore(
-    emptySubscribe,
-    () => true, // client snapshot
-    () => false, // server snapshot
-  );
-}
+import { useIsMounted } from "@/lib/use-is-mounted";
 
 export default function MobileMenu({ links, pathname, onClose }) {
   const mounted = useIsMounted();
