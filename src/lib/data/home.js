@@ -69,21 +69,21 @@ export const featuredProjects = [
     tag: "Network Infrastructure",
     description:
       "One or two sentences on what this project was, your role in it, and the outcome. Replace with a real project.",
-    href: "/projects/example-project-one",
+    href: "/projects#example-project-one",
   },
   {
     title: "Example Project Two",
     tag: "Power Systems",
     description:
       "Same format — short, concrete, outcome-focused. This is placeholder copy until real project details are ready.",
-    href: "/projects/example-project-two",
+    href: "/projects#example-project-two",
   },
   {
     title: "Example Project Three",
     tag: "Technical Planning",
     description:
       "A third placeholder slot. Three featured projects is a good starting number for the homepage; adjust as needed.",
-    href: "/projects/example-project-three",
+    href: "/projects#example-project-three",
   },
 ];
 

@@ -91,5 +91,5 @@ Note the two service locations: `src/services/` (email) and `src/lib/services/` 
 ### Leftovers to be aware of
 
 - `src/app/contact/contact.js` and `src/components/forms/ContactForm.jsx` are unused duplicates of `src/lib/data/contact.js` and `src/components/sections/contact/ContactForm.jsx`.
-- `/projects`, `/skills`, `/education`, `/publications` are placeholder pages; several entries in `lib/data/achievements.js` have `placeholder-*` slugs.
+- `/projects`, `/skills`, `/education`, `/publications` are simple pages (shared `ui/PageHeader` plus one list section each) filled with sample content from their `lib/data` files. They are linked from the footer, not the navbar.
 - `npm run lint` currently reports one existing error in `src/components/theme/ThemeToggle.jsx` (`react-hooks/set-state-in-effect`).
