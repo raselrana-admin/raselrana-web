@@ -2,6 +2,18 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// Everything in the email comes from an anonymous visitor, so it must be
+// escaped before it goes into the HTML body — otherwise a message could
+// inject links, images or markup into the email the site owner opens.
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 /**
  * Sends a contact form email using Resend.
  * @param {{ name: string, email: string, subject?: string, message: string }} data
@@ -21,11 +33,11 @@ export async function sendContactEmail({ name, email, subject, message }) {
     text: `From: ${name} (${email})${subject ? `\nSubject: ${subject}` : ""}\n\n${message}`,
     html: `
       <div>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        ${subject ? `<p><strong>Subject:</strong> ${subject}</p>` : ""}
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        ${subject ? `<p><strong>Subject:</strong> ${escapeHtml(subject)}</p>` : ""}
         <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, "<br/>")}</p>
+        <p>${escapeHtml(message).replace(/\n/g, "<br/>")}</p>
       </div>
     `,
   });

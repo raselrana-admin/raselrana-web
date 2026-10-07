@@ -1,5 +1,38 @@
+// Security headers sent with every response.
+const securityHeaders = [
+  // Stop browsers guessing content types
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  // Never allow the site to be embedded in a frame (clickjacking)
+  { key: "X-Frame-Options", value: "DENY" },
+  // Send only the origin, not the full URL, to other sites
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  // The site uses none of these device features
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+  },
+  // Browsers must use HTTPS for the next two years
+  {
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000",
+  },
+  // Deliberately limited to directives that cannot block the site's own
+  // scripts or styles: no framing, no <base> hijack, forms post only to
+  // this site, no plugins. A script-src policy would need nonces.
+  {
+    key: "Content-Security-Policy",
+    value:
+      "frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'",
+  },
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Do not advertise the framework in an X-Powered-By header
+  poweredByHeader: false,
+  async headers() {
+    return [{ source: "/:path*", headers: securityHeaders }];
+  },
   async rewrites() {
     return [
       {
