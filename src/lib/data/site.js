@@ -4,6 +4,7 @@
 
 export const siteInfo = {
   name: "Rasel Rana",
+  url: "https://raselrana.com.bd", // no trailing slash
   tagline:
     "Manager (Technical), BTCL — writing and building at the intersection of telecommunications and electrical engineering.",
   email: "contact@raselrana.com.bd",
