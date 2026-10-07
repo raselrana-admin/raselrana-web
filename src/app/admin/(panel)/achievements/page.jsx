@@ -13,7 +13,7 @@ export default async function AdminAchievementsPage() {
   } catch (err) {
     console.error("[admin] Failed to load achievements:", err);
     return (
-      <p role="alert" className="mt-10 text-sm text-red-500">
+      <p role="alert" className="mt-10 text-sm text-[var(--danger)]">
         Could not reach the database. Check MONGODB_URI and try again.
       </p>
     );

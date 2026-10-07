@@ -2,8 +2,8 @@ import { publications } from "@/lib/data/publications";
 
 export default function PublicationsList() {
   return (
-    <section className="bg-[var(--paper)] py-16">
-      <ul className="mx-auto max-w-3xl divide-y divide-[var(--line)] px-6">
+    <section className="border-t border-[var(--line)] py-16 md:py-20">
+      <ul className="reveal mx-auto max-w-6xl divide-y divide-[var(--line)] px-6">
         {publications.map((item) => (
           <li key={item.id} className="py-6">
             <p className="font-[family-name:var(--font-mono)] text-xs text-[var(--slate)]">

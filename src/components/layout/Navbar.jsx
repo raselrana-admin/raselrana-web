@@ -29,7 +29,7 @@ export default function Navbar() {
           href="/"
           className="flex items-center gap-3 font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight text-[var(--ink)]"
         >
-          <BrandMark size={24} />
+          <BrandMark size={30} />
           Rasel Rana
         </Link>
 

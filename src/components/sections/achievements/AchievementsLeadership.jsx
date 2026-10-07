@@ -2,9 +2,9 @@ import ExternalLinks from "@/components/ui/ExternalLinks";
 
 export default function AchievementsLeadership({ leadership, affiliations }) {
   return (
-    <section className="border-y border-[var(--line)] bg-[var(--paper)] py-20">
+    <section className="border-t border-[var(--line)] py-20 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="font-display text-2xl text-[var(--ink)] md:text-3xl">
+        <h2 className="font-display text-3xl font-semibold tracking-tight text-[var(--ink)] md:text-4xl">
           Leadership
         </h2>
 
@@ -40,7 +40,7 @@ export default function AchievementsLeadership({ leadership, affiliations }) {
               {affiliations.map((a) => (
                 <li
                   key={a.org}
-                  className="rounded-full border border-[var(--line)] px-4 py-2 text-sm text-[var(--slate)]"
+                  className="rounded-full border border-[var(--line)] bg-[var(--surface)] px-4 py-2 text-sm text-[var(--slate)]"
                 >
                   <span className="text-[var(--ink)]">{a.org}</span>, {a.status}
                 </li>

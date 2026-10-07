@@ -1,32 +1,24 @@
-"use client";
-
-import { motion } from "motion/react";
 import Link from "next/link";
+import SectionHeader from "@/components/ui/SectionHeader";
 import { aboutPreview } from "@/lib/data/home";
 
 export default function AboutPreview() {
   return (
-    <section className="px-6 py-20">
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.6 }}
-        className="mx-auto max-w-3xl"
-      >
-        <p className="font-mono text-xs tracking-[0.2em] text-[var(--signal)]">
-          ABOUT
-        </p>
-        <p className="mt-4 text-xl leading-relaxed text-[var(--ink)] sm:text-2xl">
-          {aboutPreview.body}
-        </p>
-        <Link
-          href={aboutPreview.href}
-          className="mt-6 inline-flex items-center gap-2 font-mono text-sm text-[var(--signal)] hover:underline"
-        >
-          Read full profile →
-        </Link>
-      </motion.div>
+    <section className="py-20 md:py-24">
+      <div className="mx-auto grid max-w-6xl items-start gap-10 px-6 lg:grid-cols-[1fr_2fr] lg:gap-16">
+        <SectionHeader eyebrow="About" heading="Profile" />
+        <div>
+          <p className="max-w-[60ch] text-xl leading-relaxed text-[var(--ink)] md:text-2xl md:leading-relaxed">
+            {aboutPreview.body}
+          </p>
+          <Link
+            href={aboutPreview.href}
+            className="mt-8 inline-block font-mono text-sm text-[var(--signal)] hover:underline"
+          >
+            Read full profile →
+          </Link>
+        </div>
+      </div>
     </section>
   );
 }

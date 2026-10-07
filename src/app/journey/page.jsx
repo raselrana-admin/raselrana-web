@@ -1,5 +1,5 @@
-import JourneyHero from "@/components/sections/journey/JourneyHero";
 import JourneyTimeline from "@/components/sections/journey/JourneyTimeline";
+import PageHeader from "@/components/ui/PageHeader";
 
 export const metadata = {
   title: "My Journey | Rasel Rana",
@@ -9,9 +9,13 @@ export const metadata = {
 
 export default function JourneyPage() {
   return (
-    <main>
-      <JourneyHero />
+    <>
+      <PageHeader
+        eyebrow="My journey"
+        heading="From where I started to where I am"
+        intro="The people, places, and effort that shaped the path."
+      />
       <JourneyTimeline />
-    </main>
+    </>
   );
 }

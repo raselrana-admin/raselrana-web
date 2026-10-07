@@ -12,8 +12,8 @@ export default async function DownloadsView() {
   const counts = await getDownloadCounts();
 
   return (
-    <section className="mx-auto max-w-4xl px-6 py-12">
-      <div className="grid gap-6 sm:grid-cols-2">
+    <section className="border-t border-[var(--line)] py-16 md:py-20">
+      <div className="mx-auto grid max-w-6xl gap-6 px-6 md:grid-cols-2">
         {downloads.map((item) => (
           <DownloadCard key={item.id} item={item} count={counts[item.id] ?? 0} />
         ))}

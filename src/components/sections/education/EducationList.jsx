@@ -2,8 +2,8 @@ import { education } from "@/lib/data/education";
 
 export default function EducationList() {
   return (
-    <section className="bg-[var(--paper)] py-16">
-      <ol className="mx-auto max-w-3xl space-y-10 px-6">
+    <section className="border-t border-[var(--line)] py-16 md:py-20">
+      <ol className="reveal mx-auto max-w-6xl space-y-10 px-6">
         {education.map((item) => (
           <li key={item.id} className="border-l-2 border-[var(--signal)] pl-6">
             <p className="font-[family-name:var(--font-mono)] text-xs text-[var(--slate)]">

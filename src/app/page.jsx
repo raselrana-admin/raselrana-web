@@ -6,7 +6,6 @@ import {
   ProjectsPreview,
   AchievementsPreview,
   ContactCTA,
-  SignalWave,
 } from "@/components";
 
 export const metadata = {
@@ -17,35 +16,14 @@ export const metadata = {
 
 export default function HomePage() {
   return (
-    <main className="bg-[var(--paper)]">
+    <>
       <Hero />
-
-      <div className="mx-auto max-w-5xl px-6">
-        <SignalWave variant="divider" />
-      </div>
       <AboutPreview />
-
-      <div className="mx-auto max-w-5xl px-6">
-        <SignalWave variant="divider" />
-      </div>
       <FocusAreas />
-
-      <div className="mx-auto max-w-5xl px-6">
-        <SignalWave variant="divider" />
-      </div>
       <ExperiencePreview />
-
-      <div className="mx-auto max-w-5xl px-6">
-        <SignalWave variant="divider" />
-      </div>
       <ProjectsPreview />
-
-      <div className="mx-auto max-w-5xl px-6">
-        <SignalWave variant="divider" />
-      </div>
       <AchievementsPreview />
-
       <ContactCTA />
-    </main>
+    </>
   );
 }

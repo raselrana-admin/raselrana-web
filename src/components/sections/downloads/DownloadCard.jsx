@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "motion/react";
 import DownloadButton from "@/components/ui/DownloadButton";
 
 function FileIcon() {
@@ -24,30 +21,26 @@ function FileIcon() {
 
 export default function DownloadCard({ item, count = 0 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.4 }}
-      className="flex flex-col gap-4 rounded-2xl border border-[var(--line)] bg-[var(--paper)] p-6"
-    >
+    <div className="reveal flex flex-col gap-5 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-7">
       <div className="flex items-start justify-between">
         <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--signal)]/10 text-[var(--signal)]">
           <FileIcon />
         </div>
-        <span className="font-[family-name:var(--font-mono)] text-xs uppercase tracking-wide text-[var(--slate)]">
+        <span className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--slate)]">
           {item.fileType}
         </span>
       </div>
 
       <div>
-        <h3 className="font-[family-name:var(--font-display)] text-lg font-semibold text-[var(--ink)]">
+        <h2 className="font-display text-xl font-medium text-[var(--ink)]">
           {item.title}
-        </h3>
-        <p className="mt-1 text-sm text-[var(--slate)]">{item.description}</p>
+        </h2>
+        <p className="mt-2 text-sm leading-relaxed text-[var(--slate)]">
+          {item.description}
+        </p>
       </div>
 
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-[family-name:var(--font-mono)] text-xs text-[var(--slate)]">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-[var(--slate)]">
         <span>{item.fileSize}</span>
         <span aria-hidden="true">·</span>
         <span>Updated {item.lastUpdated}</span>
@@ -57,7 +50,7 @@ export default function DownloadCard({ item, count = 0 }) {
         </span>
       </div>
 
-      <div className="mt-2 flex flex-wrap gap-3">
+      <div className="mt-auto flex flex-wrap gap-3 pt-2">
         <DownloadButton
           href={item.filePath}
           fileName={item.fileName}
@@ -75,6 +68,6 @@ export default function DownloadCard({ item, count = 0 }) {
           Preview
         </a>
       </div>
-    </motion.div>
+    </div>
   );
 }

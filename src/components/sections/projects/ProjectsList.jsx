@@ -2,13 +2,13 @@ import { projects } from "@/lib/data/projects";
 
 export default function ProjectsList() {
   return (
-    <section className="bg-[var(--paper)] py-16">
-      <div className="mx-auto grid max-w-3xl gap-6 px-6">
+    <section className="border-t border-[var(--line)] py-16 md:py-20">
+      <div className="mx-auto grid max-w-6xl gap-6 px-6 md:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (
           <article
             key={project.id}
             id={project.id}
-            className="scroll-mt-24 rounded-2xl border border-[var(--line)] p-6"
+            className="reveal scroll-mt-24 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-7"
           >
             <p className="font-[family-name:var(--font-mono)] text-xs text-[var(--pulse)]">
               {project.tag}

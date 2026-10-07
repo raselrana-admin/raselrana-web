@@ -184,7 +184,7 @@ export default function AchievementForm({ type, item, competitions, onDone }) {
               <p className="text-xs text-[var(--slate)]">{field.help}</p>
             )}
             {fieldErrors[field.name] && (
-              <p role="alert" className="text-xs text-red-500">
+              <p role="alert" className="text-xs text-[var(--danger)]">
                 {fieldErrors[field.name]}
               </p>
             )}
@@ -193,7 +193,7 @@ export default function AchievementForm({ type, item, competitions, onDone }) {
       })}
 
       {state?.error && (
-        <p role="alert" className="text-sm text-red-500">
+        <p role="alert" className="text-sm text-[var(--danger)]">
           {state.error}
         </p>
       )}

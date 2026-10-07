@@ -1,154 +1,100 @@
-"use client";
-
-import { motion } from "motion/react";
+import Link from "next/link";
+import NetworkMap from "@/components/ui/NetworkMap";
 import { profile } from "@/lib/data/home";
 
 /**
- * Hero — full-width, two-column layout. The outer section has no max-width
- * wrapper, so it spans the full viewport; only the text block is capped for
- * readable line length. The step-trace becomes a larger side panel instead
- * of a small strip under the CTAs — still a single draw-once animation.
+ * Hero — name and positioning on the left, the animated NetworkMap on the
+ * right (large screens only), and a strip of key facts underneath. Text
+ * rises in with a CSS-only stagger (.rise), so it never waits on JavaScript.
+ * Shares the max-w-6xl container with the navbar so the page has one left edge.
  */
 export default function Hero() {
   const { name, role, org, location, tagline, meta } = profile;
 
-  const tags = meta ? meta.split("·").map((t) => t.trim()).filter(Boolean) : [];
+  const focus = meta
+    ? meta
+        .split("·")
+        .map((t) => t.trim())
+        .filter(Boolean)
+    : [];
+
+  const facts = [
+    { label: "Role", value: role },
+    { label: "Organization", value: org },
+    { label: "Based in", value: location },
+  ];
 
   return (
-    <section className="w-full px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-20 lg:px-20">
-      <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
-        {/* Text column */}
+    <section className="hero-glow relative overflow-hidden">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-6 pt-16 pb-16 md:pt-24 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-16 lg:pb-20">
         <div>
-          <motion.p
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="font-[family-name:var(--font-mono)] text-sm text-[var(--slate)]"
-          >
-            {role} · {org} · {location}
-          </motion.p>
+          <p className="rise flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-[var(--slate)]">
+            <span aria-hidden className="h-px w-10 bg-[var(--signal)]" />
+            {role}
+          </p>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="mt-4 font-[family-name:var(--font-display)] text-5xl leading-[1.05] text-[var(--ink)] md:text-6xl lg:text-7xl"
+          <h1
+            className="rise mt-6 font-display text-5xl font-semibold leading-[0.95] tracking-tight text-[var(--ink)] sm:text-7xl lg:text-8xl"
+            style={{ "--delay": "80ms" }}
           >
             {name}
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="mt-6 max-w-[58ch] text-lg leading-relaxed text-[var(--slate)]"
+          <p
+            className="rise mt-8 max-w-[52ch] text-lg leading-relaxed text-[var(--slate)] md:text-xl"
+            style={{ "--delay": "160ms" }}
           >
             {tagline}
-          </motion.p>
+          </p>
 
-          {tags.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-              className="mt-6 flex flex-wrap gap-2"
-            >
-              {tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full border border-[var(--line)] px-3 py-1 font-[family-name:var(--font-mono)] text-xs text-[var(--slate)]"
+          {focus.length > 0 && (
+            <ul className="rise mt-8 flex flex-wrap gap-2" style={{ "--delay": "240ms" }}>
+              {focus.map((item) => (
+                <li
+                  key={item}
+                  className="rounded-full border border-[var(--line)] px-3 py-1 font-mono text-xs text-[var(--slate)]"
                 >
-                  {tag}
-                </span>
+                  {item}
+                </li>
               ))}
-            </motion.div>
+            </ul>
           )}
 
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-10 flex flex-wrap items-center gap-6"
+          <div
+            className="rise mt-10 flex flex-wrap items-center gap-4"
+            style={{ "--delay": "320ms" }}
           >
-            <a
+            <Link
               href="/experience"
-              className="rounded-md bg-[var(--ink)] px-5 py-2.5 text-[var(--paper)] transition-opacity hover:opacity-90"
+              className="rounded-full bg-[var(--ink)] px-6 py-3 text-sm font-medium text-[var(--paper)] transition-opacity hover:opacity-90"
             >
               View experience
-            </a>
-            <a
+            </Link>
+            <Link
               href="/contact"
-              className="text-[var(--ink)] underline decoration-[var(--line)] underline-offset-4 transition-colors hover:decoration-[var(--signal)]"
+              className="rounded-full border border-[var(--line)] px-6 py-3 text-sm font-medium text-[var(--ink)] transition-colors hover:border-[var(--signal)] hover:text-[var(--signal)]"
             >
               Get in touch
-            </a>
-          </motion.div>
+            </Link>
+          </div>
         </div>
 
-        {/* Signature panel — grid of faint reference lines with the
-            step-trace drawn once across it, larger and more architectural
-            than a thin strip. Hidden on mobile to keep the layout clean. */}
-        <div className="relative hidden aspect-square w-full lg:block">
-          <svg viewBox="0 0 400 400" className="h-full w-full" aria-hidden>
-            {/* faint grid */}
-            {[80, 160, 240, 320].map((pos) => (
-              <line
-                key={`h-${pos}`}
-                x1="0"
-                y1={pos}
-                x2="400"
-                y2={pos}
-                stroke="var(--line)"
-                strokeWidth="1"
-              />
-            ))}
-            {[80, 160, 240, 320].map((pos) => (
-              <line
-                key={`v-${pos}`}
-                x1={pos}
-                y1="0"
-                x2={pos}
-                y2="400"
-                stroke="var(--line)"
-                strokeWidth="1"
-              />
-            ))}
+        <NetworkMap className="hidden w-full lg:block" />
+      </div>
 
-            {/* step-trace, drawn once on load */}
-            <motion.path
-              d="M0,320 H80 V240 H160 V120 H280 V80 H400"
-              fill="none"
-              stroke="var(--signal)"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              pathLength={1}
-              initial={{ pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 1.6, delay: 0.4, ease: "easeInOut" }}
-            />
-
-            {/* node markers at each step corner */}
-            {[
-              { cx: 80, cy: 320 },
-              { cx: 80, cy: 240 },
-              { cx: 160, cy: 240 },
-              { cx: 160, cy: 120 },
-              { cx: 280, cy: 120 },
-              { cx: 280, cy: 80 },
-            ].map((point, i) => (
-              <motion.circle
-                key={`${point.cx}-${point.cy}`}
-                cx={point.cx}
-                cy={point.cy}
-                r="4"
-                fill="var(--pulse)"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: 0.4 + i * 0.18 }}
-              />
-            ))}
-          </svg>
-        </div>
+      <div className="relative border-y border-[var(--line)]">
+        <dl className="mx-auto grid max-w-6xl grid-cols-1 gap-x-10 gap-y-6 px-6 py-8 sm:grid-cols-3">
+          {facts.map((fact) => (
+            <div key={fact.label}>
+              <dt className="font-mono text-xs uppercase tracking-[0.2em] text-[var(--slate)]">
+                {fact.label}
+              </dt>
+              <dd className="mt-2 text-sm leading-relaxed text-[var(--ink)]">
+                {fact.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );

@@ -1,19 +1,24 @@
-import ExperienceHero from "@/components/sections/experience/ExperienceHero";
-import ExperienceTimeline from "@/components/sections/experience/ExperienceTimeline";
 import ExperienceSkills from "@/components/sections/experience/ExperienceSkills";
+import ExperienceTimeline from "@/components/sections/experience/ExperienceTimeline";
+import PageHeader from "@/components/ui/PageHeader";
+import { experienceIntro } from "@/lib/data/experience";
 
 export const metadata = {
   title: "Experience | Rasel Rana",
   description:
-    "Career experience at Bangladesh Telecommunications Company Limited (BTCL) — technical operations, facilities management, and administrative leadership.",
+    "Career experience of Rasel Rana across telecommunications at BTCL and power generation at Summit Power Limited.",
 };
 
 export default function ExperiencePage() {
   return (
-    <main>
-      <ExperienceHero />
+    <>
+      <PageHeader
+        eyebrow={experienceIntro.eyebrow}
+        heading={experienceIntro.heading}
+        intro={experienceIntro.summary}
+      />
       <ExperienceTimeline />
       <ExperienceSkills />
-    </main>
+    </>
   );
 }

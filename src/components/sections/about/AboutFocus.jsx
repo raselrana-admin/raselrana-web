@@ -1,23 +1,25 @@
+import SectionHeader from "@/components/ui/SectionHeader";
 import { aboutFocus } from "@/lib/data/about";
 
 export default function AboutFocus() {
   return (
-    <section className="border-y border-[var(--line)] bg-[var(--paper)] py-20">
+    <section className="border-t border-[var(--line)] py-20 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="font-display text-2xl text-[var(--ink)] md:text-3xl">
-          {aboutFocus.heading}
-        </h2>
+        <SectionHeader eyebrow="Approach" heading={aboutFocus.heading} />
 
-        <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-3">
-          {aboutFocus.principles.map((item) => (
+        <div className="reveal mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {aboutFocus.principles.map((item, i) => (
             <div
               key={item.title}
-              className="border-t-2 border-[var(--signal)] pt-4"
+              className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-7"
             >
-              <h3 className="font-display text-lg text-[var(--ink)]">
+              <span className="font-mono text-xs text-[var(--signal)]">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-6 font-display text-xl font-medium text-[var(--ink)]">
                 {item.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-[var(--slate)]">
+              <p className="mt-3 text-sm leading-relaxed text-[var(--slate)]">
                 {item.description}
               </p>
             </div>
