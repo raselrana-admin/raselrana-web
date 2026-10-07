@@ -1,19 +1,17 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  getAchievement,
-  getAllAchievementSlugs,
-  getPressForCompetition,
-} from "@/lib/data/achievements";
 import ExternalLinks from "@/components/ui/ExternalLinks";
+import {
+  findAchievement,
+  getAchievementsData,
+} from "@/lib/services/achievements-service";
 
-export function generateStaticParams() {
-  return getAllAchievementSlugs().map((slug) => ({ slug }));
-}
+// Read from MongoDB on every request so admin edits show up immediately.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const found = getAchievement(slug);
+  const found = findAchievement(await getAchievementsData(), slug);
   if (!found) return {};
   const { item } = found;
   return {
@@ -32,12 +30,15 @@ function badgeFor({ category, item }) {
 
 export default async function AchievementDetailPage({ params }) {
   const { slug } = await params;
-  const found = getAchievement(slug);
+  const data = await getAchievementsData();
+  const found = findAchievement(data, slug);
   if (!found) notFound();
 
   const { category, categoryLabel, item } = found;
   const clip =
-    category === "competition" ? getPressForCompetition(slug) : null;
+    category === "competition"
+      ? data.press.find((p) => p.competition === slug)
+      : null;
   const badge = badgeFor(found);
 
   return (

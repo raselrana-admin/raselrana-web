@@ -1,9 +1,5 @@
 import Link from "next/link";
 import { LinkTypes } from "@/components/ui/ExternalLinks";
-import {
-  competitions,
-  getPressForCompetition,
-} from "@/lib/data/achievements";
 
 const placementStyle = {
   Champion: "border-[var(--signal)] text-[var(--signal)]",
@@ -29,7 +25,7 @@ function PlacementBadge({ placement }) {
   );
 }
 
-export default function AchievementsCompetitions() {
+export default function AchievementsCompetitions({ competitions, press }) {
   const sorted = [...competitions].sort(byRankThenNewest);
   const champions = sorted.filter((c) => c.placement === "Champion");
   const others = sorted.filter((c) => c.placement !== "Champion");
@@ -44,7 +40,7 @@ export default function AchievementsCompetitions() {
         {champions.length > 0 && (
           <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
             {champions.map((c) => {
-              const clip = getPressForCompetition(c.slug);
+              const clip = press.find((p) => p.competition === c.slug);
               return (
                 <Link
                   key={c.slug}

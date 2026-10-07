@@ -1,7 +1,6 @@
-import { affiliations, leadership } from "@/lib/data/achievements";
 import ExternalLinks from "@/components/ui/ExternalLinks";
 
-export default function AchievementsLeadership() {
+export default function AchievementsLeadership({ leadership, affiliations }) {
   return (
     <section className="border-y border-[var(--line)] bg-[var(--paper)] py-20">
       <div className="mx-auto max-w-6xl px-6">

@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { sports } from "@/lib/data/achievements";
 import { LinkTypes } from "@/components/ui/ExternalLinks";
 
-export default function AchievementsSports() {
+export default function AchievementsSports({ sports }) {
   if (sports.length === 0) return null;
 
   return (

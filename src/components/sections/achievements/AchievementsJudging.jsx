@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { judging } from "@/lib/data/achievements";
 import { LinkTypes } from "@/components/ui/ExternalLinks";
 
-export default function AchievementsJudging() {
+export default function AchievementsJudging({ judging }) {
   if (judging.length === 0) return null;
 
   return (

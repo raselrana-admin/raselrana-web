@@ -1,6 +1,4 @@
-import { getCompetition, press } from "@/lib/data/achievements";
-
-export default function AchievementsPress() {
+export default function AchievementsPress({ press, competitions }) {
   return (
     <section className="bg-[var(--paper)] py-20">
       <div className="mx-auto max-w-3xl px-6">
@@ -11,11 +9,11 @@ export default function AchievementsPress() {
         <div className="mt-10 space-y-5">
           {press.map((item) => {
             const related = item.competition
-              ? getCompetition(item.competition)
+              ? competitions.find((c) => c.slug === item.competition)
               : null;
             return (
               <a
-                key={item.url}
+                key={item.id ?? item.url}
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
