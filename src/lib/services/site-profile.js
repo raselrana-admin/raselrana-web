@@ -24,6 +24,7 @@ function defaults() {
     coordinates: siteInfo.coordinates,
     email: siteInfo.email,
     phone: siteInfo.phone,
+    photo: null, // the portrait bundled in src/assets is used until one is uploaded
     socialLinks: socialLinks
       .filter((l) => /^https?:\/\//i.test(l.href || ""))
       .map((l) => ({ label: l.label, url: l.href })),

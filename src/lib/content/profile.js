@@ -9,6 +9,7 @@ export const PROFILE_FIELDS = [
   { name: "tagline", label: "Tagline", type: "textarea", required: true, help: "The sentence under your name on the home page." },
   { name: "footerTagline", label: "Footer description", type: "textarea", help: "The short description beside the logo in the footer." },
   { name: "focus", label: "Focus tags", type: "list", help: "Shown as small tags on the home page. One per line." },
+  { name: "photo", label: "Portrait", type: "image", help: "Shown on the About page. Without one, the portrait built into the site is used. A photo taller than it is wide works best." },
   { name: "location", label: "Location", type: "text", required: true },
   { name: "coordinates", label: "Coordinates", type: "text", help: "Optional. Shown in the footer." },
   { name: "email", label: "Public contact email", type: "email", help: "Shown on the site. This is not your login email." },

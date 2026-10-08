@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CloudImage from "@/components/ui/CloudImage";
 import { LinkTypes } from "@/components/ui/ExternalLinks";
 
 const placementStyle = {
@@ -47,6 +48,17 @@ export default function AchievementsCompetitions({ competitions, press }) {
                   href={`/achievements/${c.slug}`}
                   className="group flex flex-col rounded-2xl border border-[var(--signal)] bg-[color-mix(in_srgb,var(--signal)_6%,var(--surface))] p-7 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--signal)]"
                 >
+                  {c.cover && (
+                    <div className="relative mb-6 aspect-[16/9] overflow-hidden rounded-xl border border-[var(--line)]">
+                      <CloudImage
+                        image={c.cover}
+                        alt={c.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 560px"
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
                   <div className="flex items-center justify-between gap-4">
                     <PlacementBadge placement={c.placement} />
                     <span className="font-mono text-xs text-[var(--slate)]">

@@ -151,6 +151,28 @@ The list refreshes and a "Saved" message appears
 
 These functions in `actions.js` are called **Server Actions**: functions that run on the server but can be called from a form. The dashboard uses them instead of API routes.
 
+### Photos
+
+Photos are stored in your Cloudinary account, in the folder `raselrana-web`, not in the project and not in MongoDB. MongoDB keeps only each photo's address and size.
+
+```
+You pick a photo in a dashboard form
+        ↓ 1. the browser asks the site for permission        getUploadSignatureAction()  (app/admin/actions.js)
+        ↓ 2. the site signs a permission slip with the secret   lib/cloudinary.js
+        ↓    (valid for this folder and for photo formats only)
+        ↓ 3. the browser sends the photo STRAIGHT to Cloudinary
+        ↓ 4. Cloudinary answers with the photo's address
+The address is stored with the entry when you press Save
+```
+
+The secret never reaches the browser, and the photo never travels through the site, so large photos are no problem.
+
+On the public pages, `ui/CloudImage` shows a photo. It asks Cloudinary for a version that fits the visitor's screen, in the best format the browser supports, so a phone does not download a full-size photo.
+
+Photos are used in two places today: your portrait (Dashboard → Public profile → Portrait, shown on the About page) and the cover photo and gallery of competitions, judging and sports entries.
+
+Removing a photo in the dashboard only removes it from the page. The file stays in Cloudinary until you delete it there.
+
 ### The portfolio
 
 The portfolio has its own text, written in Dashboard → Portfolio. It has two kinds of entry: **summary blocks** (paragraphs at the top, such as "Profile") and **entries** (one item each, placed under a section such as "Experience"). Your name, role and contact details at the top come from the public profile.
