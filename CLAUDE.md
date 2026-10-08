@@ -14,6 +14,8 @@ npm run hash-password   # prompts for a password, prints ADMIN_PASSWORD_HASH and
 
 There is no test suite and no TypeScript — the project is plain JavaScript/JSX. `npm run lint` and `npm run build` are the only automated checks.
 
+`docs/` holds the owner's developer guide (how the project works, step-by-step recipes, design rules, deployment and troubleshooting). It restates the rules in this file in plain language; when a rule here changes, update the matching page there in the same change.
+
 ## Environment
 
 Copy `.env.example` to `.env.local`. All other `.env*` files are gitignored.
