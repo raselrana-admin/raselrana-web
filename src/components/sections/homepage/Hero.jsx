@@ -1,6 +1,5 @@
 import Link from "next/link";
 import NetworkMap from "@/components/ui/NetworkMap";
-import { profile } from "@/lib/data/home";
 
 /**
  * Hero — name and positioning on the left, the animated NetworkMap on the
@@ -8,15 +7,8 @@ import { profile } from "@/lib/data/home";
  * rises in with a CSS-only stagger (.rise), so it never waits on JavaScript.
  * Shares the max-w-6xl container with the navbar so the page has one left edge.
  */
-export default function Hero() {
-  const { name, role, org, location, tagline, meta } = profile;
-
-  const focus = meta
-    ? meta
-        .split("·")
-        .map((t) => t.trim())
-        .filter(Boolean)
-    : [];
+export default function Hero({ profile }) {
+  const { name, role, org, location, tagline, focus = [] } = profile;
 
   const facts = [
     { label: "Role", value: role },

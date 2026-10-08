@@ -1,8 +1,8 @@
 import SectionHeader from "@/components/ui/SectionHeader";
-import { experienceSkills } from "@/lib/data/experience";
 
-export default function ExperienceSkills() {
-  if (!experienceSkills?.length) return null;
+// `skills` is every tool listed on any role, without repeats.
+export default function ExperienceSkills({ skills }) {
+  if (!skills?.length) return null;
 
   return (
     <section className="border-t border-[var(--line)] py-16 md:py-20">
@@ -10,7 +10,7 @@ export default function ExperienceSkills() {
         <SectionHeader eyebrow="Toolkit" heading="Tools & systems" />
 
         <ul className="reveal flex flex-wrap gap-2">
-          {experienceSkills.map((skill) => (
+          {skills.map((skill) => (
             <li
               key={skill}
               className="rounded-full border border-[var(--line)] bg-[var(--surface)] px-4 py-1.5 font-mono text-sm text-[var(--slate)]"

@@ -20,37 +20,34 @@ Step-by-step instructions for the changes you are most likely to make. After any
 
 ## Change the text on a page
 
-Open the matching file in `src/lib/data/` and edit the words. Nothing else is needed.
+First find where the content lives:
 
-| Page | File |
+| Content | Where to change it |
 | --- | --- |
-| Home | `home.js` |
-| About | `about.js` |
-| Journey | `journey.js` |
-| Experience | `experience.js` |
-| Projects | `projects.js` |
-| Skills | `skills.js` |
-| Education | `education.js` |
-| Publications | `publications.js` |
-| Downloads | `downloads.js` |
-| Contact | `contact.js` |
-| Footer, site name, email, location | `site.js` |
-| Achievements | Not a file. Use the admin panel at `/admin` |
+| Achievements, Projects, Publications, Experience, Downloads | Dashboard → the matching screen |
+| Name, role, organization, tagline, focus tags, location, contact email, social links | Dashboard → Public profile |
+| Which projects, roles and competitions show on the home page | Dashboard → edit the entry → tick "Show on the home page" |
+| About | `src/lib/data/about.js` |
+| Journey | `src/lib/data/journey.js` |
+| Skills | `src/lib/data/skills.js` |
+| Education | `src/lib/data/education.js` |
+| Contact page text and form wording | `src/lib/data/contact.js` |
+| Home page "Profile" paragraph and "What I work on" cards | `src/lib/data/home.js` |
+| Page headings and intros (the top of Projects, Publications, Experience) | the `...Page` / `...Intro` object in that page's `lib/data` file |
+| Footer page links | `footerNav` in `src/lib/data/site.js` |
 
-Most of these files are lists. To add an item, copy an existing block `{ ... },` and change its values. Keep `id` values unique within a file.
+Dashboard changes appear on the site immediately. File changes need a commit and a publish.
+
+The code files are mostly lists. To add an item, copy an existing block `{ ... },` and change its values. Keep `id` values unique within a file.
 
 A few headings are written inside components instead of data files, for example "What I work on" on the home page (`sections/homepage/FocusAreas.jsx`). Search the `src` folder for the exact words to find them.
 
+Note: `projects.js`, `publications.js`, `experience.js`, `downloads.js` and `achievements.js` in `lib/data` now hold only the **starter content** (plus the page heading). After you import it into the dashboard, editing the lists in those files changes nothing on the site.
+
 ## Add or change a footer or social link
 
-Open `src/lib/data/site.js`.
-
-- **Social links** (YouTube, Facebook, GitHub, …) are in `socialLinks`. A link with an empty `href` is hidden. Paste the address to make it appear:
-  ```js
-  { label: "YouTube", href: "https://www.youtube.com/@yourchannel" },
-  ```
-  Add a new line for any other site.
-- **Page links** are in `footerNav`, grouped into columns. Add `{ label: "Gallery", href: "/gallery" }` to a column's `links`.
+- **Social links** (YouTube, Facebook, GitHub, …): Dashboard → Public profile → Social links → Add link.
+- **Page links**: open `src/lib/data/site.js` and add `{ label: "Gallery", href: "/gallery" }` to a column's `links` in `footerNav`.
 
 ## Change the navbar links
 
@@ -65,21 +62,10 @@ Open `src/components/ui/NetworkMap.jsx`.
 
 ## Add a new downloadable document
 
-1. Put the file in `public/documents/`.
-2. Open `src/lib/data/downloads.js` and add a block:
-   ```js
-   {
-     id: "cv",                       // short, unique, never change it later
-     title: "Curriculum Vitae",
-     description: "My full CV.",
-     fileName: "Rasel_Rana_CV.pdf",
-     filePath: "/documents/Rasel_Rana_CV.pdf",
-     fileType: "PDF",
-     fileSize: "120 KB",
-     lastUpdated: "2026-11-01",
-   },
-   ```
-The card and the download counter appear automatically. The counter only accepts ids listed in this file, so the `id` here is what makes counting work.
+1. Make the file reachable. Either put it in `public/documents/` and publish the site (its address is then `/documents/<file name>`), or upload it somewhere else (Cloudinary, Google Drive) and copy its `https://` link.
+2. Dashboard → Downloads → Add document. Fill in the title, description, file address, file name and type.
+
+The card and its download counter appear automatically. The **ID** field is the name the counter is stored under; leave it empty to generate one, and avoid changing it later, because the count restarts.
 
 ## Add a new page
 
@@ -127,7 +113,7 @@ export default function GalleryGrid() {
 }
 ```
 
-**3. Page** — create `src/app/gallery/page.jsx`:
+**3. Page** — create `src/app/(site)/gallery/page.jsx` (inside `(site)` so it gets the navbar and footer):
 
 ```jsx
 import GalleryGrid from "@/components/sections/gallery/GalleryGrid";
@@ -153,13 +139,13 @@ export default function GalleryPage() {
 
 **5. Search engines** — add `"/gallery"` to the `PATHS` list in `src/app/sitemap.js`.
 
-`projects`, `skills`, `education` and `publications` are the simplest existing examples to copy from.
+`skills` and `education` are the simplest existing examples to copy from. This recipe makes a page whose content is in a code file. To edit the content from the dashboard instead, see "Add a dashboard for another kind of content".
 
 ## Add a section to an existing page
 
 1. Add the content to the page's data file.
 2. Create a new component in that page's `sections/<page>/` folder. Copy a neighbouring section as a starting point.
-3. Import it in `src/app/<page>/page.jsx` and place it where it should appear.
+3. Import it in `src/app/(site)/<page>/page.jsx` and place it where it should appear.
 
 Use `ui/SectionHeader` for the small label and heading above the section:
 
@@ -169,43 +155,48 @@ Use `ui/SectionHeader` for the small label and heading above the section:
 
 `href` and `linkLabel` are optional.
 
-## Add a field to an achievement type
+## Add a field to dashboard content
 
-Example: add a photo address to competitions.
+Example: add a photo address to projects.
 
-**1. Declare the field.** In `src/lib/achievements-schema.js`, find `competition` inside `ACHIEVEMENT_TYPES` and add a line to its `fields`:
+**1. Declare the field.** Open `src/lib/content/modules.js`, find `projects`, and add a line to its `fields`:
 
 ```js
-{ name: "photo", label: "Photo URL", type: "url", help: "Full address of the image." },
+{ name: "photo", label: "Photo", type: "url", help: "Optional. Full address of the image." },
 ```
 
-The admin form now shows the input, and the value is checked and saved. You do not edit the form.
+(Achievement fields are in `src/lib/achievements-schema.js`.)
 
-Available field types:
+The dashboard form now shows the input, and the value is checked and saved. You do not edit the form.
+
+Available field types (defined in `src/lib/content/fields.js`):
 
 | `type` | Input shown | Notes |
 | --- | --- | --- |
 | `text` | One line | Up to 300 characters |
 | `textarea` | Several lines | Up to 5000 characters |
+| `list` | Several lines | One item per line; saved as a list |
 | `date` | Date picker | Saved as `YYYY-MM-DD` |
 | `number` | Number | Whole numbers |
-| `url` | Address | Must start with `http://` or `https://`. Add `required: true` if it must be filled |
+| `url` | Address | Must start with `http://` or `https://`. May be empty unless `required: true` |
+| `file` | Address | A site path such as `/documents/x.pdf`, or an `https://` address |
+| `email` | Email | Must look like an email address |
 | `select` | Dropdown | Needs `options: ["A", "B"]` |
-| `checkbox` | Tick box | Saved as true/false |
-| `links` | Repeating rows of type, label, address | Use the name `links` |
-| `slug` | Address name | Only for types with a detail page |
+| `checkbox` | Tick box | Saved as true/false. `default: true` starts it ticked |
+| `links` | Repeating rows of type, label, address | `withType: false` gives label and address only |
+| `slug` | Address name | Lower-case with dashes; generated from the title if left empty |
 
-Note: a `url` field cannot be left empty. If the photo is optional, use `type: "text"` and check it yourself where you display it.
+Add `required: true` to make a field compulsory, and `unique: true` to forbid two entries with the same value.
 
-**2. Show the field.** Open the component that displays the type, for example `src/components/sections/achievements/AchievementsCompetitions.jsx` or the detail page `src/app/achievements/[slug]/page.jsx`, and use `c.photo` or `item.photo`.
+**2. Show the field.** Open the section component that displays the entry, here `src/components/sections/projects/ProjectsList.jsx`, and use `project.photo`.
 
-Older items will not have the new field, so always check first:
+Older entries will not have the new field, so always check first:
 
 ```jsx
-{item.photo && <img src={item.photo} alt={item.title} />}
+{project.photo && <img src={project.photo} alt={project.title} />}
 ```
 
-**3. Starter content (optional).** If you want the field in the fallback content too, add it to `src/lib/data/achievements.js`.
+**3. Starter content (optional).** If the fallback content should have it too, add it to the mapping in `src/lib/content/starter.js`.
 
 ## Add a new server endpoint (API route)
 
@@ -248,15 +239,80 @@ Put database code in a file under `src/lib/services/`, not in the route itself. 
 
 ## Add a dashboard for another kind of content
 
-The achievements dashboard is the model. To manage, say, Projects from the admin panel:
+The list screen, form, checks, save and delete are shared. A new module needs four small additions. Example: a Gallery.
 
-1. **Service** — create `src/lib/services/projects-service.js` with functions to list, save and delete in a `projects` collection. Copy the shape of `achievements-service.js`.
-2. **Schema** — describe the fields, like `achievements-schema.js` does, with a function that checks and cleans the input.
-3. **Actions** — add `saveProjectAction` and `deleteProjectAction` to `src/app/admin/actions.js`. **Each must begin with `await requireAdmin();`.** Call `revalidatePath()` for the admin page and the public page after saving.
-4. **Admin page** — create `src/app/admin/(panel)/projects/page.jsx`. Any page inside the `(panel)` folder is automatically behind the login and gets the admin bar.
-5. **Admin screens** — create the list and form in `src/components/admin/`. `AchievementsAdmin.jsx` and `AchievementForm.jsx` are written for achievements only; when you build the second dashboard, turn them into general components instead of copying them.
-6. **Admin bar link** — add a link in `src/app/admin/(panel)/layout.jsx`.
-7. **Public page** — read the data in a component under `src/views/projects/`, pass it to the section components as props, and add `export const dynamic = "force-dynamic";` to the page so changes show immediately.
+**1. Register the module** in `src/lib/content/modules.js`, inside `MODULES`:
+
+```js
+gallery: {
+  key: "gallery",
+  label: "Gallery",
+  description: "Photos shown on the Gallery page.",
+  collection: "gallery",
+  publicPath: "/gallery",
+  types: withPublished({
+    photo: {
+      label: "Photos",
+      singular: "photo",
+      titleField: "title",          // shown as the row's name in the list
+      metaFields: ["takenAt"],      // shown under it
+      fields: [
+        { name: "title", label: "Title", type: "text", required: true },
+        { name: "image", label: "Image address", type: "url", required: true },
+        { name: "caption", label: "Caption", type: "textarea" },
+        { name: "takenAt", label: "Taken", type: "text" },
+        orderField,
+      ],
+    },
+  }),
+},
+```
+
+**2. Give it starter content** in `src/lib/content/starter.js` (an empty list is fine):
+
+```js
+gallery: () => [],
+```
+
+**3. Give it a sidebar icon** in `src/components/admin/shell/AdminShell.jsx`: add `gallery: Images` to `MODULE_ICONS` and import `Images` from `lucide-react`.
+
+The screen at `/admin/gallery` now works.
+
+**4. Show it on the site.** Create a view that reads the entries:
+
+```jsx
+// src/views/gallery/GalleryView.jsx
+import GalleryGrid from "@/components/sections/gallery/GalleryGrid";
+import { getEntries } from "@/lib/services/content-service";
+
+export default async function GalleryView() {
+  const { photo } = await getEntries("gallery");
+  return <GalleryGrid photos={photo} />;
+}
+```
+
+`getEntries` returns an object with one list per entry type, here `photo`. Write `GalleryGrid` as a normal section component that takes `photos` as a prop, then use the view in the page and keep the page fresh:
+
+```jsx
+// src/app/(site)/gallery/page.jsx
+import PageHeader from "@/components/ui/PageHeader";
+import GalleryView from "@/views/gallery/GalleryView";
+
+export const dynamic = "force-dynamic";
+
+export default function GalleryPage() {
+  return (
+    <>
+      <PageHeader eyebrow="Gallery" heading="Photos" />
+      <GalleryView />
+    </>
+  );
+}
+```
+
+Remember the footer or navbar link and the sitemap, as in "Add a new page".
+
+Rule to keep: `modules.js` is also loaded by the browser, so it must contain plain data only. Never import database code into it.
 
 ## Add images hosted on another site (for example Cloudinary)
 

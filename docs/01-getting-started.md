@@ -30,9 +30,9 @@ If the file is missing, copy `.env.example` to `.env.local` and fill in the valu
 | `RESEND_API_KEY` | Key for the Resend email service | The contact form cannot send |
 | `CONTACT_EMAIL_TO` | The inbox that receives contact messages | The contact form cannot send |
 | `CONTACT_EMAIL_FROM` | Optional sender address on a domain verified in Resend | Nothing (a Resend test sender is used) |
-| `ADMIN_EMAIL` | The email you type to sign in to `/admin` | Nobody can sign in |
-| `ADMIN_PASSWORD_HASH` | A scrambled form of your admin password | Nobody can sign in |
 | `SESSION_SECRET` | A random secret that signs the login cookie | Nobody can sign in |
+| `ADMIN_EMAIL` | The **starter** email for signing in to `/admin` | Nobody can sign in the first time |
+| `ADMIN_PASSWORD_HASH` | A scrambled form of the **starter** password | Nobody can sign in the first time |
 | `BLOG_DOMAIN` | Address of the separate blog app | The `/blog` link does not work |
 
 After changing `.env.local`, stop and restart `npm run dev`.
@@ -45,7 +45,9 @@ Never write your real password in `.env.local`. Run:
 npm run hash-password
 ```
 
-Type the password you want. The command prints two lines, `ADMIN_PASSWORD_HASH=...` and `SESSION_SECRET=...`. Copy both into `.env.local`. To change your password later, run the command again and replace both lines (here and in Vercel).
+Type the password you want. The command prints two lines, `ADMIN_PASSWORD_HASH=...` and `SESSION_SECRET=...`. Copy both into `.env.local`.
+
+This is only the *starter* login. Once you save your account or change your password in the dashboard (`/admin/account`), the login is stored in the database and these two starter values are no longer used. Change your password from the dashboard from then on. If you ever forget it, see "I forgot my admin password" in [Deploy and maintain](05-deploy-and-maintain.md#i-forgot-my-admin-password).
 
 ## Commands
 

@@ -1,18 +1,15 @@
 import Link from "next/link";
 import BrandMark from "@/components/ui/BrandMark";
-import { footerNav, siteInfo, socialLinks } from "@/lib/data/site";
+import { footerNav } from "@/lib/data/site";
 
 const eyebrowClass =
   "font-mono text-xs uppercase tracking-[0.2em] text-[var(--slate)]";
 const linkClass =
   "text-sm text-[var(--ink)] transition-colors hover:text-[var(--signal)]";
 
-export default function Footer() {
-  // Hide social entries that have no URL yet
-  const socials = socialLinks.filter((link) =>
-    /^https?:\/\//i.test(link.href || ""),
-  );
-
+// `profile` is the public profile (lib/services/site-profile.js), passed in
+// by views/layout/SiteFooter.jsx. The link columns stay in lib/data/site.js.
+export default function Footer({ profile }) {
   return (
     <footer
       id="footer"
@@ -27,20 +24,22 @@ export default function Footer() {
               className="inline-flex items-center gap-3 font-display text-xl font-semibold tracking-tight text-[var(--ink)]"
             >
               <BrandMark size={32} />
-              {siteInfo.name}
+              {profile.name}
             </Link>
-            <p className="mt-4 max-w-[44ch] text-sm leading-relaxed text-[var(--slate)]">
-              {siteInfo.tagline}
-            </p>
+            {profile.footerTagline && (
+              <p className="mt-4 max-w-[44ch] text-sm leading-relaxed text-[var(--slate)]">
+                {profile.footerTagline}
+              </p>
+            )}
           </div>
 
           <div>
             <p className={eyebrowClass}>Get in touch</p>
             <a
-              href={`mailto:${siteInfo.email}`}
+              href={`mailto:${profile.email}`}
               className="mt-3 inline-block font-display text-lg font-medium text-[var(--ink)] underline decoration-[var(--line)] decoration-1 underline-offset-[6px] transition-colors hover:text-[var(--signal)] hover:decoration-[var(--signal)] md:text-xl"
             >
-              {siteInfo.email}
+              {profile.email}
             </a>
           </div>
         </div>
@@ -66,14 +65,14 @@ export default function Footer() {
             <p className={eyebrowClass}>Connect</p>
             <ul className="mt-4 space-y-3">
               <li>
-                <a href={`mailto:${siteInfo.email}`} className={linkClass}>
+                <a href={`mailto:${profile.email}`} className={linkClass}>
                   Email
                 </a>
               </li>
-              {socials.map((link) => (
-                <li key={link.label}>
+              {profile.socialLinks.map((link) => (
+                <li key={link.url}>
                   <a
-                    href={link.href}
+                    href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={linkClass}
@@ -90,17 +89,19 @@ export default function Footer() {
 
           <div>
             <p className={eyebrowClass}>Based in</p>
-            <p className="mt-4 text-sm text-[var(--ink)]">{siteInfo.location}</p>
-            <p className="mt-2 font-mono text-xs text-[var(--slate)]">
-              {siteInfo.coordinates}
-            </p>
+            <p className="mt-4 text-sm text-[var(--ink)]">{profile.location}</p>
+            {profile.coordinates && (
+              <p className="mt-2 font-mono text-xs text-[var(--slate)]">
+                {profile.coordinates}
+              </p>
+            )}
           </div>
         </div>
 
         {/* Bottom bar */}
         <div className="flex flex-col items-start justify-between gap-3 border-t border-[var(--line)] py-6 font-mono text-xs text-[var(--slate)] sm:flex-row sm:items-center">
           <span>
-            © {new Date().getFullYear()} {siteInfo.name}. All rights reserved.
+            © {new Date().getFullYear()} {profile.name}. All rights reserved.
           </span>
           <a href="#top" className="transition-colors hover:text-[var(--signal)]">
             Back to top ↑

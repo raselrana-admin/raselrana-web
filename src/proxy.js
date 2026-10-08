@@ -1,21 +1,16 @@
 import { NextResponse } from "next/server";
 import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth/session-token";
 
-// Keeps signed-out visitors away from /admin. Pages and Server Actions
-// re-check the session themselves (requireAdmin), so this is a first gate,
-// not the only one.
+// First gate for /admin: no genuine, unexpired session cookie -> login page.
+// It cannot tell whether the session was ended by a password change (that
+// needs the database), so every admin page and Server Action re-checks with
+// requireAdmin(). This is a first gate, not the only one.
 export async function proxy(request) {
-  const { pathname } = request.nextUrl;
+  if (request.nextUrl.pathname === "/admin/login") return NextResponse.next();
+
   const session = await verifySessionToken(
     request.cookies.get(SESSION_COOKIE)?.value,
   );
-
-  if (pathname === "/admin/login") {
-    return session
-      ? NextResponse.redirect(new URL("/admin/achievements", request.url))
-      : NextResponse.next();
-  }
-
   if (!session) {
     return NextResponse.redirect(new URL("/admin/login", request.url));
   }

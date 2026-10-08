@@ -1,15 +1,23 @@
-import { publications } from "@/lib/data/publications";
+export default function PublicationsList({ publications }) {
+  if (publications.length === 0) {
+    return (
+      <section className="border-t border-[var(--line)] py-16 md:py-20">
+        <p className="mx-auto max-w-6xl px-6 text-[var(--slate)]">
+          Publications will be added here soon.
+        </p>
+      </section>
+    );
+  }
 
-export default function PublicationsList() {
   return (
     <section className="border-t border-[var(--line)] py-16 md:py-20">
       <ul className="reveal mx-auto max-w-6xl divide-y divide-[var(--line)] px-6">
         {publications.map((item) => (
-          <li key={item.id} className="py-6">
-            <p className="font-[family-name:var(--font-mono)] text-xs text-[var(--slate)]">
+          <li key={item.id} className="py-6 first:pt-0">
+            <p className="font-mono text-xs text-[var(--slate)]">
               {item.venue} · {item.year}
             </p>
-            <h2 className="mt-1 font-[family-name:var(--font-display)] text-lg text-[var(--ink)]">
+            <h2 className="mt-1 font-display text-lg font-medium text-[var(--ink)]">
               {item.title}
             </h2>
             {item.summary && (
@@ -17,14 +25,14 @@ export default function PublicationsList() {
                 {item.summary}
               </p>
             )}
-            {/^https?:\/\//i.test(item.url || "") && (
+            {item.url && (
               <a
                 href={item.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-3 inline-block text-sm text-[var(--signal)] hover:underline"
               >
-                Read the publication
+                Read the publication ↗
               </a>
             )}
           </li>

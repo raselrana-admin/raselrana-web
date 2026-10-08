@@ -1,7 +1,10 @@
+import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { achievementsPreview } from "@/lib/data/home";
 
-export default function AchievementsPreview() {
+// `items` are the competitions picked for the home page (views/home/HomeView.jsx).
+export default function AchievementsPreview({ items }) {
+  if (items.length === 0) return null;
+
   return (
     <section className="border-t border-[var(--line)] py-20 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
@@ -13,26 +16,30 @@ export default function AchievementsPreview() {
         />
 
         <div className="reveal mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {achievementsPreview.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-7"
+          {items.map((item) => (
+            <Link
+              key={item.id}
+              href={item.href}
+              className="group flex h-full flex-col rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-7 transition-colors hover:border-[var(--signal)]"
             >
-              <p className="font-mono text-xs text-[var(--slate)]">
-                {item.year}
-              </p>
-              {item.stat && (
-                <p className="mt-4 font-display text-5xl font-semibold tracking-tight text-[var(--signal)]">
-                  {item.stat}
-                </p>
-              )}
-              <h3 className="mt-4 font-display text-xl font-medium text-[var(--ink)]">
+              <div className="flex items-center justify-between gap-4">
+                <span className="rounded-full border border-[var(--signal)] px-3 py-1 font-mono text-xs text-[var(--signal)]">
+                  {item.badge}
+                </span>
+                <span className="font-mono text-xs text-[var(--slate)]">
+                  {item.meta}
+                </span>
+              </div>
+              <h3 className="mt-6 font-display text-xl font-medium text-[var(--ink)]">
                 {item.title}
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-[var(--slate)]">
                 {item.description}
               </p>
-            </div>
+              <span className="mt-auto pt-8 font-mono text-xs text-[var(--slate)] transition-colors group-hover:text-[var(--signal)]">
+                Read more →
+              </span>
+            </Link>
           ))}
         </div>
       </div>

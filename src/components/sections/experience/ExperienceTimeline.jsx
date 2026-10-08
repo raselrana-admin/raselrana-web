@@ -1,15 +1,11 @@
-import { experienceOrganizations } from "@/lib/data/experience";
-
-function formatPeriod(period) {
-  return `${period.start} — ${period.end ?? "Present"}`;
-}
-
-export default function ExperienceTimeline() {
+// `organizations` is [{ organization, sector, positions: [role, …] }],
+// built in views/experience/ExperienceView.jsx.
+export default function ExperienceTimeline({ organizations }) {
   return (
     <>
-      {experienceOrganizations.map((org) => (
+      {organizations.map((org) => (
         <section
-          key={org.id}
+          key={org.organization}
           className="border-t border-[var(--line)] py-16 md:py-20"
         >
           <div className="mx-auto grid max-w-6xl items-start gap-10 px-6 lg:grid-cols-[1fr_2fr] lg:gap-16">
@@ -29,7 +25,7 @@ export default function ExperienceTimeline() {
               {org.positions.map((position) => (
                 <li key={position.id} className="reveal py-8">
                   <p className="font-mono text-sm text-[var(--slate)]">
-                    {formatPeriod(position.period)}
+                    {position.start} — {position.end || "Present"}
                   </p>
 
                   <h3 className="mt-2 font-display text-xl font-medium text-[var(--ink)]">
@@ -37,8 +33,9 @@ export default function ExperienceTimeline() {
                   </h3>
 
                   <p className="mt-1 text-sm text-[var(--slate)]">
-                    {position.location}
-                    {position.employmentType ? ` · ${position.employmentType}` : ""}
+                    {[position.location, position.employmentType]
+                      .filter(Boolean)
+                      .join(" · ")}
                   </p>
 
                   {position.summary && (

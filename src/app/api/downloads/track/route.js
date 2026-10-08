@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { downloads } from "@/lib/data/downloads";
+import { getDownloadKeys } from "@/lib/services/content-service";
 import { getDownloadCounts, getDownloadCount, trackDownload } from "@/lib/services/downloads-service";
 import { getClientIp, isRateLimited } from "@/lib/services/rate-limit";
 
-// Only documents listed in lib/data/downloads.js can be counted. Without
-// this, anyone could POST arbitrary ids and fill the collection with junk.
-const KNOWN_IDS = new Set(downloads.map((d) => d.id));
+// Only published documents from the Downloads dashboard can be counted
+// (getDownloadKeys). Without this, anyone could POST arbitrary ids and fill
+// the collection with junk.
 
 // POST /api/downloads/track  { id: "cv" }
 // Increments that document's download counter (upserts if it's the first).
@@ -13,7 +13,7 @@ export async function POST(request) {
   try {
     const { id } = await request.json();
 
-    if (typeof id !== "string" || !KNOWN_IDS.has(id)) {
+    if (typeof id !== "string" || !(await getDownloadKeys()).has(id)) {
       return NextResponse.json(
         { error: "Missing or invalid document id" },
         { status: 400 }
@@ -51,7 +51,8 @@ export async function GET(request) {
     const id = searchParams.get("id");
 
     if (id) {
-      const count = KNOWN_IDS.has(id) ? await getDownloadCount(id) : 0;
+      const known = (await getDownloadKeys()).has(id);
+      const count = known ? await getDownloadCount(id) : 0;
       return NextResponse.json({ id, count });
     }
 

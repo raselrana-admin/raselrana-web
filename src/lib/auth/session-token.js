@@ -1,7 +1,12 @@
 // Signed session tokens for the admin panel. Uses Web Crypto only (no
-// next/headers, no node:crypto) so src/proxy.js can import it safely.
+// next/headers, no node:crypto, no database) so src/proxy.js can import it.
 //
 // Token format: <base64url JSON payload>.<base64url HMAC-SHA256 signature>
+// Payload: { sub: email, v: session version, exp: unix seconds }
+//
+// This file only proves a token was issued by this site and has not expired.
+// Whether it still belongs to the current account (email and session
+// version) is checked in lib/auth/session.js, which can read the database.
 
 export const SESSION_COOKIE = "admin_session";
 export const SESSION_MAX_AGE = 60 * 60 * 24 * 7; // 7 days, in seconds
@@ -20,13 +25,8 @@ function fromBase64Url(value) {
   return Uint8Array.from(binary, (char) => char.charCodeAt(0));
 }
 
-export function isAuthConfigured() {
-  return Boolean(
-    process.env.ADMIN_EMAIL &&
-      process.env.ADMIN_PASSWORD_HASH &&
-      process.env.SESSION_SECRET &&
-      process.env.SESSION_SECRET.length >= 32,
-  );
+export function hasSessionSecret() {
+  return Boolean(process.env.SESSION_SECRET && process.env.SESSION_SECRET.length >= 32);
 }
 
 async function getKey() {
@@ -39,11 +39,12 @@ async function getKey() {
   );
 }
 
-export async function createSessionToken(email) {
+export async function createSessionToken(email, version = 0) {
   const payload = toBase64Url(
     encoder.encode(
       JSON.stringify({
         sub: email,
+        v: version,
         exp: Math.floor(Date.now() / 1000) + SESSION_MAX_AGE,
       }),
     ),
@@ -56,9 +57,9 @@ export async function createSessionToken(email) {
   return `${payload}.${toBase64Url(new Uint8Array(signature))}`;
 }
 
-/** Returns the session payload ({ sub, exp }) or null if the token is invalid. */
+/** Returns the payload ({ sub, v, exp }) or null if the token is forged or expired. */
 export async function verifySessionToken(token) {
-  if (!token || typeof token !== "string" || !isAuthConfigured()) return null;
+  if (!token || typeof token !== "string" || !hasSessionSecret()) return null;
 
   const [payload, signature, ...rest] = token.split(".");
   if (!payload || !signature || rest.length > 0) return null;
@@ -76,9 +77,6 @@ export async function verifySessionToken(token) {
     if (typeof session.exp !== "number" || session.exp < Date.now() / 1000) {
       return null;
     }
-    // Changing ADMIN_EMAIL invalidates every existing session.
-    if (session.sub !== process.env.ADMIN_EMAIL.trim().toLowerCase()) return null;
-
     return session;
   } catch {
     return null;
