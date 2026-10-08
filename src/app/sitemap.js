@@ -8,6 +8,7 @@ const PATHS = [
   "/journey",
   "/experience",
   "/achievements",
+  "/portfolio",
   "/projects",
   "/skills",
   "/education",

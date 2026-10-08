@@ -128,6 +128,43 @@ export const MODULES = {
     }),
   },
 
+  portfolio: {
+    key: "portfolio",
+    label: "Portfolio",
+    description:
+      "The text of your portfolio, shown at /portfolio and used to build the downloadable PDF. Your name, role and contact details at the top come from the public profile.",
+    collection: "portfolio",
+    publicPath: "/portfolio",
+    types: withPublished({
+      summary: {
+        label: "Summary blocks",
+        singular: "summary block",
+        titleField: "heading",
+        metaFields: [],
+        fields: [
+          { name: "heading", label: "Heading", type: "text", required: true, help: "e.g. Profile." },
+          { name: "text", label: "Text", type: "textarea", required: true },
+          orderField,
+        ],
+      },
+      entry: {
+        label: "Entries",
+        singular: "entry",
+        titleField: "title",
+        metaFields: ["section", "period"],
+        fields: [
+          { name: "section", label: "Section", type: "text", required: true, help: "The heading this entry goes under, e.g. Experience, Education, Skills. Entries with exactly the same section name are grouped; sections appear in the order of their first entry." },
+          { name: "title", label: "Title", type: "text", required: true, help: "e.g. a job title, a degree, a skill area." },
+          { name: "subtitle", label: "Subtitle", type: "text", help: "e.g. the organization or institution." },
+          { name: "period", label: "Period", type: "text", help: "e.g. 2018 — 2021." },
+          { name: "description", label: "Description", type: "textarea" },
+          { name: "points", label: "Bullet points", type: "list", help: "One per line." },
+          orderField,
+        ],
+      },
+    }),
+  },
+
   downloads: {
     key: "downloads",
     label: "Downloads",
@@ -144,7 +181,7 @@ export const MODULES = {
           { name: "title", label: "Title", type: "text", required: true },
           { name: "key", label: "ID", type: "slug", unique: true, help: "Short name used to count downloads. Leave empty to generate it. Changing it later restarts the count." },
           { name: "description", label: "Description", type: "textarea", required: true },
-          { name: "fileUrl", label: "File address", type: "file", help: "The share link of the file, e.g. from Google Drive (shared as \"Anyone with the link\"). For the contact card use /contact-card.vcf." },
+          { name: "fileUrl", label: "File address", type: "file", help: "The share link of the file, e.g. from Google Drive (shared as \"Anyone with the link\"). Two documents are made by the site itself: use /portfolio.pdf for the portfolio and /contact-card.vcf for the contact card." },
           { name: "fileName", label: "File name", type: "text", required: true, help: "The name the file is saved as, e.g. Rasel_Rana_CV.pdf." },
           { name: "fileType", label: "File type", type: "text", required: true, help: "e.g. PDF." },
           { name: "fileSize", label: "File size", type: "text", help: "e.g. 120 KB." },

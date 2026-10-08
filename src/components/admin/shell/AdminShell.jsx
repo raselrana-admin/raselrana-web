@@ -5,6 +5,7 @@ import {
   Briefcase,
   Download,
   ExternalLink,
+  FileText,
   FolderKanban,
   KeyRound,
   LayoutDashboard,
@@ -29,6 +30,7 @@ const MODULE_ICONS = {
   projects: FolderKanban,
   publications: BookOpen,
   experience: Briefcase,
+  portfolio: FileText,
   downloads: Download,
 };
 

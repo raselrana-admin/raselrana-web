@@ -31,6 +31,7 @@ export const footerNav = [
   {
     title: "More",
     links: [
+      { label: "Portfolio", href: "/portfolio" },
       { label: "Projects", href: "/projects" },
       { label: "Skills", href: "/skills" },
       { label: "Education", href: "/education" },

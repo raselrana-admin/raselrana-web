@@ -10,6 +10,7 @@
     "hash-password": "node scripts/hash-password.mjs"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.9.0",
     "@vercel/analytics": "^2.0.1",
     "lucide-react": "^1.37.0",
     "mongodb": "^6.21.0",
