@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 const QUIET_ZONE = 2; // blank modules around the code, needed by scanners
 
@@ -37,7 +38,13 @@ export default function ContactCardPreview({ contact, className }) {
         Preview &amp; QR code
       </button>
 
-      {open && (
+      {/* Rendered into <body>, not inside the card. The card has the .reveal
+          scroll animation, and an animated (transformed) ancestor makes
+          "position: fixed" relative to that ancestor instead of the screen,
+          which trapped the dialog inside the card and cut off its close
+          button. A portal takes it out of the card entirely. */}
+      {open &&
+        createPortal(
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
           <button
             type="button"
@@ -126,8 +133,9 @@ export default function ContactCardPreview({ contact, className }) {
               </dl>
             </div>
           </div>
-        </div>
-      )}
+        </div>,
+          document.body,
+        )}
     </>
   );
 }

@@ -42,6 +42,12 @@ const nextConfig = {
         destination: "/contact-card.vcf",
         permanent: false,
       },
+      // Same for the portfolio, now generated from the Portfolio dashboard.
+      {
+        source: "/documents/Rasel_Rana_Portfolio.pdf",
+        destination: "/portfolio.pdf",
+        permanent: false,
+      },
     ];
   },
   async rewrites() {
@@ -56,7 +62,7 @@ const nextConfig = {
       },
     ];
   },
-  serverExternalPackages: ["mongodb"],
+  serverExternalPackages: ["mongodb", "@react-pdf/renderer"],
 };
 
 export default nextConfig;

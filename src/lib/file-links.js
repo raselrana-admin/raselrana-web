@@ -3,6 +3,15 @@
 const DRIVE_FILE = /drive\.google\.com\/file\/d\/([\w-]+)/i;
 const DRIVE_ID_PARAM = /drive\.google\.com\/(?:open|uc)\?(?:[^#]*&)?id=([\w-]+)/i;
 
+// The generated portfolio PDF, and the address of the static file it replaced
+// (next.config.mjs redirects the old one).
+const PORTFOLIO_FILE = /^\/(portfolio\.pdf|documents\/Rasel_Rana_Portfolio\.pdf)$/i;
+
+/** True if a download entry's file address is the site's generated portfolio. */
+export function isPortfolioFile(url) {
+  return PORTFOLIO_FILE.test(String(url || ""));
+}
+
 // Files a browser can show in a tab. Anything else would just download again.
 const VIEWABLE = /\.(pdf|png|jpe?g|webp|gif|svg)(\?.*)?$/i;
 
@@ -14,6 +23,9 @@ const VIEWABLE = /\.(pdf|png|jpe?g|webp|gif|svg)(\?.*)?$/i;
  */
 export function fileLinks(url, fileType) {
   const address = String(url || "");
+
+  // The generated portfolio: download the PDF, preview the page it is built from
+  if (isPortfolioFile(address)) return { download: "/portfolio.pdf", preview: "/portfolio" };
   const drive = DRIVE_FILE.exec(address) || DRIVE_ID_PARAM.exec(address);
   if (drive) {
     return {

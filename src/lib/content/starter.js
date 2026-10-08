@@ -1,6 +1,7 @@
 import * as achievements from "@/lib/data/achievements";
 import { downloads } from "@/lib/data/downloads";
 import { experienceOrganizations } from "@/lib/data/experience";
+import { portfolioEntries, portfolioSummaries } from "@/lib/data/portfolio";
 import { projects } from "@/lib/data/projects";
 import { publications } from "@/lib/data/publications";
 
@@ -68,6 +69,11 @@ export const STARTERS = {
         })),
       )
       .map((role, index) => ({ ...role, showOnHome: index < 2, order: index })),
+
+  portfolio: () => [
+    ...portfolioSummaries.map((item, index) => ({ type: "summary", ...item, order: index })),
+    ...portfolioEntries.map((item, index) => ({ type: "entry", ...item, order: index })),
+  ],
 
   downloads: () =>
     downloads.map((d, index) => ({

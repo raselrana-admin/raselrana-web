@@ -53,7 +53,7 @@ Imports use `@/` as a short name for `src/`. So `@/lib/data/home` means `src/lib
 
 | Content | Where | How you change it |
 | --- | --- | --- |
-| Achievements, Projects, Publications, Experience, Downloads | MongoDB | Dashboard: `/admin/<name>` |
+| Achievements, Projects, Publications, Experience, Portfolio, Downloads | MongoDB | Dashboard: `/admin/<name>` |
 | Your public profile: name, role, organization, tagline, focus tags, location, contact email, social links | MongoDB | Dashboard: `/admin/profile` |
 | Home page previews (featured projects, roles, competitions) | Taken from the entries above | Tick "Show on the home page" on an entry |
 | About, Journey, Skills, Education, Contact page text, home "Profile" and "What I work on" text, footer page links | Files in `src/lib/data/` | Edit the file, commit, publish |
@@ -150,6 +150,22 @@ The list refreshes and a "Saved" message appears
 ```
 
 These functions in `actions.js` are called **Server Actions**: functions that run on the server but can be called from a form. The dashboard uses them instead of API routes.
+
+### The portfolio
+
+The portfolio has its own text, written in Dashboard → Portfolio. It has two kinds of entry: **summary blocks** (paragraphs at the top, such as "Profile") and **entries** (one item each, placed under a section such as "Experience"). Your name, role and contact details at the top come from the public profile.
+
+One function, `buildPortfolio()` in `src/lib/portfolio.js`, arranges that content, and two things show it:
+
+```
+                      buildPortfolio()
+                     /                \
+   /portfolio  (the web page)      /portfolio.pdf  (the PDF)
+   sections/portfolio/             lib/pdf/PortfolioPdf.jsx
+   PortfolioDocument.jsx           built by app/portfolio.pdf/route.js
+```
+
+Because both use the same function, the page and the PDF always contain the same thing. The PDF is created at the moment someone asks for it, so it is never out of date.
 
 ### The home page
 

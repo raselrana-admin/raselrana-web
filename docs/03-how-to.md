@@ -5,6 +5,7 @@
 Step-by-step instructions for the changes you are most likely to make. After any change, run `npm run lint` and `npm run build` before pushing.
 
 - [Change the text on a page](#change-the-text-on-a-page)
+- [Edit the portfolio](#edit-the-portfolio)
 - [Add or change a footer or social link](#add-or-change-a-footer-or-social-link)
 - [Change the navbar links](#change-the-navbar-links)
 - [Change the labels in the home page network animation](#change-the-labels-in-the-home-page-network-animation)
@@ -24,7 +25,7 @@ First find where the content lives:
 
 | Content | Where to change it |
 | --- | --- |
-| Achievements, Projects, Publications, Experience, Downloads | Dashboard → the matching screen |
+| Achievements, Projects, Publications, Experience, Portfolio, Downloads | Dashboard → the matching screen |
 | Name, role, organization, tagline, focus tags, location, contact email, social links | Dashboard → Public profile |
 | Which projects, roles and competitions show on the home page | Dashboard → edit the entry → tick "Show on the home page" |
 | About | `src/lib/data/about.js` |
@@ -43,6 +44,20 @@ The code files are mostly lists. To add an item, copy an existing block `{ ... }
 A few headings are written inside components instead of data files, for example "What I work on" on the home page (`sections/homepage/FocusAreas.jsx`). Search the `src` folder for the exact words to find them.
 
 Note: `projects.js`, `publications.js`, `experience.js`, `downloads.js` and `achievements.js` in `lib/data` now hold only the **starter content** (plus the page heading). After you import it into the dashboard, editing the lists in those files changes nothing on the site.
+
+## Edit the portfolio
+
+Dashboard → Portfolio. The page at `/portfolio` and the PDF both change as soon as you save.
+
+- **Summary blocks** tab: the paragraphs at the top. Each has a heading (for example "Profile") and text.
+- **Entries** tab: everything else. Each entry has a **Section** (the heading it goes under), a title, and optionally a subtitle, period, description and bullet points.
+- Entries with exactly the same Section text are grouped together. To start a new section, type a new Section name. Sections appear in the order of their first entry, and **Position** (lower first) orders the entries.
+- Untick **Published** to keep an entry out of the page and the PDF without deleting it.
+- Your name, role, organization and contact details at the top come from Dashboard → Public profile.
+
+Two limits of the PDF: it has no page numbers, and its built-in font prints English and other Latin letters only, so Bangla text would not appear in the PDF (it is fine on the web page).
+
+To change how the PDF looks (sizes, colours, spacing), edit `src/lib/pdf/PortfolioPdf.jsx`. To change the web page's look, edit `src/components/sections/portfolio/PortfolioDocument.jsx`.
 
 ## Add or change a footer or social link
 
@@ -80,7 +95,9 @@ The site turns a Google Drive link into a direct download for the Download butto
 
 A **Preview** button is shown only for files a browser can display: Google Drive links, PDFs and images.
 
-**The contact card is special.** Its file address is `/contact-card.vcf`, which is not a real file: the site builds it from your public profile each time (name, role, organization, phone, email, website, location). To change what the card and its QR code contain, edit Dashboard → Public profile. The phone number is used only in the card; leave it empty to keep your number off the site. The card's "Updated" date is the day you last saved your profile. On the Downloads page the card's button reads "Preview & QR code" and opens a panel with the details and a code that saves the contact when scanned with a phone camera.
+**The portfolio is special.** Its file address is `/portfolio.pdf`. That is not a stored file: the site builds the PDF from Dashboard → Portfolio each time. Its Preview button opens the `/portfolio` page, and its "Updated" date is the day you last saved a portfolio entry.
+
+**The contact card is special too.** Its file address is `/contact-card.vcf`, which is not a real file: the site builds it from your public profile each time (name, role, organization, phone, email, website, location). To change what the card and its QR code contain, edit Dashboard → Public profile. The phone number is used only in the card; leave it empty to keep your number off the site. The card's "Updated" date is the day you last saved your profile. On the Downloads page the card's button reads "Preview & QR code" and opens a panel with the details and a code that saves the contact when scanned with a phone camera.
 
 The **ID** field is the name the download counter is stored under; leave it empty to generate one, and avoid changing it later, because the count restarts.
 
