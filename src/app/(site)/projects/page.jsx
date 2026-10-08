@@ -1,5 +1,4 @@
-import PageHeader from "@/components/ui/PageHeader";
-import { projectsPage } from "@/lib/data/projects";
+import PageHeading from "@/views/layout/PageHeading";
 import ProjectsView from "@/views/projects/ProjectsView";
 
 export const metadata = {
@@ -15,7 +14,7 @@ export const dynamic = "force-dynamic";
 export default function ProjectsPage() {
   return (
     <>
-      <PageHeader {...projectsPage} />
+      <PageHeading page="projects" />
       <ProjectsView />
     </>
   );

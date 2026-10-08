@@ -3,16 +3,21 @@
 import {
   BookOpen,
   Briefcase,
+  CircleUser,
   Download,
   ExternalLink,
   FileText,
   FolderKanban,
+  GraduationCap,
   KeyRound,
   LayoutDashboard,
   LogOut,
+  Mail,
   Menu,
+  Route,
   Trophy,
   UserRound,
+  Wrench,
   X,
 } from "lucide-react";
 import Link from "next/link";
@@ -26,6 +31,10 @@ import { ToastProvider } from "../Toast";
 import { eyebrowClass, iconButtonClass } from "../styles";
 
 const MODULE_ICONS = {
+  about: CircleUser,
+  journey: Route,
+  skills: Wrench,
+  education: GraduationCap,
   achievements: Trophy,
   projects: FolderKanban,
   publications: BookOpen,
@@ -50,6 +59,7 @@ const NAV_GROUPS = [
     title: "Settings",
     links: [
       { label: "Public profile", href: "/admin/profile", icon: UserRound },
+      { label: "Contact page", href: "/admin/contact-page", icon: Mail },
       { label: "Account", href: "/admin/account", icon: KeyRound },
     ],
   },

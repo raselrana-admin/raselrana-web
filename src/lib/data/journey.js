@@ -1,9 +1,19 @@
-// Add/edit your life journey milestones here. Each entry renders as a
-// section on the /journey page, in the order listed (oldest -> current
-// -> future vision). `era` is a short label (a year, a year range, or a
-// vague period like "Early 1990s") - use whatever level of specificity
-// you're comfortable making public. `body` is an array of paragraphs -
-// one string per paragraph, so you can add as many as you want per stage.
+// STARTER CONTENT and defaults for the Journey page, which is edited in the
+// dashboard (/admin/journey). After importing, changing this file changes
+// nothing on the site.
+
+// One entry per stage, oldest first. `era` is a short label (a year, a
+// range, or a word like "Present"); `body` is a list of paragraphs. Most of
+// it is still TODO text.
+
+// The heading of the /journey page (the starting value; editable in the
+// dashboard).
+export const journeyPage = {
+  eyebrow: "My journey",
+  heading: "From where I started to where I am",
+  intro: "The people, places, and effort that shaped the path.",
+};
+
 export const journeyStages = [
   {
     id: "origins",

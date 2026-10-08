@@ -1,3 +1,9 @@
+// STARTER CONTENT and defaults for the About page. The page is edited in the
+// dashboard (/admin/about): the texts below are used until its page text is
+// first saved, and the two lists are what "Import starter content" brings in.
+// Only `aboutCTA.primaryCta` / `secondaryCta` (the two buttons) are always
+// read from this file.
+
 export const aboutHero = {
   eyebrow: "About",
   headline: "Building the network layer people never have to think about.",

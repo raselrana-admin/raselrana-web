@@ -1,6 +1,4 @@
-import SkillsGroups from "@/components/sections/skills/SkillsGroups";
-import PageHeader from "@/components/ui/PageHeader";
-import { skillsPage } from "@/lib/data/skills";
+import SkillsView from "@/views/skills/SkillsView";
 
 export const metadata = {
   title: "Skills | Rasel Rana",
@@ -8,11 +6,10 @@ export const metadata = {
     "Technical skills and tools of Rasel Rana, grouped by discipline.",
 };
 
+// Skills are edited from /admin and read from MongoDB on every request, so
+// changes show up immediately.
+export const dynamic = "force-dynamic";
+
 export default function SkillsPage() {
-  return (
-    <>
-      <PageHeader {...skillsPage} />
-      <SkillsGroups />
-    </>
-  );
+  return <SkillsView />;
 }

@@ -26,25 +26,26 @@ First find where the content lives:
 
 | Content | Where to change it |
 | --- | --- |
-| Achievements, Projects, Publications, Experience, Portfolio, Downloads | Dashboard → the matching screen |
-| Name, role, organization, tagline, focus tags, location, contact email, social links | Dashboard → Public profile |
+| The entries of any inner page (About's cards and career rows, Journey stages, Experience, Achievements, Projects, Skills, Education, Publications, Portfolio, Downloads) | Dashboard → the page's screen |
+| The heading and intro at the top of a page; About's headline and story | Dashboard → the page's screen → **Page heading and text** (the fold-out card at the top) |
+| The Contact page's heading, intro and response time | Dashboard → Settings → Contact page |
+| Name, role, organization, tagline, focus tags, portrait, location, contact email, social links | Dashboard → Public profile |
 | Which projects, roles and competitions show on the home page | Dashboard → edit the entry → tick "Show on the home page" |
-| About | `src/lib/data/about.js` |
-| Journey | `src/lib/data/journey.js` |
-| Skills | `src/lib/data/skills.js` |
-| Education | `src/lib/data/education.js` |
-| Contact page text and form wording | `src/lib/data/contact.js` |
-| Home page "Profile" paragraph and "What I work on" cards | `src/lib/data/home.js` |
-| Page headings and intros (the top of Projects, Publications, Experience) | the `...Page` / `...Intro` object in that page's `lib/data` file |
+| Home page "Profile" paragraph, "What I work on" cards, contact panel wording | `src/lib/data/home.js` |
+| Contact page row labels and notes, form subjects and messages | `src/lib/data/contact.js` |
 | Footer page links | `footerNav` in `src/lib/data/site.js` |
+| The two buttons at the bottom of About | `aboutCTA` in `src/lib/data/about.js` |
+
+Two things worth knowing in the dashboard:
+
+- Where a text field says "leave an empty line between paragraphs" (About's story, a Journey stage), press Enter twice to start a new paragraph.
+- Emptying a page's **Small label** hides it.
 
 Dashboard changes appear on the site immediately. File changes need a commit and a publish.
 
-The code files are mostly lists. To add an item, copy an existing block `{ ... },` and change its values. Keep `id` values unique within a file.
+A few headings are written inside components instead, for example "What I work on" on the home page (`sections/homepage/FocusAreas.jsx`) and the small labels "Story", "Approach" and "Career" on About. Search the `src` folder for the exact words to find them.
 
-A few headings are written inside components instead of data files, for example "What I work on" on the home page (`sections/homepage/FocusAreas.jsx`). Search the `src` folder for the exact words to find them.
-
-Note: `projects.js`, `publications.js`, `experience.js`, `downloads.js` and `achievements.js` in `lib/data` now hold only the **starter content** (plus the page heading). After you import it into the dashboard, editing the lists in those files changes nothing on the site.
+Note: apart from the files named in the table, the files in `lib/data` now hold only **starter content**. After you import it or save a page's text in the dashboard, editing those files changes nothing on the site.
 
 ## Add photos
 
@@ -194,7 +195,7 @@ export default function GalleryPage() {
 
 **5. Search engines** — add `"/gallery"` to the `PATHS` list in `src/app/sitemap.js`.
 
-`skills` and `education` are the simplest existing examples to copy from. This recipe makes a page whose content is in a code file. To edit the content from the dashboard instead, see "Add a dashboard for another kind of content".
+This recipe makes a page whose content is in a code file, which suits a page you will rarely change. To edit the content from the dashboard instead, which is how every existing inner page works, see "Add a dashboard for another kind of content"; `skills` and `education` are the simplest examples of that to copy from.
 
 ## Add a section to an existing page
 
@@ -366,6 +367,8 @@ export default function GalleryPage() {
   );
 }
 ```
+
+**5. Make its heading editable (optional).** Add `gallery: { label: "Gallery", fields: header },` to `PAGE_TEXT` in `src/lib/content/page-text.js`, add its starting wording to `PAGE_DEFAULTS` in `src/lib/content/page-defaults.js`, and replace the `<PageHeader … />` line with `<PageHeading page="gallery" />` (imported from `@/views/layout/PageHeading`). The fold-out card then appears on the Gallery screen by itself.
 
 Remember the footer or navbar link and the sitemap, as in "Add a new page".
 

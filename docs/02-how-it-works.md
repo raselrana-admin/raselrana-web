@@ -53,26 +53,32 @@ Imports use `@/` as a short name for `src/`. So `@/lib/data/home` means `src/lib
 
 | Content | Where | How you change it |
 | --- | --- | --- |
-| Achievements, Projects, Publications, Experience, Portfolio, Downloads | MongoDB | Dashboard: `/admin/<name>` |
-| Your public profile: name, role, organization, tagline, focus tags, location, contact email, social links | MongoDB | Dashboard: `/admin/profile` |
+| The entries of About, Journey, Experience, Achievements, Projects, Skills, Education, Publications, Portfolio and Downloads | MongoDB | Dashboard: the page's own screen |
+| The heading and intro at the top of each of those pages, and of Contact (About also has its headline, story and section headings) | MongoDB | Dashboard: "Page heading and text" at the top of the page's screen; Contact has its own screen under Settings |
+| Your public profile: name, role, organization, tagline, focus tags, portrait, location, contact email, phone, social links | MongoDB | Dashboard: Public profile |
 | Home page previews (featured projects, roles, competitions) | Taken from the entries above | Tick "Show on the home page" on an entry |
-| About, Journey, Skills, Education, Contact page text, home "Profile" and "What I work on" text, footer page links | Files in `src/lib/data/` | Edit the file, commit, publish |
+| Home page "Profile" paragraph and "What I work on" cards, the contact panel wording | `src/lib/data/home.js` | Edit the file, commit, publish |
+| Contact page row labels and notes, form subjects and messages | `src/lib/data/contact.js` | Edit the file, commit, publish |
+| Footer page links; the two buttons at the bottom of About | `src/lib/data/site.js`, `src/lib/data/about.js` | Edit the file, commit, publish |
+| Navbar links | `src/components/layout/Navbar.jsx` | Edit the file, commit, publish |
 
-## How a code-file page is built (three layers)
+The other files in `src/lib/data/` (`about.js`, `journey.js`, `skills.js`, `education.js`, `projects.js` and so on) are now only **starter content**: what the pages show before you import or save anything, and what "Import starter content" copies into the dashboard.
 
-Take the About page as the example. (Pages whose content comes from the dashboard are explained further down.)
+## How a page is built (three layers)
+
+Every page has the same three layers. This simple version, with the content in a code file, is the easiest to follow; it is how the home page's "Profile" paragraph works (`lib/data/home.js` → `sections/homepage/AboutPreview.jsx` → the home page). Dashboard pages add one step, explained further down: the content comes from the database, read by a small "view" component.
 
 ```
-src/lib/data/about.js                 1. DATA   — the words
-        ↓ imported by
-src/components/sections/about/*.jsx   2. SECTIONS — how each part looks
+1. DATA      — the words          a file in src/lib/data/, or the database
+        ↓ given to
+2. SECTIONS  — how each part looks   src/components/sections/<page>/*.jsx
         ↓ stacked by
-src/app/(site)/about/page.jsx         3. PAGE   — the order of the parts + browser title
+3. PAGE      — the order of the parts + browser title   src/app/(site)/<page>/page.jsx
 ```
 
-1. **Data.** `about.js` exports plain objects such as `aboutHero` and `aboutStory`. No design here, only content.
-2. **Sections.** Each file in `sections/about/` imports its own data and returns the HTML for one part of the page, for example `AboutStory.jsx`.
-3. **Page.** `app/(site)/about/page.jsx` is short. It sets the browser tab title (`metadata`) and lists the sections in order.
+1. **Data.** Plain content, no design.
+2. **Sections.** Each file in `sections/<page>/` returns the HTML for one part of the page, for example `sections/about/AboutStory.jsx`. It receives its content and only decides how it looks.
+3. **Page.** `app/(site)/<page>/page.jsx` is short. It sets the browser tab title (`metadata`) and lists the sections in order.
 
 Because of this split, changing text never requires touching design code, and changing design never risks deleting text.
 
@@ -173,6 +179,19 @@ Photos are used in two places today: your portrait (Dashboard → Public profile
 
 Removing a photo in the dashboard only removes it from the page. The file stays in Cloudinary until you delete it there.
 
+### Page headings and text
+
+The wording at the top of a page (small label, heading, intro) is kept apart from the page's entries, because there is only one of it per page. About has a few more: its headline, its story and the headings of its sections.
+
+| File | What it holds |
+| --- | --- |
+| `src/lib/content/page-text.js` | Which fields each page has |
+| `src/lib/content/page-defaults.js` | The starting wording, taken from the `lib/data` files |
+| `src/lib/services/page-text.js` | `getPageText("skills")`: what you saved, or the starting wording if you never saved |
+| `src/views/layout/PageHeading.jsx` | Shows it at the top of the page |
+
+In the dashboard it is the fold-out card **Page heading and text** at the top of each page's screen. Contact has no entries, so it has its own screen: Settings → Contact page.
+
 ### The portfolio
 
 The portfolio has its own text, written in Dashboard → Portfolio. It has two kinds of entry: **summary blocks** (paragraphs at the top, such as "Profile") and **entries** (one item each, placed under a section such as "Experience"). Your name, role and contact details at the top come from the public profile.
@@ -207,7 +226,8 @@ Because the footer is on every page, saving the profile refreshes the whole site
 | --- | --- |
 | `/admin/login` | Sign in |
 | `/admin` | Overview: counts, recent edits, and a list of entries that still contain sample text |
-| `/admin/achievements`, `/projects`, `/publications`, `/experience`, `/downloads` | One list-and-form screen per module, all served by the single file `app/admin/(panel)/[module]/page.jsx` |
+| `/admin/about`, `/journey`, `/achievements`, `/projects`, `/skills`, `/education`, `/publications`, `/experience`, `/portfolio`, `/downloads` | One screen per page: its heading and text in a fold-out card, then its entries. All served by the single file `app/admin/(panel)/[module]/page.jsx` |
+| `/admin/contact-page` | The Contact page's heading, intro and response time |
 | `/admin/profile` | Your public profile |
 | `/admin/account` | Your display name, login email and password |
 
@@ -271,8 +291,8 @@ If counting fails, the download still works. The Downloads page reads the counts
 
 | Collection | Holds | Written by |
 | --- | --- | --- |
-| `achievements`, `projects`, `publications`, `experience`, `downloads` | The entries of each module, plus one marker of type `_import` once the starter content has been imported | Dashboard |
-| `settings` | Two documents: `site-profile` (public profile) and `admin-account` (your login) | Dashboard |
+| `about`, `journey`, `achievements`, `projects`, `skills`, `education`, `publications`, `experience`, `portfolio`, `downloads` | The entries of each module, plus one marker of type `_import` once the starter content has been imported | Dashboard |
+| `settings` | `site-profile` (public profile), `admin-account` (your login), and one `page-<name>` document per page whose heading you have saved | Dashboard |
 | `download_stats` | One counter per document | Download button |
 | `login_attempts` | Failed sign-in tries (deleted automatically after 15 minutes) | Login |
 | `rate_limits` | Recent contact and download requests (deleted automatically after 1 hour) | Contact form, download counter |

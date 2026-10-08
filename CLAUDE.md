@@ -45,11 +45,11 @@ Route files live in two places under `src/app/`: the public site in the `(site)/
 
 Pages follow a three-layer split:
 
-1. **Content** — either a code file in `src/lib/data/<page>.js` (About, Journey, Skills, Education, Contact copy, home "About"/"Focus areas" text, footer link columns) or MongoDB, edited in the dashboard (Achievements, Projects, Publications, Experience, Downloads, and the public profile). See "Dashboard content" below.
+1. **Content** — almost all of it is in MongoDB, edited in the dashboard: every inner page's entries and heading, and the public profile. See "Dashboard content" below. Still in code files under `src/lib/data/`: the home page's "Profile" paragraph, focus cards and contact-panel wording (`home.js`), the Contact page's channel rows, subjects and form messages (`contact.js`), the footer link columns (`site.js`), About's two buttons (`about.js`), and the navbar links (`Navbar.jsx`). The other `lib/data` files are only starter content and defaults.
 2. `src/components/sections/<page>/` — one component per page section. Sections for code-file content import their own data; sections for dashboard content take props.
 3. `src/app/(site)/<route>/page.jsx` — thin Server Components that set `metadata` and stack sections (through a `views/` component when the content comes from MongoDB).
 
-Adding a code-file page means adding a data file, a `sections/<page>/` folder and a `page.jsx`, then linking it from `NAV_LINKS` in `src/components/layout/Navbar.jsx` (the mobile menu reuses it) and/or `footerNav` in `src/lib/data/site.js`, and adding the path to `src/app/sitemap.js`.
+A new page should normally be a dashboard module (see "To add a module" below) with a `PAGE_TEXT` entry for its heading. Either way, link it from `NAV_LINKS` in `src/components/layout/Navbar.jsx` (the mobile menu reuses it) and/or `footerNav` in `src/lib/data/site.js`, and adding the path to `src/app/sitemap.js`.
 
 ### Server/client boundary and the `views/` rule
 
@@ -66,13 +66,15 @@ The documents are a dashboard module. No files are stored in the repo (there is 
 
 `/admin` is a separate app shell (`components/admin/shell/AdminShell.jsx`: sidebar, top bar, toasts) with an overview page, one screen per content module, a public-profile page and an account page.
 
-**Modules.** `src/lib/content/modules.js` is the registry: one module = one MongoDB collection = one screen at `/admin/<key>` (served by `app/admin/(panel)/[module]/page.jsx`). Current modules: `achievements` (six entry types), `projects`, `publications`, `experience` (one document per role; grouped by organization in `views/experience/ExperienceView.jsx`), `portfolio` (types `summary` and `entry`), `downloads`. Every document has a `type`; every type gets a `published` tick box (unticked = hidden from the site).
+**Modules.** `src/lib/content/modules.js` is the registry: one module = one MongoDB collection = one screen at `/admin/<key>` (served by `app/admin/(panel)/[module]/page.jsx`). Current modules: `about` (types `principle` and `highlight`), `journey` (`stage`; `body` is one text, split into paragraphs on blank lines by `toParagraphs()` in `src/lib/text.js`), `achievements` (six entry types), `projects`, `skills`, `education`, `publications`, `experience` (one document per role; grouped by organization in `views/experience/ExperienceView.jsx`), `portfolio` (types `summary` and `entry`), `downloads`. Every document has a `type`; every type gets a `published` tick box (unticked = hidden from the site).
 
 - Field types and validation live in `src/lib/content/fields.js` (`normalizeFields`). The form (`components/admin/SchemaForm.jsx`) is drawn from the same field list, so adding a field to a type in `modules.js` (or `achievements-schema.js`) is enough for the dashboard; then display it in the section component.
 - `src/lib/services/content-service.js` does all reads and writes: `getEntries(key)` for public pages (published only; falls back to starter content when the collection is completely empty or Mongo is unreachable), `getAdminEntries`, `saveEntry`, `deleteEntry`, `importStarter`, `getOverview`. Fields marked `unique` are enforced on save. Module-specific rules (achievements: press follows a renamed/deleted competition, one featured press item) are in `src/lib/content/hooks.js`.
 - `src/lib/content/starter.js` maps the `lib/data` files to entries. It feeds both the fallback and the one-time "Import starter content" button (a marker document of type `_import` in each collection records that it ran).
 - `modules.js`, `fields.js`, `profile.js` and `achievements-schema.js` are imported by Client Components: plain data only. Server-only pieces (`hooks.js`, `starter.js`, services) must not be imported from them.
 - To add a module: register it in `modules.js`, add a starter mapping in `starter.js`, give the sidebar an icon in `AdminShell.jsx`, and read it on the public page with `getEntries()` from a `views/` component.
+
+**Page text.** The one-off wording of each page (small label, heading, intro; About also has its story and section headings) is separate from its entries. `src/lib/content/page-text.js` (`PAGE_TEXT`, client-safe) lists the fields per page; `src/lib/content/page-defaults.js` holds the starting values taken from `lib/data`; `getPageText(key)` in `src/lib/services/page-text.js` returns saved values over defaults (one `settings` document per page, `_id: "page-<key>"`) and never throws. Pages render it with `views/layout/PageHeading.jsx`. In the dashboard it is the fold-out "Page heading and text" card at the top of the page's module screen (`app/admin/(panel)/[module]/page.jsx`), saved by `savePageTextAction`; Contact, which has no entries, has its own screen at `/admin/contact-page`; its page text also carries the `responseTime` shown on the page. To make another page's text editable: add it to `PAGE_TEXT` and `PAGE_DEFAULTS`, then use `<PageHeading page="…" />`.
 
 **Public profile.** One document (`settings` collection, `_id: "site-profile"`), fields in `src/lib/content/profile.js`, read with `getSiteProfile()` (`src/lib/services/site-profile.js`; defaults come from `lib/data/site.js` and `profile` in `lib/data/home.js`). Used by the home hero and contact panel, the footer, and the email/location rows on the Contact page.
 
@@ -84,7 +86,7 @@ The documents are a dashboard module. No files are stored in the repo (there is 
 
 **Home page.** `views/home/HomeView.jsx` builds the previews from dashboard content: entries ticked "Show on the home page" (projects, roles, competitions), or the first few when none are ticked.
 
-**Freshness.** Achievements, Projects, Publications, Experience and Downloads pages are `force-dynamic`. Everything else under `(site)` is static with `revalidate = 3600` (set in `(site)/layout.jsx`, because the footer reads the profile). Every save calls `revalidatePath("/", "layout")`, so changes appear immediately.
+**Freshness.** Every dashboard-backed inner page (About, Journey, Skills, Education, Achievements, Projects, Publications, Experience, Portfolio, Downloads) is `force-dynamic`. Everything else under `(site)` is static with `revalidate = 3600` (set in `(site)/layout.jsx`, because the footer reads the profile). Every save calls `revalidatePath("/", "layout")`, so changes appear immediately.
 
 **Mutations** are Server Actions in `src/app/admin/actions.js`, not API routes.
 
@@ -126,4 +128,4 @@ Note the two service locations: `src/services/` (email) and `src/lib/services/` 
 
 ### Still sample content
 
-Most `lib/data` files and most dashboard entries still hold sample text (marked "Sample", "EXAMPLE", "TODO", "[Placeholder]" or "20XX"). The dashboard overview lists the dashboard entries that still contain it. `/skills` and `/education` are simple code-file pages linked from the footer, not the navbar.
+Most starter content and most dashboard entries still hold sample text (marked "Sample", "EXAMPLE", "TODO", "[Placeholder]" or "20XX"). The dashboard overview lists the dashboard entries that still contain it. Skills, Education, Projects, Publications and Portfolio are linked from the footer, not the navbar.

@@ -1,6 +1,8 @@
-// lib/data/skills.js
-// PLACEHOLDER CONTENT — the groups and items below are sample text. Replace
-// them with your real skills; add or remove groups freely.
+// STARTER CONTENT and defaults for the Skills page, which is edited in the
+// dashboard (/admin/skills). After importing, changing this file changes
+// nothing on the site.
+
+// The groups and items below are sample text.
 
 export const skillsPage = {
   eyebrow: "Capabilities",

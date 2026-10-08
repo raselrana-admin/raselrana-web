@@ -1,16 +1,18 @@
 import { aboutCTA } from "@/lib/data/about";
 import Link from "next/link";
 
-export default function AboutCTA() {
+// The heading and text come from Dashboard → About; the two buttons stay in
+// lib/data/about.js.
+export default function AboutCTA({ heading, description }) {
   return (
     <section className="border-t border-[var(--line)] py-20 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="reveal flex flex-col items-start gap-8 rounded-3xl border border-[var(--line)] bg-[var(--surface)] px-8 py-10 md:flex-row md:items-center md:justify-between md:px-12 md:py-12">
           <div>
             <h2 className="font-display text-2xl font-semibold tracking-tight text-[var(--ink)] md:text-3xl">
-              {aboutCTA.heading}
+              {heading}
             </h2>
-            <p className="mt-2 text-[var(--slate)]">{aboutCTA.description}</p>
+            {description && <p className="mt-2 text-[var(--slate)]">{description}</p>}
           </div>
 
           <div className="flex shrink-0 flex-wrap gap-3">

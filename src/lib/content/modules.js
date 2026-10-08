@@ -39,6 +39,63 @@ function withPublished(types) {
 }
 
 export const MODULES = {
+  about: {
+    key: "about",
+    label: "About",
+    description: "The About page: its text above, and the two lists on it below.",
+    collection: "about",
+    publicPath: "/about",
+    types: withPublished({
+      principle: {
+        label: "How I work",
+        singular: "principle",
+        titleField: "title",
+        metaFields: [],
+        fields: [
+          { name: "title", label: "Title", type: "text", required: true },
+          { name: "description", label: "Description", type: "textarea", required: true },
+          orderField,
+        ],
+      },
+      highlight: {
+        label: "Career snapshot",
+        singular: "career row",
+        titleField: "title",
+        metaFields: ["org", "year"],
+        fields: [
+          { name: "year", label: "Years", type: "text", required: true, help: "e.g. 2024 — Present." },
+          { name: "title", label: "Title", type: "text", required: true },
+          { name: "org", label: "Organization", type: "text" },
+          { name: "description", label: "Description", type: "textarea" },
+          orderField,
+        ],
+      },
+    }),
+  },
+
+  journey: {
+    key: "journey",
+    label: "Journey",
+    description: "The stages of your story, shown in order on the Journey page.",
+    collection: "journey",
+    publicPath: "/journey",
+    types: withPublished({
+      stage: {
+        label: "Stages",
+        singular: "stage",
+        titleField: "title",
+        metaFields: ["era"],
+        fields: [
+          { name: "era", label: "Era", type: "text", required: true, help: "A year, a range, or a word such as Present." },
+          { name: "title", label: "Title", type: "text", required: true },
+          { name: "summary", label: "Summary", type: "text", help: "One line under the title." },
+          { name: "body", label: "Text", type: "textarea", help: "Leave an empty line between paragraphs." },
+          orderField,
+        ],
+      },
+    }),
+  },
+
   achievements: {
     key: "achievements",
     label: "Achievements",
@@ -68,6 +125,50 @@ export const MODULES = {
           { name: "tags", label: "Tags", type: "list", help: "One per line." },
           { name: "link", label: "Link", type: "url", help: "Optional. A page with more about the project." },
           homeField,
+          orderField,
+        ],
+      },
+    }),
+  },
+
+  skills: {
+    key: "skills",
+    label: "Skills",
+    description: "Groups of skills shown on the Skills page.",
+    collection: "skills",
+    publicPath: "/skills",
+    types: withPublished({
+      group: {
+        label: "Skill groups",
+        singular: "skill group",
+        titleField: "title",
+        metaFields: [],
+        fields: [
+          { name: "title", label: "Group name", type: "text", required: true, help: "e.g. Telecommunications." },
+          { name: "items", label: "Skills", type: "list", required: true, help: "One per line." },
+          orderField,
+        ],
+      },
+    }),
+  },
+
+  education: {
+    key: "education",
+    label: "Education",
+    description: "Qualifications shown on the Education page.",
+    collection: "education",
+    publicPath: "/education",
+    types: withPublished({
+      qualification: {
+        label: "Qualifications",
+        singular: "qualification",
+        titleField: "degree",
+        metaFields: ["institution", "period"],
+        fields: [
+          { name: "degree", label: "Degree or certificate", type: "text", required: true },
+          { name: "institution", label: "Institution", type: "text", required: true },
+          { name: "period", label: "Period", type: "text", help: "e.g. 2012 — 2016." },
+          { name: "details", label: "Details", type: "textarea", help: "Result, thesis, notable coursework." },
           orderField,
         ],
       },

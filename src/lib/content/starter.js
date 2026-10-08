@@ -1,9 +1,13 @@
+import { aboutFocus, aboutHighlights } from "@/lib/data/about";
 import * as achievements from "@/lib/data/achievements";
 import { downloads } from "@/lib/data/downloads";
+import { education } from "@/lib/data/education";
 import { experienceOrganizations } from "@/lib/data/experience";
+import { journeyStages } from "@/lib/data/journey";
 import { portfolioEntries, portfolioSummaries } from "@/lib/data/portfolio";
 import { projects } from "@/lib/data/projects";
 import { publications } from "@/lib/data/publications";
+import { skillGroups } from "@/lib/data/skills";
 
 // Turns the content files in lib/data into dashboard entries. Used in two
 // places: the one-time "Import starter content" button, and as the fallback
@@ -18,6 +22,52 @@ const of = (type, extra = {}) => (item, index) => ({
 });
 
 export const STARTERS = {
+  about: () => [
+    ...aboutFocus.principles.map((item, index) => ({
+      type: "principle",
+      title: item.title,
+      description: item.description,
+      order: index,
+    })),
+    ...aboutHighlights.timeline.map((item, index) => ({
+      type: "highlight",
+      year: item.year,
+      title: item.title,
+      org: item.org || "",
+      description: item.description || "",
+      order: index,
+    })),
+  ],
+
+  journey: () =>
+    journeyStages.map((stage, index) => ({
+      type: "stage",
+      era: stage.era,
+      title: stage.title,
+      summary: stage.summary || "",
+      // Paragraphs are stored as one text with empty lines between them
+      body: stage.body.join("\n\n"),
+      order: index,
+    })),
+
+  skills: () =>
+    skillGroups.map((group, index) => ({
+      type: "group",
+      title: group.title,
+      items: group.items,
+      order: index,
+    })),
+
+  education: () =>
+    education.map((item, index) => ({
+      type: "qualification",
+      degree: item.degree,
+      institution: item.institution,
+      period: item.period || "",
+      details: item.details || "",
+      order: index,
+    })),
+
   achievements: () => [
     ...achievements.competitions.map(of("competition", { showOnHome: false })),
     ...achievements.judging.map(of("judging")),

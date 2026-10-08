@@ -1,6 +1,8 @@
-// lib/data/education.js
-// PLACEHOLDER CONTENT — entries below are sample text. Replace the
-// institutions, years and details with the real ones. Listed newest first.
+// STARTER CONTENT and defaults for the Education page, which is edited in
+// the dashboard (/admin/education). After importing, changing this file
+// changes nothing on the site.
+
+// The entries below are sample text, listed newest first.
 
 export const educationPage = {
   eyebrow: "Background",

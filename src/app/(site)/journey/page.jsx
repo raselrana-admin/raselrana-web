@@ -1,5 +1,4 @@
-import JourneyTimeline from "@/components/sections/journey/JourneyTimeline";
-import PageHeader from "@/components/ui/PageHeader";
+import JourneyView from "@/views/journey/JourneyView";
 
 export const metadata = {
   title: "My Journey | Rasel Rana",
@@ -7,15 +6,10 @@ export const metadata = {
     "The path from where I started to where I am — family, education, effort, and milestones along the way.",
 };
 
+// The journey is edited from /admin and read from MongoDB on every request,
+// so changes show up immediately.
+export const dynamic = "force-dynamic";
+
 export default function JourneyPage() {
-  return (
-    <>
-      <PageHeader
-        eyebrow="My journey"
-        heading="From where I started to where I am"
-        intro="The people, places, and effort that shaped the path."
-      />
-      <JourneyTimeline />
-    </>
-  );
+  return <JourneyView />;
 }

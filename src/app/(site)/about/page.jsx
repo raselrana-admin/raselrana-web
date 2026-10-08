@@ -1,11 +1,4 @@
-import {
-  AboutCTA,
-  AboutFocus,
-  AboutHero,
-  AboutHighlights,
-  AboutStory,
-} from "@/components";
-import { getSiteProfile } from "@/lib/services/site-profile";
+import AboutView from "@/views/about/AboutView";
 
 export const metadata = {
   title: "About | Rasel Rana",
@@ -13,17 +6,10 @@ export const metadata = {
     "About Rasel Rana, Manager (Technical) at BTCL — background, way of working, and career so far.",
 };
 
-export default async function AboutPage() {
-  // The portrait comes from the public profile (dashboard)
-  const profile = await getSiteProfile();
+// The About page is edited from /admin and read from MongoDB on every
+// request, so changes show up immediately.
+export const dynamic = "force-dynamic";
 
-  return (
-    <>
-      <AboutHero photo={profile.photo} name={profile.name} />
-      <AboutStory />
-      <AboutFocus />
-      <AboutHighlights />
-      <AboutCTA />
-    </>
-  );
+export default function AboutPage() {
+  return <AboutView />;
 }

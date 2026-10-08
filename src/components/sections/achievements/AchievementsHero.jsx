@@ -1,13 +1,9 @@
 import PageHeader from "@/components/ui/PageHeader";
-import { achievementsHero } from "@/lib/data/achievements";
 
-export default function AchievementsHero({ featured }) {
+// `text` is the page text from the dashboard ({ eyebrow, heading, intro }).
+export default function AchievementsHero({ text, featured }) {
   return (
-    <PageHeader
-      eyebrow="Recognition"
-      heading={achievementsHero.heading}
-      intro={achievementsHero.intro}
-    >
+    <PageHeader eyebrow={text.eyebrow} heading={text.heading} intro={text.intro}>
       {featured && (
         <a
           href={featured.url}

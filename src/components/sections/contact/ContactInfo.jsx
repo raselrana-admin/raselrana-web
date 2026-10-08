@@ -3,17 +3,21 @@ import { contactChannels } from "@/lib/data/contact";
 
 const icons = { Mail, MapPin, Clock };
 
-// The channel list (labels, icons, notes) lives in lib/data/contact.js; the
-// email and location values come from the public profile so they match the
-// rest of the site.
-export default function ContactInfo({ profile }) {
-  const channels = contactChannels.map((channel) => {
-    if (channel.id === "email") {
-      return { ...channel, value: profile.email, href: `mailto:${profile.email}` };
-    }
-    if (channel.id === "location") return { ...channel, value: profile.location };
-    return channel;
-  });
+// The channel list (labels, icons, notes) lives in lib/data/contact.js. The
+// values come from the dashboard: email and location from the public
+// profile, the response time from the Contact page's text. A row whose
+// value is empty is left out.
+export default function ContactInfo({ profile, responseTime }) {
+  const channels = contactChannels
+    .map((channel) => {
+      if (channel.id === "email") {
+        return { ...channel, value: profile.email, href: `mailto:${profile.email}` };
+      }
+      if (channel.id === "location") return { ...channel, value: profile.location };
+      if (channel.id === "response-time") return { ...channel, value: responseTime };
+      return channel;
+    })
+    .filter((channel) => channel.value);
 
   return (
     <ul className="flex flex-col gap-8">
