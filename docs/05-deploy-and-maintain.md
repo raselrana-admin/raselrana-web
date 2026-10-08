@@ -80,6 +80,8 @@ These are already in place. Keep them when you change related code.
 | A dashboard-backed page shows the starter content | Its collection is empty or the database is unreachable, so the fallback is used | Check `MONGODB_URI`; sign in to `/admin` and import or add entries |
 | An entry is in the dashboard but not on the site | "Published" is unticked (it shows a Draft badge) | Edit the entry and tick Published |
 | A new download is not being counted | Its ID was changed, or it is a draft | Keep the ID stable and tick Published |
+| A download opens a Google "You need access" page | The Drive file is not shared publicly | In Drive, set the file's General access to "Anyone with the link" |
+| The "Updated" date on a download is old although you replaced the file | The file was replaced in Drive behind the same link, which the site cannot detect | Edit the entry and set Last updated |
 | An edit in the admin panel does not appear on the public page | The page is not marked as always fresh | Make sure the page has `export const dynamic = "force-dynamic";` |
 | Part of a page is blank until it "pops in" | An entrance animation hides content until JavaScript runs | Use the `rise` or `reveal` class instead of Motion's `initial={{ opacity: 0 }}` |
 | Headings appear in the wrong font | The font class is misspelled, or the `@theme` block in `globals.css` was changed | Use `font-display`, `font-body` or `font-mono`; restore the `@theme` block |

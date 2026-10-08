@@ -23,6 +23,7 @@ function defaults() {
     location: siteInfo.location,
     coordinates: siteInfo.coordinates,
     email: siteInfo.email,
+    phone: siteInfo.phone,
     socialLinks: socialLinks
       .filter((l) => /^https?:\/\//i.test(l.href || ""))
       .map((l) => ({ label: l.label, url: l.href })),
@@ -39,10 +40,16 @@ function pick(doc) {
 export const getSiteProfile = cache(async () => {
   try {
     const doc = await (await getDb()).collection(SETTINGS).findOne({ _id: DOC_ID });
-    return doc ? { ...defaults(), ...pick(doc) } : defaults();
+    if (!doc) return { ...defaults(), updatedAt: null };
+    return {
+      ...defaults(),
+      ...pick(doc),
+      // When the profile was last saved (ISO text), or null if never
+      updatedAt: doc.updatedAt instanceof Date ? doc.updatedAt.toISOString() : null,
+    };
   } catch (err) {
     console.error("Failed to fetch site profile:", err);
-    return defaults();
+    return { ...defaults(), updatedAt: null };
   }
 });
 

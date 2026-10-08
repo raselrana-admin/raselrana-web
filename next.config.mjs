@@ -33,6 +33,17 @@ const nextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
+  async redirects() {
+    return [
+      // The contact card used to be a file in public/documents. It is now
+      // generated from the public profile; this keeps the old address alive.
+      {
+        source: "/documents/Rasel_Rana.vcf",
+        destination: "/contact-card.vcf",
+        permanent: false,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {

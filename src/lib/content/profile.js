@@ -12,5 +12,6 @@ export const PROFILE_FIELDS = [
   { name: "location", label: "Location", type: "text", required: true },
   { name: "coordinates", label: "Coordinates", type: "text", help: "Optional. Shown in the footer." },
   { name: "email", label: "Public contact email", type: "email", help: "Shown on the site. This is not your login email." },
+  { name: "phone", label: "Phone", type: "text", help: "Optional. Used only in the contact card and its QR code, e.g. +880 1550 151897. Leave empty to keep your number off the site." },
   { name: "socialLinks", label: "Social links", type: "links", withType: false, help: "Shown under Connect in the footer." },
 ];

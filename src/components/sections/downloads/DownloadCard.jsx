@@ -1,4 +1,9 @@
 import DownloadButton from "@/components/ui/DownloadButton";
+import { fileLinks, formatDate } from "@/lib/file-links";
+import ContactCardPreview from "./ContactCardPreview";
+
+const previewButtonClass =
+  "inline-flex items-center rounded-full border border-[var(--line)] px-5 py-2.5 text-sm font-medium text-[var(--ink)] transition-colors hover:border-[var(--signal)] hover:text-[var(--signal)]";
 
 function FileIcon() {
   return (
@@ -19,7 +24,13 @@ function FileIcon() {
   );
 }
 
-export default function DownloadCard({ item, count = 0 }) {
+// `contact` is given for contact cards (.vcf): { details, qr } for the
+// preview dialog. See views/downloads/DownloadsView.jsx.
+export default function DownloadCard({ item, count = 0, contact }) {
+  // Google Drive links are turned into direct-download and viewer addresses
+  const links = fileLinks(item.fileUrl, item.fileType);
+  const updated = formatDate(item.lastUpdated);
+
   return (
     <div className="reveal flex flex-col gap-5 rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-7">
       <div className="flex items-start justify-between">
@@ -47,9 +58,9 @@ export default function DownloadCard({ item, count = 0 }) {
             <span aria-hidden="true">·</span>
           </>
         )}
-        {item.lastUpdated && (
+        {updated && (
           <>
-            <span>Updated {item.lastUpdated}</span>
+            <span>Updated {updated}</span>
             <span aria-hidden="true">·</span>
           </>
         )}
@@ -60,7 +71,7 @@ export default function DownloadCard({ item, count = 0 }) {
 
       <div className="mt-auto flex flex-wrap gap-3 pt-2">
         <DownloadButton
-          href={item.fileUrl}
+          href={links.download}
           fileName={item.fileName}
           // `key` is the document's ID from the dashboard; counts are stored under it
           docId={item.key}
@@ -68,14 +79,20 @@ export default function DownloadCard({ item, count = 0 }) {
           variant="solid"
           eventName={`${item.key}_download`}
         />
-        <a
-          href={item.fileUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center rounded-full border border-[var(--line)] px-5 py-2.5 text-sm font-medium text-[var(--ink)] transition-colors hover:border-[var(--signal)] hover:text-[var(--signal)]"
-        >
-          Preview
-        </a>
+        {contact ? (
+          <ContactCardPreview contact={contact} className={previewButtonClass} />
+        ) : (
+          links.preview && (
+            <a
+              href={links.preview}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={previewButtonClass}
+            >
+              Preview
+            </a>
+          )
+        )}
       </div>
     </div>
   );
