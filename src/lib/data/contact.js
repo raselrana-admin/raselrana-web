@@ -30,6 +30,7 @@ export const contactChannels = [
   {
     id: "response-time",
     label: "Response time",
+    // Starting value only: editable in the dashboard (Settings → Contact page)
     value: "Within 4–5 business days",
     href: null,
     icon: "Clock",

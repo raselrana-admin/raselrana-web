@@ -1,16 +1,17 @@
 import SectionHeader from "@/components/ui/SectionHeader";
-import { aboutFocus } from "@/lib/data/about";
 
-export default function AboutFocus() {
+export default function AboutFocus({ heading, principles }) {
+  if (principles.length === 0) return null;
+
   return (
     <section className="border-t border-[var(--line)] py-20 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <SectionHeader eyebrow="Approach" heading={aboutFocus.heading} />
+        <SectionHeader eyebrow="Approach" heading={heading} />
 
         <div className="reveal mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {aboutFocus.principles.map((item, i) => (
+          {principles.map((item, i) => (
             <div
-              key={item.title}
+              key={item.id}
               className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-7"
             >
               <span className="font-mono text-xs text-[var(--signal)]">

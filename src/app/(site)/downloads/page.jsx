@@ -1,5 +1,5 @@
-import PageHeader from "@/components/ui/PageHeader";
 import DownloadsView from "@/views/downloads/DownloadsView";
+import PageHeading from "@/views/layout/PageHeading";
 
 export const metadata = {
   title: "Downloads | Rasel Rana",
@@ -15,11 +15,7 @@ export const dynamic = "force-dynamic";
 export default function DownloadsPage() {
   return (
     <>
-      <PageHeader
-        eyebrow="Downloads"
-        heading="Portfolio & documents"
-        intro="Grab a copy of my professional portfolio, or save my contact card directly to your device."
-      />
+      <PageHeading page="downloads" />
       <DownloadsView />
     </>
   );

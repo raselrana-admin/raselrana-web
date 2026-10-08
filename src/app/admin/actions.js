@@ -11,6 +11,7 @@ import { hasSessionSecret } from "@/lib/auth/session-token";
 import { createUploadSignature, isCloudinaryConfigured } from "@/lib/cloudinary";
 import { normalizeFields } from "@/lib/content/fields";
 import { getModule } from "@/lib/content/modules";
+import { PAGE_TEXT, hasPageText } from "@/lib/content/page-text";
 import { PROFILE_FIELDS } from "@/lib/content/profile";
 import {
   changePassword,
@@ -18,6 +19,7 @@ import {
   updateAccountProfile,
 } from "@/lib/services/admin-account";
 import { deleteEntry, importStarter, saveEntry } from "@/lib/services/content-service";
+import { savePageText } from "@/lib/services/page-text";
 import { saveSiteProfile } from "@/lib/services/site-profile";
 
 // Every action except login must call requireAdmin() first — Server Actions
@@ -131,6 +133,31 @@ export async function getUploadSignatureAction() {
     };
   }
   return createUploadSignature();
+}
+
+// ---- Page text (headings, intros) ----------------------------------------
+
+export async function savePageTextAction(_prevState, formData) {
+  await requireAdmin();
+
+  const page = String(formData.get("page") || "");
+  if (!hasPageText(page)) return { error: "Unknown page." };
+
+  const { fields } = PAGE_TEXT[page];
+  const { data, errors } = normalizeFields(fields, rawValues(fields, formData));
+  if (Object.keys(errors).length > 0) {
+    return { error: "Please fix the highlighted fields.", fieldErrors: errors };
+  }
+
+  try {
+    await savePageText(page, data);
+  } catch (err) {
+    console.error("[admin] savePageText failed:", err);
+    return { error: "Could not save. Please try again." };
+  }
+
+  refreshSite();
+  return { ok: true, savedAt: Date.now() };
 }
 
 // ---- Public profile ------------------------------------------------------

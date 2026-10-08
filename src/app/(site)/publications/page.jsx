@@ -1,5 +1,4 @@
-import PageHeader from "@/components/ui/PageHeader";
-import { publicationsPage } from "@/lib/data/publications";
+import PageHeading from "@/views/layout/PageHeading";
 import PublicationsView from "@/views/publications/PublicationsView";
 
 export const metadata = {
@@ -14,7 +13,7 @@ export const dynamic = "force-dynamic";
 export default function PublicationsPage() {
   return (
     <>
-      <PageHeader {...publicationsPage} />
+      <PageHeading page="publications" />
       <PublicationsView />
     </>
   );

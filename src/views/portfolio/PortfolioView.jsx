@@ -1,12 +1,11 @@
 import PortfolioDocument from "@/components/sections/portfolio/PortfolioDocument";
 import DownloadButton from "@/components/ui/DownloadButton";
-import PageHeader from "@/components/ui/PageHeader";
-import { portfolioPage } from "@/lib/data/portfolio";
 import { siteInfo } from "@/lib/data/site";
 import { formatDate, isPortfolioFile } from "@/lib/file-links";
 import { buildPortfolio, portfolioFileName } from "@/lib/portfolio";
 import { getEntries } from "@/lib/services/content-service";
 import { getSiteProfile } from "@/lib/services/site-profile";
+import PageHeading from "@/views/layout/PageHeading";
 
 // Server Component — reads the portfolio from MongoDB. Lives in views/
 // because it touches the database; see DownloadsView.
@@ -25,7 +24,7 @@ export default async function PortfolioView() {
 
   return (
     <>
-      <PageHeader {...portfolioPage}>
+      <PageHeading page="portfolio">
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
           <DownloadButton
             href="/portfolio.pdf"
@@ -39,7 +38,7 @@ export default async function PortfolioView() {
             <p className="font-mono text-xs text-[var(--slate)]">Updated {updated}</p>
           )}
         </div>
-      </PageHeader>
+      </PageHeading>
       <PortfolioDocument portfolio={portfolio} />
     </>
   );

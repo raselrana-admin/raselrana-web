@@ -1,6 +1,5 @@
-import PageHeader from "@/components/ui/PageHeader";
-import { experienceIntro } from "@/lib/data/experience";
 import ExperienceView from "@/views/experience/ExperienceView";
+import PageHeading from "@/views/layout/PageHeading";
 
 export const metadata = {
   title: "Experience | Rasel Rana",
@@ -15,11 +14,7 @@ export const dynamic = "force-dynamic";
 export default function ExperiencePage() {
   return (
     <>
-      <PageHeader
-        eyebrow={experienceIntro.eyebrow}
-        heading={experienceIntro.heading}
-        intro={experienceIntro.summary}
-      />
+      <PageHeading page="experience" />
       <ExperienceView />
     </>
   );

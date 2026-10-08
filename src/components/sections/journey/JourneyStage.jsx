@@ -1,3 +1,5 @@
+import { toParagraphs } from "@/lib/text";
+
 export default function JourneyStage({ stage }) {
   return (
     <section
@@ -12,10 +14,11 @@ export default function JourneyStage({ stage }) {
       <h2 className="mt-3 font-display text-2xl font-semibold tracking-tight text-[var(--ink)] md:text-3xl">
         {stage.title}
       </h2>
-      <p className="mt-2 text-[var(--slate)]">{stage.summary}</p>
+      {stage.summary && <p className="mt-2 text-[var(--slate)]">{stage.summary}</p>}
 
       <div className="mt-6 space-y-4">
-        {stage.body.map((paragraph, i) => (
+        {/* The text is stored whole; an empty line starts a new paragraph */}
+        {toParagraphs(stage.body).map((paragraph, i) => (
           <p key={i} className="max-w-[65ch] leading-relaxed text-[var(--ink)]">
             {paragraph}
           </p>

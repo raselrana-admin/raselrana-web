@@ -15,7 +15,7 @@ Read the pages in this order the first time. Later, jump straight to the one you
 ## The project in one minute
 
 - It is a **Next.js** website (JavaScript, no TypeScript), styled with **Tailwind CSS**.
-- Content lives in one of two places. Things that change over time — **Achievements, Projects, Publications, Experience, Downloads** and your **public profile** — are in **MongoDB** and you edit them in the dashboard at `/admin`. Text that rarely changes — About, Journey, Skills, Education, Contact — is in plain files under `src/lib/data/`.
+- Almost all content is in **MongoDB** and you edit it in the dashboard at `/admin`: every page's entries, every page's heading, and your **public profile**. A few small pieces are still in plain files under `src/lib/data/`: some home page text, the Contact form wording, and the menu and footer page links.
 - The site is hosted on **Vercel**. Merging into the `main` branch publishes it.
 
 ## Three rules that prevent most mistakes
