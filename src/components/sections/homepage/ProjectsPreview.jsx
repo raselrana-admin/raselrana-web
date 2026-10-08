@@ -1,8 +1,9 @@
 import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
-import { featuredProjects } from "@/lib/data/home";
 
-export default function ProjectsPreview() {
+export default function ProjectsPreview({ projects }) {
+  if (projects.length === 0) return null;
+
   return (
     <section className="border-t border-[var(--line)] py-20 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
@@ -14,9 +15,9 @@ export default function ProjectsPreview() {
         />
 
         <div className="reveal mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
-          {featuredProjects.map((project) => (
+          {projects.map((project) => (
             <Link
-              key={project.title}
+              key={project.id}
               href={project.href}
               className="group flex h-full flex-col rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-7 transition-colors hover:border-[var(--signal)]"
             >

@@ -4,6 +4,8 @@
 // something real to render. Replace freely; the section components only
 // care about the shape of each object, not the values.
 
+// Starting values for the public profile. Once the profile is saved from the
+// dashboard (/admin/profile), the saved values are used instead.
 export const profile = {
   name: "Rasel Rana",
   role: "Manager (Technical)",
@@ -46,73 +48,8 @@ export const focusAreas = [
   },
 ];
 
-export const experiencePreview = [
-  {
-    role: "Manager (Technical)",
-    org: "Bangladesh Telecommunications Company Limited (BTCL)",
-    period: "Present",
-    summary:
-      "Overseeing technical operations and network reliability across an assigned region, coordinating maintenance and upgrade work.",
-  },
-  {
-    role: "Earlier role — update with real title",
-    org: "BTCL",
-    period: "20XX — 20XX",
-    summary:
-      "Placeholder for a previous position. Swap in the actual role, dates, and a one-line summary of the responsibility.",
-  },
-];
-
-export const featuredProjects = [
-  {
-    title: "Example Project One",
-    tag: "Network Infrastructure",
-    description:
-      "One or two sentences on what this project was, your role in it, and the outcome. Replace with a real project.",
-    href: "/projects#example-project-one",
-  },
-  {
-    title: "Example Project Two",
-    tag: "Power Systems",
-    description:
-      "Same format — short, concrete, outcome-focused. This is placeholder copy until real project details are ready.",
-    href: "/projects#example-project-two",
-  },
-  {
-    title: "Example Project Three",
-    tag: "Technical Planning",
-    description:
-      "A third placeholder slot. Three featured projects is a good starting number for the homepage; adjust as needed.",
-    href: "/projects#example-project-three",
-  },
-];
-
-export const achievementsPreview = [
-  {
-    stat: "99.9%",
-    year: "20XX",
-    title: "Network Uptime — Example",
-    description:
-      "Placeholder for a measurable result, e.g. sustained uptime across an assigned region over a given period. Swap the stat and copy for a real figure.",
-  },
-  {
-    stat: null,
-    year: "20XX",
-    title: "Award or Recognition — Example",
-    description:
-      "Placeholder for a named award, certification, or formal recognition from BTCL or an external body. Add the issuing organization if relevant.",
-  },
-  {
-    stat: null,
-    year: "20XX",
-    title: "Milestone Project — Example",
-    description:
-      "Placeholder for a completed initiative worth highlighting on its own — a rollout, upgrade, or fix with clear before/after impact.",
-  },
-];
-
+// The email shown here comes from the public profile (dashboard).
 export const contactCta = {
   heading: "Let's talk shop.",
   body: "Open to conversations on network engineering, telecom infrastructure, or technical collaboration.",
-  email: "contact@raselrana.com.bd",
 };

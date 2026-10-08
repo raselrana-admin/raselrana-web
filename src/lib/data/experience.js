@@ -100,12 +100,3 @@ export const experienceOrganizations = [
     ],
   },
 ];
-
-// Aggregated, de-duplicated tools/skills across every organization and position.
-export const experienceSkills = Array.from(
-  new Set(
-    experienceOrganizations.flatMap((org) =>
-      org.positions.flatMap((position) => position.tools),
-    ),
-  ),
-);

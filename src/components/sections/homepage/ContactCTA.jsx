@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { contactCta } from "@/lib/data/home";
 
-export default function ContactCTA() {
+export default function ContactCTA({ email }) {
   return (
     <section className="border-t border-[var(--line)] py-20 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
@@ -24,10 +24,10 @@ export default function ContactCTA() {
               Contact form
             </Link>
             <a
-              href={`mailto:${contactCta.email}`}
+              href={`mailto:${email}`}
               className="rounded-full border border-current px-6 py-3 text-sm font-medium opacity-80 transition-opacity hover:opacity-100"
             >
-              {contactCta.email}
+              {email}
             </a>
           </div>
         </div>

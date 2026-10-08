@@ -41,10 +41,18 @@ export default function DownloadCard({ item, count = 0 }) {
       </div>
 
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-[var(--slate)]">
-        <span>{item.fileSize}</span>
-        <span aria-hidden="true">·</span>
-        <span>Updated {item.lastUpdated}</span>
-        <span aria-hidden="true">·</span>
+        {item.fileSize && (
+          <>
+            <span>{item.fileSize}</span>
+            <span aria-hidden="true">·</span>
+          </>
+        )}
+        {item.lastUpdated && (
+          <>
+            <span>Updated {item.lastUpdated}</span>
+            <span aria-hidden="true">·</span>
+          </>
+        )}
         <span>
           {count} {count === 1 ? "download" : "downloads"}
         </span>
@@ -52,15 +60,16 @@ export default function DownloadCard({ item, count = 0 }) {
 
       <div className="mt-auto flex flex-wrap gap-3 pt-2">
         <DownloadButton
-          href={item.filePath}
+          href={item.fileUrl}
           fileName={item.fileName}
-          docId={item.id}
+          // `key` is the document's ID from the dashboard; counts are stored under it
+          docId={item.key}
           label="Download"
           variant="solid"
-          eventName={`${item.id}_download`}
+          eventName={`${item.key}_download`}
         />
         <a
-          href={item.filePath}
+          href={item.fileUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center rounded-full border border-[var(--line)] px-5 py-2.5 text-sm font-medium text-[var(--ink)] transition-colors hover:border-[var(--signal)] hover:text-[var(--signal)]"

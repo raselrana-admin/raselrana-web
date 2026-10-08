@@ -26,6 +26,3 @@ export const downloads = [
     lastUpdated: "2026-09-26",
   },
 ];
-
-// Convenience export — for anywhere you need just the portfolio document
-export const portfolioDownload = downloads.find((d) => d.id === "portfolio");

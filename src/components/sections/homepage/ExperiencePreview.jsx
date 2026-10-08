@@ -1,7 +1,8 @@
 import SectionHeader from "@/components/ui/SectionHeader";
-import { experiencePreview } from "@/lib/data/home";
 
-export default function ExperiencePreview() {
+export default function ExperiencePreview({ items }) {
+  if (items.length === 0) return null;
+
   return (
     <section className="border-t border-[var(--line)] py-20 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
@@ -13,9 +14,9 @@ export default function ExperiencePreview() {
         />
 
         <ol className="reveal mt-12 divide-y divide-[var(--line)] border-y border-[var(--line)]">
-          {experiencePreview.map((item) => (
+          {items.map((item) => (
             <li
-              key={item.role + item.period}
+              key={item.id}
               className="grid gap-2 py-8 md:grid-cols-[1fr_2fr] md:gap-16"
             >
               <p className="font-mono text-sm text-[var(--slate)]">

@@ -23,7 +23,8 @@ Copy `.env.example` to `.env.local`. All other `.env*` files are gitignored.
 - `MONGODB_URI` — required by anything that imports `src/lib/mongodb.js`, which throws at import time if it is missing. `/downloads` and `/api/downloads/track` therefore fail without it.
 - `MONGODB_DB` — defaults to `raselrana`.
 - `RESEND_API_KEY`, `CONTACT_EMAIL_TO` — contact form. `CONTACT_EMAIL_FROM` is optional and falls back to Resend's `onboarding@resend.dev` sender.
-- `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH`, `SESSION_SECRET` — admin login. Generate the last two with `npm run hash-password`. If any is missing (or the secret is under 32 characters) nobody can log in.
+- `SESSION_SECRET` — signs the admin session cookie (32+ characters). Required for any login.
+- `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` — the *starter* admin login, used until the account is saved from `/admin/account` (then the database copy wins) and again if that saved account is deleted. Generate the hash and the secret with `npm run hash-password`.
 - `BLOG_DOMAIN` — used by `next.config.mjs` to rewrite `/blog` and `/blog/*` to a separately deployed blog app. The blog is not part of this repo.
 
 ## Stack
@@ -39,43 +40,56 @@ Everything lives under `src/`, imported through the `@/*` alias (`jsconfig.json`
 
 ### Content is data, pages are composition
 
-The site is a content-driven portfolio with a strict three-layer split:
+Route files live in two places under `src/app/`: the public site in the `(site)/` route group (its `layout.jsx` adds the navbar and footer) and the dashboard in `admin/`. The root `layout.js` holds only `<html>`, fonts, theme and analytics. `not-found.jsx` sits at the root and brings the navbar/footer itself.
 
-1. `src/lib/data/<page>.js` — all copy and structured content as plain exported objects/arrays, plus derived values where needed. Editing site content means editing these files, not components.
-2. `src/components/sections/<page>/` — one component per page section, which imports its own data from `lib/data`. Sections take few or no props.
-3. `src/app/<route>/page.jsx` — thin Server Components that set `metadata` and stack section components.
+Pages follow a three-layer split:
 
-Adding a page means adding a data file, a `sections/<page>/` folder, and a `page.jsx`, then registering the route in `NAV_LINKS` in `src/components/layout/Navbar.jsx` (the mobile menu reuses `NAV_LINKS`). Footer links are data: `src/lib/data/site.js` holds the footer's link columns (`footerNav`) and external links (`socialLinks`, where an entry with an empty `href` stays hidden), so not every page is in the navbar.
+1. **Content** — either a code file in `src/lib/data/<page>.js` (About, Journey, Skills, Education, Contact copy, home "About"/"Focus areas" text, footer link columns) or MongoDB, edited in the dashboard (Achievements, Projects, Publications, Experience, Downloads, and the public profile). See "Dashboard content" below.
+2. `src/components/sections/<page>/` — one component per page section. Sections for code-file content import their own data; sections for dashboard content take props.
+3. `src/app/(site)/<route>/page.jsx` — thin Server Components that set `metadata` and stack sections (through a `views/` component when the content comes from MongoDB).
 
-Achievements are the exception to "content lives in `lib/data`": see "Achievements and the admin panel" below.
+Adding a code-file page means adding a data file, a `sections/<page>/` folder and a `page.jsx`, then linking it from `NAV_LINKS` in `src/components/layout/Navbar.jsx` (the mobile menu reuses it) and/or `footerNav` in `src/lib/data/site.js`, and adding the path to `src/app/sitemap.js`.
 
 ### Server/client boundary and the `views/` rule
 
 - `src/components/index.js` is a barrel that pages import sections from. It must only export components that are safe for a client bundle.
-- Anything that touches MongoDB (or other server-only code) goes in `src/views/`, not `src/components/`, and is imported by direct path. `src/views/downloads/DownloadsView.jsx` and `src/views/achievements/AchievementsView.jsx` are the examples: async Server Components that read from Mongo and pass plain data down to section components as props. Putting such a component in the barrel previously leaked the `mongodb` driver into a client bundle and broke the build.
+- Anything that touches MongoDB (or other server-only code) goes in `src/views/`, not `src/components/`, and is imported by direct path. Every dashboard-backed page has one (`views/home/HomeView.jsx`, `views/projects/ProjectsView.jsx`, `views/layout/SiteFooter.jsx`, …): async Server Components that read from Mongo and pass plain data down to section components as props. Putting such a component in the barrel previously leaked the `mongodb` driver into a client bundle and broke the build.
 - Section components are Server Components unless they need interactivity. Where Motion is needed, import it as `motion/react`.
 - `src/lib/use-is-mounted.js` (`useIsMounted`) is the way to hold back browser-only UI without a hydration mismatch; do not use `setState` in an effect for this.
 
 ### Downloads tracking
 
-`src/lib/data/downloads.js` lists the documents (files live in `public/documents/`). A click on `DownloadButton` fires a Vercel Analytics event and a `keepalive` POST to `/api/downloads/track`, which upserts a counter in the `download_stats` collection through `src/lib/services/downloads-service.js`. `/downloads` is `force-dynamic` so counts are read per request. Reads fail soft (empty counts) so the page renders when Mongo is down; tracking errors never block the download itself.
+The documents are a dashboard module (starter content in `src/lib/data/downloads.js`; a document's file address is a `/documents/...` path in `public/` or an `https://` link). A click on `DownloadButton` fires a Vercel Analytics event and a `keepalive` POST to `/api/downloads/track`, which upserts a counter in the `download_stats` collection through `src/lib/services/downloads-service.js`. `/downloads` is `force-dynamic` so counts are read per request. Reads fail soft (empty counts) so the page renders when Mongo is down; tracking errors never block the download itself.
 
-### Achievements and the admin panel
+### Dashboard content
 
-Achievement content lives in MongoDB and is edited at `/admin/achievements`.
+`/admin` is a separate app shell (`components/admin/shell/AdminShell.jsx`: sidebar, top bar, toasts) with an overview page, one screen per content module, a public-profile page and an account page.
 
-- Storage: one `achievements` collection, one document per item, told apart by `type` (`competition`, `judging`, `sports`, `leadership`, `press`, `affiliation`). All reads and writes go through `src/lib/services/achievements-service.js`.
-- `src/lib/achievements-schema.js` defines each type's fields. The admin form renders from it and `normalizeAchievement` validates against it, so adding a field means editing that file plus the section component that displays it.
-- `src/lib/data/achievements.js` is now only the starter content (much of it sample text, marked as such in the file header). The admin "Import starter content" button copies it into the collection once, next to any existing items; a marker document of type `_import` records that it ran. The public page falls back to this file only while the collection is completely empty or Mongo is unreachable.
-- `/achievements` and `/achievements/[slug]` are `force-dynamic`. The detail route serves competitions, judging and sports, so slugs are unique across those three types (enforced on save). Renaming or deleting a competition updates the press clippings that point at it.
-- Mutations are Server Actions in `src/app/admin/actions.js`, not API routes.
+**Modules.** `src/lib/content/modules.js` is the registry: one module = one MongoDB collection = one screen at `/admin/<key>` (served by `app/admin/(panel)/[module]/page.jsx`). Current modules: `achievements` (six entry types), `projects`, `publications`, `experience` (one document per role; grouped by organization in `views/experience/ExperienceView.jsx`), `downloads`. Every document has a `type`; every type gets a `published` tick box (unticked = hidden from the site).
 
-Auth is a single admin account with no auth library:
+- Field types and validation live in `src/lib/content/fields.js` (`normalizeFields`). The form (`components/admin/SchemaForm.jsx`) is drawn from the same field list, so adding a field to a type in `modules.js` (or `achievements-schema.js`) is enough for the dashboard; then display it in the section component.
+- `src/lib/services/content-service.js` does all reads and writes: `getEntries(key)` for public pages (published only; falls back to starter content when the collection is completely empty or Mongo is unreachable), `getAdminEntries`, `saveEntry`, `deleteEntry`, `importStarter`, `getOverview`. Fields marked `unique` are enforced on save. Module-specific rules (achievements: press follows a renamed/deleted competition, one featured press item) are in `src/lib/content/hooks.js`.
+- `src/lib/content/starter.js` maps the `lib/data` files to entries. It feeds both the fallback and the one-time "Import starter content" button (a marker document of type `_import` in each collection records that it ran).
+- `modules.js`, `fields.js`, `profile.js` and `achievements-schema.js` are imported by Client Components: plain data only. Server-only pieces (`hooks.js`, `starter.js`, services) must not be imported from them.
+- To add a module: register it in `modules.js`, add a starter mapping in `starter.js`, give the sidebar an icon in `AdminShell.jsx`, and read it on the public page with `getEntries()` from a `views/` component.
 
-- `src/lib/auth/session-token.js` signs and verifies an HMAC session cookie (`admin_session`, 7 days) with Web Crypto; `password.js` verifies a scrypt hash; `session.js` wraps `cookies()`; `login-attempts.js` blocks an IP after 5 failures in 15 minutes (stored in Mongo).
-- `src/proxy.js` (the Next 16 replacement for `middleware.js`) redirects signed-out requests under `/admin` to `/admin/login`. It is only the first gate: every admin page and every Server Action except login must also call `requireAdmin()`.
-- Pages that need a session go in the `src/app/admin/(panel)/` route group, whose layout checks the session and renders the admin bar. `/admin/login` sits outside it.
-- Admin components live in `src/components/admin/` and are not exported from the barrel.
+**Public profile.** One document (`settings` collection, `_id: "site-profile"`), fields in `src/lib/content/profile.js`, read with `getSiteProfile()` (`src/lib/services/site-profile.js`; defaults come from `lib/data/site.js` and `profile` in `lib/data/home.js`). Used by the home hero and contact panel, the footer, and the email/location rows on the Contact page.
+
+**Home page.** `views/home/HomeView.jsx` builds the previews from dashboard content: entries ticked "Show on the home page" (projects, roles, competitions), or the first few when none are ticked.
+
+**Freshness.** Achievements, Projects, Publications, Experience and Downloads pages are `force-dynamic`. Everything else under `(site)` is static with `revalidate = 3600` (set in `(site)/layout.jsx`, because the footer reads the profile). Every save calls `revalidatePath("/", "layout")`, so changes appear immediately.
+
+**Mutations** are Server Actions in `src/app/admin/actions.js`, not API routes.
+
+### Admin authentication
+
+One admin account, no auth library.
+
+- The account is a document in `settings` (`_id: "admin-account"`: email, name, passwordHash, sessionVersion), read through `src/lib/services/admin-account.js`. Until it exists, the account is built from `ADMIN_EMAIL` / `ADMIN_PASSWORD_HASH`. Deleting the document restores the environment login (the recovery path for a forgotten password).
+- `src/lib/auth/session-token.js` signs and verifies the HMAC cookie (`admin_session`, 7 days, payload `{ sub, v, exp }`) with Web Crypto; it has no database access so `src/proxy.js` can use it. `src/lib/auth/session.js` (`getSession`, `requireAdmin`) additionally requires the token's email and session version to match the account. Changing the password raises the version, ending every other session.
+- `src/proxy.js` (the Next 16 replacement for `middleware.js`) redirects requests without a genuine, unexpired cookie to `/admin/login`. It is only the first gate: every admin page and every Server Action except login must call `requireAdmin()`.
+- `password.js` hashes and verifies with scrypt; `login-attempts.js` blocks an IP after 5 failures in 15 minutes (also applied to "current password" checks on the account page).
+- Pages that need a session go in `src/app/admin/(panel)/`, whose layout checks the session and renders the shell. `/admin/login` sits outside it. Admin components live in `src/components/admin/` and are not exported from the barrel.
 
 ### Contact form
 
@@ -84,7 +98,7 @@ Auth is a single admin account with no auth library:
 ### Security
 
 - Public write endpoints are rate-limited per IP through `src/lib/services/rate-limit.js` (`isRateLimited`, Mongo-backed, fails open): contact form 5 per 10 minutes, download tracking 30 per 10 minutes. Use it for any new public endpoint that writes or sends.
-- `/api/downloads/track` only accepts ids listed in `lib/data/downloads.js`.
+- `/api/downloads/track` only accepts the `key` of a published Downloads entry (`getDownloadKeys()`, cached for a minute).
 - `next.config.mjs` sets security headers on every response, including `/blog`. The Content-Security-Policy is deliberately limited to `frame-ancestors`, `base-uri`, `form-action` and `object-src`; adding `script-src` would need nonces because Next and next-themes use inline scripts.
 - `next` is pinned to an exact version; check `npm audit --omit=dev` before releases. The remaining `npm audit` findings are in ESLint tooling only and are not shipped.
 
@@ -105,4 +119,4 @@ Note the two service locations: `src/services/` (email) and `src/lib/services/` 
 
 ### Still sample content
 
-Most `lib/data` files and many achievement entries in MongoDB still hold sample text (marked "Sample", "EXAMPLE", "TODO", "[Placeholder]" or "20XX"). `/projects`, `/skills`, `/education` and `/publications` are simple pages (shared `ui/PageHeader` plus one list section each) linked from the footer, not the navbar.
+Most `lib/data` files and most dashboard entries still hold sample text (marked "Sample", "EXAMPLE", "TODO", "[Placeholder]" or "20XX"). The dashboard overview lists the dashboard entries that still contain it. `/skills` and `/education` are simple code-file pages linked from the footer, not the navbar.

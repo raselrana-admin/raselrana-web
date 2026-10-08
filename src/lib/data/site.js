@@ -1,6 +1,9 @@
 // lib/data/site.js
-// Site-wide content used by the footer. Add a link by adding a line here —
-// no component changes needed.
+// Site-wide content. `footerNav` (the footer's page links) is always read
+// from here. `siteInfo` and `socialLinks` are only the starting values of the
+// public profile: once the profile is saved from the dashboard
+// (/admin/profile), the saved name, email, location and social links are
+// used instead. `siteInfo.url` is always read from here.
 
 export const siteInfo = {
   name: "Rasel Rana",

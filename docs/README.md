@@ -15,13 +15,12 @@ Read the pages in this order the first time. Later, jump straight to the one you
 ## The project in one minute
 
 - It is a **Next.js** website (JavaScript, no TypeScript), styled with **Tailwind CSS**.
-- Almost all text lives in plain files under `src/lib/data/`. To change what a page says, you edit one of those files.
-- The **Achievements** page is different: its content is in **MongoDB** and you edit it from the admin panel at `/admin`.
+- Content lives in one of two places. Things that change over time — **Achievements, Projects, Publications, Experience, Downloads** and your **public profile** — are in **MongoDB** and you edit them in the dashboard at `/admin`. Text that rarely changes — About, Journey, Skills, Education, Contact — is in plain files under `src/lib/data/`.
 - The site is hosted on **Vercel**. Merging into the `main` branch publishes it.
 
 ## Three rules that prevent most mistakes
 
-1. **Text goes in `src/lib/data/`, not inside components.** Components only decide how things look.
+1. **Content goes in the dashboard or in `src/lib/data/`, not inside components.** Components only decide how things look.
 2. **Code that talks to the database must never be imported by a browser component.** Keep it in `src/lib/services/` and `src/views/`. (Page 2 explains why.)
 3. **Never hide content until JavaScript runs.** Use the CSS classes `rise` and `reveal` for entrance animations. (Page 4 explains why.)
 
