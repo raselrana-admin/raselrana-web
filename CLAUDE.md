@@ -59,7 +59,7 @@ Adding a code-file page means adding a data file, a `sections/<page>/` folder an
 
 ### Downloads tracking
 
-The documents are a dashboard module (starter content in `src/lib/data/downloads.js`; a document's file address is a `/documents/...` path in `public/` or an `https://` link). A click on `DownloadButton` fires a Vercel Analytics event and a `keepalive` POST to `/api/downloads/track`, which upserts a counter in the `download_stats` collection through `src/lib/services/downloads-service.js`. `/downloads` is `force-dynamic` so counts are read per request. Reads fail soft (empty counts) so the page renders when Mongo is down; tracking errors never block the download itself.
+The documents are a dashboard module. No files are stored in the repo (there is no `public/` folder): an entry's file address is an `https://` link to a file hosted elsewhere, usually a Google Drive share link, which `fileLinks()` in `src/lib/file-links.js` turns into Drive's direct-download and viewer addresses. The contact card is the exception (see "Contact card"). "Last updated" is stamped with today's date by the `downloads.beforeSave` hook when an entry is new or its file address changes, unless the date was edited by hand in the same save. A click on `DownloadButton` fires a Vercel Analytics event and a `keepalive` POST to `/api/downloads/track`, which upserts a counter in the `download_stats` collection through `src/lib/services/downloads-service.js`. `/downloads` is `force-dynamic` so counts are read per request. Reads fail soft (empty counts) so the page renders when Mongo is down; tracking errors never block the download itself.
 
 ### Dashboard content
 
@@ -74,6 +74,8 @@ The documents are a dashboard module (starter content in `src/lib/data/downloads
 - To add a module: register it in `modules.js`, add a starter mapping in `starter.js`, give the sidebar an icon in `AdminShell.jsx`, and read it on the public page with `getEntries()` from a `views/` component.
 
 **Public profile.** One document (`settings` collection, `_id: "site-profile"`), fields in `src/lib/content/profile.js`, read with `getSiteProfile()` (`src/lib/services/site-profile.js`; defaults come from `lib/data/site.js` and `profile` in `lib/data/home.js`). Used by the home hero and contact panel, the footer, and the email/location rows on the Contact page.
+
+**Contact card.** `GET /contact-card.vcf` (`app/contact-card.vcf/route.js`) generates the vCard from the public profile with `src/lib/vcard.js`; the profile's optional `phone` is used only there. On the Downloads page a `.vcf` entry gets a "Preview & QR code" dialog (`sections/downloads/ContactCardPreview.jsx`) instead of an open-in-tab link: details plus a QR code of the same vCard, drawn server-side by `src/lib/qr.js` (the `qrcode` package). Only files a browser can display (PDF, images, Drive links) get the plain "Preview" link. The card's "Updated" date on the page is the profile's last-saved date. `/documents/Rasel_Rana.vcf` (the old static file) redirects to `/contact-card.vcf` in `next.config.mjs`.
 
 **Home page.** `views/home/HomeView.jsx` builds the previews from dashboard content: entries ticked "Show on the home page" (projects, roles, competitions), or the first few when none are ticked.
 

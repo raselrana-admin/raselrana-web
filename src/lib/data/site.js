@@ -11,6 +11,7 @@ export const siteInfo = {
   tagline:
     "Manager (Technical), BTCL — writing and building at the intersection of telecommunications and electrical engineering.",
   email: "contact@raselrana.com.bd",
+  phone: "+8801550151897", // contact card and its QR code only
   location: "Dhaka, Bangladesh",
   coordinates: "23.8103° N, 90.4125° E",
 };

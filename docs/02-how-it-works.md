@@ -6,9 +6,8 @@
 
 ```
 raselrana-web/
-├── public/documents/        Files visitors download (portfolio PDF, contact card)
 ├── scripts/                 hash-password.mjs (creates the starter admin password values)
-├── next.config.mjs          Security headers and the /blog redirect
+├── next.config.mjs          Security headers, the /blog redirect, the old contact-card address
 └── src/
     ├── proxy.js             Guards /admin: sends signed-out visitors to the login page
     ├── assets/              Images imported by code (your portrait)

@@ -60,12 +60,29 @@ Open `src/components/ui/NetworkMap.jsx`.
 - `CORE_LABEL` is the text under the centre node.
 - `NODES` is the list of outer nodes. Change a `label` to rename a field. `lx`, `ly` and `anchor` set where the label sits, so adjust them if a longer word overlaps a line.
 
-## Add a new downloadable document
+## Add or replace a downloadable document
 
-1. Make the file reachable. Either put it in `public/documents/` and publish the site (its address is then `/documents/<file name>`), or upload it somewhere else (Cloudinary, Google Drive) and copy its `https://` link.
-2. Dashboard → Downloads → Add document. Fill in the title, description, file address, file name and type.
+No files are stored in the project. A document on the Downloads page is a **link** to a file you keep somewhere else, such as Google Drive.
 
-The card and its download counter appear automatically. The **ID** field is the name the counter is stored under; leave it empty to generate one, and avoid changing it later, because the count restarts.
+**Add a document**
+
+1. Upload the file to Google Drive.
+2. Right-click it → Share → set "General access" to **Anyone with the link** → Copy link.
+3. Dashboard → Downloads → Add document. Paste the link into **File address**, and fill in the title, description, file name and type.
+
+The site turns a Google Drive link into a direct download for the Download button and into Drive's viewer for the Preview button, so you paste the normal share link.
+
+**"Last updated"** is filled in for you:
+
+- It is set to today when you add a document, and again whenever you change its file address.
+- If you replace the file in Google Drive **without** changing its link (Drive → right-click → File information → Manage versions → Upload new version), the site cannot know. Open the entry and change the date yourself.
+- A date you type by hand is always kept.
+
+A **Preview** button is shown only for files a browser can display: Google Drive links, PDFs and images.
+
+**The contact card is special.** Its file address is `/contact-card.vcf`, which is not a real file: the site builds it from your public profile each time (name, role, organization, phone, email, website, location). To change what the card and its QR code contain, edit Dashboard → Public profile. The phone number is used only in the card; leave it empty to keep your number off the site. The card's "Updated" date is the day you last saved your profile. On the Downloads page the card's button reads "Preview & QR code" and opens a panel with the details and a code that saves the contact when scanned with a phone camera.
+
+The **ID** field is the name the download counter is stored under; leave it empty to generate one, and avoid changing it later, because the count restarts.
 
 ## Add a new page
 

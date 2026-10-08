@@ -131,7 +131,7 @@ export const MODULES = {
   downloads: {
     key: "downloads",
     label: "Downloads",
-    description: "Documents offered on the Downloads page.",
+    description: "Documents offered on the Downloads page. Files are not stored on the site: each entry links to a file hosted elsewhere, such as Google Drive.",
     collection: "downloads",
     publicPath: "/downloads",
     types: withPublished({
@@ -144,11 +144,11 @@ export const MODULES = {
           { name: "title", label: "Title", type: "text", required: true },
           { name: "key", label: "ID", type: "slug", unique: true, help: "Short name used to count downloads. Leave empty to generate it. Changing it later restarts the count." },
           { name: "description", label: "Description", type: "textarea", required: true },
-          { name: "fileUrl", label: "File address", type: "file", help: "A file in the project, e.g. /documents/Rasel_Rana_Portfolio.pdf, or a full https:// link to a file hosted elsewhere." },
+          { name: "fileUrl", label: "File address", type: "file", help: "The share link of the file, e.g. from Google Drive (shared as \"Anyone with the link\"). For the contact card use /contact-card.vcf." },
           { name: "fileName", label: "File name", type: "text", required: true, help: "The name the file is saved as, e.g. Rasel_Rana_CV.pdf." },
           { name: "fileType", label: "File type", type: "text", required: true, help: "e.g. PDF." },
           { name: "fileSize", label: "File size", type: "text", help: "e.g. 120 KB." },
-          { name: "lastUpdated", label: "Last updated", type: "date" },
+          { name: "lastUpdated", label: "Last updated", type: "date", help: "Set to today automatically when you add the document or change its file address. If you replace the file in Google Drive without changing the link, change this date yourself." },
           orderField,
         ],
       },

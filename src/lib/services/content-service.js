@@ -136,6 +136,10 @@ export async function saveEntry(moduleKey, typeKey, id, data) {
   if (objectId) {
     previous = await collection.findOne({ _id: objectId, type: typeKey });
     if (!previous) return { error: "That entry no longer exists." };
+  }
+  HOOKS[moduleKey]?.beforeSave?.(data, previous);
+
+  if (objectId) {
     await collection.updateOne({ _id: objectId }, { $set: { ...data, updatedAt: now } });
   } else {
     const result = await collection.insertOne({
