@@ -33,9 +33,16 @@ If the file is missing, copy `.env.example` to `.env.local` and fill in the valu
 | `SESSION_SECRET` | A random secret that signs the login cookie | Nobody can sign in |
 | `ADMIN_EMAIL` | The **starter** email for signing in to `/admin` | Nobody can sign in the first time |
 | `ADMIN_PASSWORD_HASH` | A scrambled form of the **starter** password | Nobody can sign in the first time |
+| `CLOUDINARY_CLOUD_NAME` | Your Cloudinary account name | Photos cannot be uploaded from the dashboard |
+| `CLOUDINARY_API_KEY` | Cloudinary API key | Photos cannot be uploaded from the dashboard |
+| `CLOUDINARY_API_SECRET` | Cloudinary API secret. Keep it private | Photos cannot be uploaded from the dashboard |
 | `BLOG_DOMAIN` | Address of the separate blog app | The `/blog` link does not work |
 
 After changing `.env.local`, stop and restart `npm run dev`.
+
+### Finding the Cloudinary values
+
+Sign in to Cloudinary → **Settings** (the gear) → **API Keys**. The page shows the cloud name, the API key and (after you click to reveal it) the API secret. Copy the three into `.env.local` and into Vercel. Photos already uploaded keep showing even without these values; they are only needed for uploading new ones.
 
 ### Creating the admin password values
 

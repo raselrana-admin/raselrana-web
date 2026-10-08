@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import CloudImage from "@/components/ui/CloudImage";
 import ExternalLinks from "@/components/ui/ExternalLinks";
+import { cldUrl } from "@/lib/cloudinary-url";
 import {
   findAchievement,
   getAchievementsData,
@@ -62,6 +64,19 @@ export default async function AchievementDetailPage({ params }) {
           Organized by {item.organizer}, {item.displayDate}
         </p>
 
+        {item.cover && (
+          <div className="relative mt-10 aspect-[16/9] overflow-hidden rounded-2xl border border-[var(--line)]">
+            <CloudImage
+              image={item.cover}
+              alt={item.title}
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="object-cover"
+            />
+          </div>
+        )}
+
         {item.description ? (
           <p className="mt-10 max-w-[60ch] leading-relaxed text-[var(--slate)]">
             {item.description}
@@ -70,6 +85,40 @@ export default async function AchievementDetailPage({ params }) {
           <p className="mt-10 max-w-[60ch] leading-relaxed text-[var(--slate)]">
             The full story is coming soon.
           </p>
+        )}
+
+        {item.gallery?.length > 0 && (
+          <section className="mt-12">
+            <h2 className="font-display text-xl text-[var(--ink)]">Photos</h2>
+            <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {item.gallery.map((photo, index) => (
+                <li key={photo.url}>
+                  {/* Opens the full-size photo in a new tab */}
+                  <a
+                    href={cldUrl(photo.url, { width: 2000 })}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block"
+                  >
+                    <div className="relative aspect-square overflow-hidden rounded-xl border border-[var(--line)]">
+                      <CloudImage
+                        image={photo}
+                        alt={photo.caption || `${item.title}, photo ${index + 1}`}
+                        fill
+                        sizes="(max-width: 640px) 50vw, 240px"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    {photo.caption && (
+                      <p className="mt-2 text-xs leading-relaxed text-[var(--slate)]">
+                        {photo.caption}
+                      </p>
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
         )}
 
         <div className="mt-12">

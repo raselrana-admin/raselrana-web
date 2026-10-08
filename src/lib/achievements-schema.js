@@ -9,6 +9,8 @@ const eventFields = [
   { name: "displayDate", label: "Display date", type: "text", required: true, help: "What visitors see, e.g. 5–6 May 2016." },
   { name: "organizer", label: "Organizer", type: "text", required: true },
   { name: "description", label: "Description", type: "textarea", help: "Shown on the detail page." },
+  { name: "cover", label: "Cover photo", type: "image", help: "Shown at the top of the detail page, and on the card for champions." },
+  { name: "gallery", label: "Photo gallery", type: "gallery", help: "More photos for the detail page. A caption describes the photo for visitors who cannot see it." },
   { name: "links", label: "Links", type: "links" },
 ];
 

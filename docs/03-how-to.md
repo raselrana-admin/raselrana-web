@@ -5,6 +5,7 @@
 Step-by-step instructions for the changes you are most likely to make. After any change, run `npm run lint` and `npm run build` before pushing.
 
 - [Change the text on a page](#change-the-text-on-a-page)
+- [Add photos](#add-photos)
 - [Edit the portfolio](#edit-the-portfolio)
 - [Add or change a footer or social link](#add-or-change-a-footer-or-social-link)
 - [Change the navbar links](#change-the-navbar-links)
@@ -44,6 +45,26 @@ The code files are mostly lists. To add an item, copy an existing block `{ ... }
 A few headings are written inside components instead of data files, for example "What I work on" on the home page (`sections/homepage/FocusAreas.jsx`). Search the `src` folder for the exact words to find them.
 
 Note: `projects.js`, `publications.js`, `experience.js`, `downloads.js` and `achievements.js` in `lib/data` now hold only the **starter content** (plus the page heading). After you import it into the dashboard, editing the lists in those files changes nothing on the site.
+
+## Add photos
+
+- **Your portrait:** Dashboard → Public profile → Portrait → Upload photo → Save profile. It appears on the About page. A photo taller than it is wide works best.
+- **An achievement:** Dashboard → Achievements → edit a competition, judging or sports entry. **Cover photo** is shown at the top of its page (and on the card, for champions). **Photo gallery** takes several photos at once; give each a caption, which also describes the photo to visitors who cannot see it.
+- Remember to press **Save** after uploading. An uploaded photo is only attached to the entry when the entry is saved.
+
+Limits: JPG, PNG, WebP or AVIF, up to 10 MB each, up to 24 photos in a gallery.
+
+To let another kind of entry have a photo, add a field of type `image` or `gallery` to it in `src/lib/content/modules.js` (see "Add a field to dashboard content"), then show it in the page component with `CloudImage`:
+
+```jsx
+import CloudImage from "@/components/ui/CloudImage";
+
+{project.cover && (
+  <div className="relative aspect-[16/9] overflow-hidden rounded-xl">
+    <CloudImage image={project.cover} alt={project.title} fill sizes="(max-width: 768px) 100vw, 560px" className="object-cover" />
+  </div>
+)}
+```
 
 ## Edit the portfolio
 
@@ -218,6 +239,8 @@ Available field types (defined in `src/lib/content/fields.js`):
 | `select` | Dropdown | Needs `options: ["A", "B"]` |
 | `checkbox` | Tick box | Saved as true/false. `default: true` starts it ticked |
 | `links` | Repeating rows of type, label, address | `withType: false` gives label and address only |
+| `image` | Upload button with a preview | One photo, stored in Cloudinary |
+| `gallery` | Upload button, photo grid with captions | Several photos, stored in Cloudinary |
 | `slug` | Address name | Lower-case with dashes; generated from the title if left empty |
 
 Add `required: true` to make a field compulsory, and `unique: true` to forbid two entries with the same value.

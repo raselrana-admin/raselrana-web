@@ -8,6 +8,7 @@ import { isLoginBlocked, recordLoginFailure } from "@/lib/auth/login-attempts";
 import { verifyPassword } from "@/lib/auth/password";
 import { endSession, requireAdmin, startSession } from "@/lib/auth/session";
 import { hasSessionSecret } from "@/lib/auth/session-token";
+import { createUploadSignature, isCloudinaryConfigured } from "@/lib/cloudinary";
 import { normalizeFields } from "@/lib/content/fields";
 import { getModule } from "@/lib/content/modules";
 import { PROFILE_FIELDS } from "@/lib/content/profile";
@@ -114,6 +115,22 @@ export async function importStarterAction(formData) {
   await requireAdmin();
   await importStarter(String(formData.get("module") || ""));
   refreshSite();
+}
+
+// ---- Image uploads -------------------------------------------------------
+
+// Gives a signed-in admin a short-lived signature for ONE kind of upload:
+// an image into the site's Cloudinary folder. The browser then sends the
+// file directly to Cloudinary; the API secret stays on the server.
+export async function getUploadSignatureAction() {
+  await requireAdmin();
+  if (!isCloudinaryConfigured()) {
+    return {
+      error:
+        "Image uploads are not set up yet: add CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET to the site settings.",
+    };
+  }
+  return createUploadSignature();
 }
 
 // ---- Public profile ------------------------------------------------------

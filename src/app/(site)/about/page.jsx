@@ -5,6 +5,7 @@ import {
   AboutHighlights,
   AboutStory,
 } from "@/components";
+import { getSiteProfile } from "@/lib/services/site-profile";
 
 export const metadata = {
   title: "About | Rasel Rana",
@@ -12,10 +13,13 @@ export const metadata = {
     "About Rasel Rana, Manager (Technical) at BTCL — background, way of working, and career so far.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  // The portrait comes from the public profile (dashboard)
+  const profile = await getSiteProfile();
+
   return (
     <>
-      <AboutHero />
+      <AboutHero photo={profile.photo} name={profile.name} />
       <AboutStory />
       <AboutFocus />
       <AboutHighlights />

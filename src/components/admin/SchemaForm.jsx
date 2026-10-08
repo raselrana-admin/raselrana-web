@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { LINK_TYPES, initialValues } from "@/lib/content/fields";
+import { GalleryInput, ImageInput } from "./ImageInputs";
 import { useToast } from "./Toast";
 import {
   errorClass,
@@ -165,6 +166,22 @@ export default function SchemaForm({
             />
           </>
         );
+      case "image":
+        return (
+          <ImageInput
+            field={field}
+            value={values[field.name]}
+            onChange={(image) => set(field.name, image)}
+          />
+        );
+      case "gallery":
+        return (
+          <GalleryInput
+            field={field}
+            value={values[field.name]}
+            onChange={(images) => set(field.name, images)}
+          />
+        );
       case "date":
         return <input {...common} type="date" />;
       case "number":
@@ -206,7 +223,11 @@ export default function SchemaForm({
         return (
           <div key={field.name} className="flex flex-col gap-2">
             <label
-              htmlFor={field.type === "links" ? undefined : `field-${field.name}`}
+              htmlFor={
+                ["links", "image", "gallery"].includes(field.type)
+                  ? undefined
+                  : `field-${field.name}`
+              }
               className={labelClass}
             >
               {field.label}

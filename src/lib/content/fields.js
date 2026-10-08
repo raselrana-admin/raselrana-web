@@ -15,8 +15,12 @@
 //   checkbox  true / false
 //   list      textarea, one item per line -> array of strings
 //   links     rows of { type, label, url }; `withType: false` -> { label, url }
+//   image     one uploaded photo -> { url, publicId, width, height } or null
+//   gallery   several uploaded photos, each with a caption -> array of those
 //   slug      lower-case-with-dashes; empty -> generated from the title field
 //   competition  slug of a competition (achievements press only)
+
+import { cleanImage } from "@/lib/cloudinary-url";
 
 export const LINK_TYPES = [
   { value: "youtube", label: "Video (YouTube)" },
@@ -76,6 +80,16 @@ function cleanLinks(raw, field, errors) {
   return links;
 }
 
+function parseJson(value, fallback) {
+  if (typeof value !== "string") return value ?? fallback;
+  if (!value) return fallback;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return undefined; // unreadable
+  }
+}
+
 /** Starting values for a form: the item's values, or each field's default. */
 export function initialValues(fields, item) {
   return Object.fromEntries(
@@ -83,7 +97,10 @@ export function initialValues(fields, item) {
       const value = item?.[field.name];
       switch (field.type) {
         case "links":
+        case "gallery":
           return [field.name, Array.isArray(value) ? value : []];
+        case "image":
+          return [field.name, value && typeof value === "object" ? value : null];
         case "list":
           return [field.name, Array.isArray(value) ? value.join("\n") : ""];
         case "checkbox":
@@ -115,6 +132,30 @@ export function normalizeFields(fields, raw, { titleField } = {}) {
       case "links":
         data[field.name] = cleanLinks(value ?? [], field, errors);
         break;
+      case "image": {
+        const parsed = parseJson(value, null);
+        const image = parsed ? cleanImage(parsed) : null;
+        if (parsed && !image) errors[field.name] = `${field.label} could not be read. Upload it again.`;
+        if (!parsed && field.required) errors[field.name] = requiredError;
+        data[field.name] = image;
+        break;
+      }
+      case "gallery": {
+        const parsed = parseJson(value, []);
+        if (!Array.isArray(parsed)) {
+          errors[field.name] = `${field.label} could not be read.`;
+          data[field.name] = [];
+          break;
+        }
+        data[field.name] = parsed
+          .slice(0, 24)
+          .map((item) => {
+            const image = cleanImage(item);
+            return image && { ...image, caption: String(item.caption || "").trim().slice(0, 200) };
+          })
+          .filter(Boolean);
+        break;
+      }
       case "list":
         data[field.name] = String(typeof value === "string" ? value : "")
           .split(/\r?\n/)

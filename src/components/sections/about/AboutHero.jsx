@@ -1,8 +1,11 @@
 import RaselPhoto from "@/assets/Rasel_profile_photo.jpg";
+import CloudImage from "@/components/ui/CloudImage";
 import { aboutHero } from "@/lib/data/about";
 import Image from "next/image";
 
-export default function AboutHero() {
+// `photo` is the portrait uploaded in Dashboard → Public profile. Until one
+// is uploaded, the portrait bundled with the site is shown.
+export default function AboutHero({ photo, name = "Rasel Rana" }) {
   return (
     <section className="bg-[var(--paper)]">
       <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-12 px-6 pt-16 pb-16 md:pt-24 md:pb-20 lg:grid-cols-[1.2fr_0.8fr] lg:gap-16">
@@ -41,15 +44,26 @@ export default function AboutHero() {
             className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl border border-[var(--signal)] opacity-40"
           />
           <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--line)]">
-            <Image
-              src={RaselPhoto}
-              alt="Portrait of Rasel Rana"
-              fill
-              priority
-              placeholder="blur"
-              sizes="(max-width: 768px) 80vw, 400px"
-              className="object-cover object-top"
-            />
+            {photo ? (
+              <CloudImage
+                image={photo}
+                alt={`Portrait of ${name}`}
+                fill
+                priority
+                sizes="(max-width: 768px) 80vw, 400px"
+                className="object-cover object-top"
+              />
+            ) : (
+              <Image
+                src={RaselPhoto}
+                alt={`Portrait of ${name}`}
+                fill
+                priority
+                placeholder="blur"
+                sizes="(max-width: 768px) 80vw, 400px"
+                className="object-cover object-top"
+              />
+            )}
           </div>
         </div>
       </div>
