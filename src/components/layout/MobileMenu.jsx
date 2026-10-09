@@ -43,9 +43,20 @@ export default function MobileMenu({ links, pathname, onClose }) {
           <button
             onClick={onClose}
             aria-label="Close menu"
-            className="text-[var(--ink)]"
+            className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--line)] text-[var(--ink)] transition-colors hover:border-[var(--signal)]"
           >
-            ✕
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              aria-hidden
+            >
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
           </button>
         </div>
 
@@ -69,14 +80,6 @@ export default function MobileMenu({ links, pathname, onClose }) {
             );
           })}
         </ul>
-
-        <Link
-          href="/downloads"
-          onClick={onClose}
-          className="mt-6 rounded-md border border-[var(--ink)] py-2.5 text-center font-[family-name:var(--font-mono)] text-xs uppercase tracking-wide text-[var(--ink)]"
-        >
-          Download CV
-        </Link>
       </motion.nav>
     </motion.div>,
     document.body,
