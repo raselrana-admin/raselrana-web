@@ -1,5 +1,3 @@
-import Footer from "@/components/layout/Footer";
-import Navbar from "@/components/layout/Navbar";
 import ThemeProvider from "@/components/theme/ThemeProvider";
 import { Analytics } from "@vercel/analytics/next";
 import { plexMono, plexSans, spaceGrotesk } from "./fonts";
@@ -20,9 +18,9 @@ export default function RootLayout({ children }) {
     >
       <body className="bg-[var(--paper)] font-[family-name:var(--font-body)] text-[var(--ink)]">
         <ThemeProvider>
-          <Navbar />
+          {/* Navbar and Footer are left out while the site is under
+              development: every address shows one page (see src/proxy.js) */}
           <main className="min-h-screen">{children}</main>
-          <Footer />
         </ThemeProvider>
         <Analytics />
       </body>
