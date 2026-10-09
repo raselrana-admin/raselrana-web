@@ -216,7 +216,7 @@ Logo, name and one line of description; a "Blog" column (Posts, Topics); a "Rase
 | Address (under `/blog`) | What it shows |
 | --- | --- |
 | `/` | Blog home: page header, search box, topic chips, the newest post as a large feature card with its cover, the rest as a card grid, pagination |
-| `/posts/[slug]` | One post (section 6) |
+| `/[slug]` | One post (section 6) |
 | `/tags` | All topics with the number of posts in each |
 | `/tags/[tag]` | Posts for one topic |
 | `/about` | Short "about the author" with links to the main site's About and Contact pages |
@@ -236,7 +236,7 @@ Cover image (16:9, rounded, optional), topic chips, title, excerpt (two or three
 - **Reading progress bar:** a thin `--signal` line at the very top of the window that fills as the reader scrolls the article.
 - **Table of contents:** built from the post's `##` and `###` headings; the heading currently on screen is highlighted; clicking scrolls to it. Hide it when a post has fewer than three headings.
 - **Reading time:** words ÷ 200, rounded up, minimum 1.
-- **Share row** at the end: Copy link (with a "Copied" confirmation), LinkedIn, Facebook. Use the public address, `https://raselrana.com.bd/blog/posts/<slug>`.
+- **Share row** at the end: Copy link (with a "Copied" confirmation), LinkedIn, Facebook. Use the public address, `https://raselrana.com.bd/blog/<slug>`.
 - **Previous / next** post links (older and newer).
 - **Related posts:** up to three that share a topic; if none, the newest others.
 - **Author card** at the bottom: logo, name, role, one or two lines, and two links to the main site: "More about me" (`/about`) and "Get in touch" (`/contact`). This is the natural route back to the main site.
@@ -285,9 +285,13 @@ In the blog project this is a public `GET` handler in `src/app/api/posts/route.j
     {
       "title": "Why backup power decides telecom uptime",
       "slug": "why-backup-power-decides-telecom-uptime",
+      "url": "/blog/why-backup-power-decides-telecom-uptime",
       "excerpt": "One or two sentences that summarise the post.",
       "coverUrl": "https://res.cloudinary.com/<cloud>/image/upload/v1/raselrana-blog/abc.jpg",
-      "tags": ["Telecom", "Power systems"],
+      "coverAlt": "Battery bank in a telecom shelter",
+      "tags": ["ONT", "dBm"],
+      "category": { "name": "GPON & Fiber Optics", "slug": "gpon-fiber-optics" },
+      "contentType": { "label": "Troubleshooting", "slug": "troubleshooting" },
       "publishedAt": "2026-10-08T09:30:00.000Z",
       "readingMinutes": 6
     }
@@ -295,23 +299,29 @@ In the blog project this is a public `GET` handler in `src/app/api/posts/route.j
 }
 ```
 
+This is the shape the blog now provides. The main site reads it in `src/lib/services/blog-posts.js`.
+
 | Field | Type | Rules |
 | --- | --- | --- |
 | `title` | text | Required |
-| `slug` | text | Required. Lower-case letters, numbers and single hyphens. The main site links to `/blog/posts/<slug>` |
-| `excerpt` | text | May be empty. If the post has none, send the first ~160 characters of the content with Markdown marks removed |
+| `slug` | text | Required. Lower-case letters, numbers and single hyphens |
+| `url` | text | Root-relative address of the post, e.g. `/blog/<slug>`. The main site links to it; if it is missing or not a `/blog/…` address, the main site uses `/blog/<slug>` |
+| `excerpt` | text | May be empty |
 | `coverUrl` | text or `null` | A `https://res.cloudinary.com/…/image/upload/…` address, or `null`. Anything else is ignored by the main site |
+| `coverAlt` | text | Description of the photo. May be empty |
 | `tags` | list of text | May be empty. The main site shows the first three |
-| `publishedAt` | ISO date-time | When the post was first published (fall back to its creation time) |
-| `readingMinutes` | whole number | Optional. Shown as "6 min read" when present |
+| `category` | object or `null` | `{ name, slug }`. The name is the small label on the card |
+| `contentType` | object or `null` | `{ label, slug }`. The label is used when there is no category |
+| `publishedAt` | ISO date-time | Shown as the day in Bangladesh time, e.g. `8 Oct 2026` |
+| `readingMinutes` | whole number | Shown as "6 min read" |
 
 ### Rules
 
-- **Published posts only**, newest first. Never drafts.
+- **Published posts only**, and only those the author left ticked "Show on main site"; newest first. Never drafts.
 - **Never include the post content**, ids or anything about the author account.
-- Send `Cache-Control: public, s-maxage=300, stale-while-revalidate=600`.
+- The blog keeps its answer for 5 minutes and the main site keeps its own copy for 10, so a new post appears on the main home page within about 15 minutes of publishing.
 - On an internal error answer with a `5xx` status; the main site then simply hides its section.
-- The main site keeps its own copy for up to 10 minutes, so a new post appears on the main home page within about 10 minutes of publishing.
+- More fields may be added later; the main site ignores the ones it does not know.
 
 ## 9. Out of scope
 

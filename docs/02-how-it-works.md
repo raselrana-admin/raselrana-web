@@ -303,7 +303,7 @@ If counting fails, the download still works. The Downloads page reads the counts
 
 This project touches the blog in three small ways:
 
-- **Latest writing on the home page.** `src/lib/services/blog-posts.js` asks the blog for its three newest posts (`GET /blog/api/posts?limit=3`) and `sections/homepage/LatestWriting.jsx` shows them. The answer is kept for 10 minutes. If the blog is down, slow, or answers with something unexpected, the section is simply left out; the home page never breaks because of the blog.
+- **Latest writing on the home page.** `src/lib/services/blog-posts.js` asks the blog for its three newest posts (`GET /blog/api/posts?limit=3`) and `sections/homepage/LatestWriting.jsx` shows them. Each card links to the address the blog gives for the post (`url`), and shows its category, title, summary, topics, the publishing day in Bangladesh time and the reading time. The answer is kept for 10 minutes. If the blog is down, slow, or answers with something unexpected, the section is simply left out; the home page never breaks because of the blog.
 - **Links into the blog are ordinary links.** A Next.js `<Link>` only works inside one app. `isBlogLink()` in `src/lib/zones.js` makes the menu, footer and section links use a plain `<a>` for anything under `/blog`.
 - **A soft cross-fade between the two.** One rule in `globals.css` (`@view-transition`) fades between pages that load in full, which is what happens when moving between this site and the blog.
 
