@@ -1,6 +1,7 @@
 import Link from "next/link";
 import BrandMark from "@/components/ui/BrandMark";
 import { footerNav } from "@/lib/data/site";
+import { isBlogLink } from "@/lib/zones";
 
 const eyebrowClass =
   "font-mono text-xs uppercase tracking-[0.2em] text-[var(--slate)]";
@@ -50,13 +51,17 @@ export default function Footer({ profile }) {
             <nav key={group.title} aria-label={group.title}>
               <p className={eyebrowClass}>{group.title}</p>
               <ul className="mt-4 space-y-3">
-                {group.links.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className={linkClass}>
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+                {group.links.map((link) => {
+                  // The blog is another app, so its link is a normal page load
+                  const FooterLink = isBlogLink(link.href) ? "a" : Link;
+                  return (
+                    <li key={link.href}>
+                      <FooterLink href={link.href} className={linkClass}>
+                        {link.label}
+                      </FooterLink>
+                    </li>
+                  );
+                })}
               </ul>
             </nav>
           ))}

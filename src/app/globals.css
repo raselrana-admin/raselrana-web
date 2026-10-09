@@ -133,6 +133,14 @@ p {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* A soft cross-fade when moving between pages that load in full, which
+     is what happens between this site and the blog (a separate app with
+     the same rule), so the two feel like one site. Browsers without
+     support just load the page as usual. */
+  @view-transition {
+    navigation: auto;
+  }
+
   .rise {
     animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
     animation-delay: var(--delay, 0ms);

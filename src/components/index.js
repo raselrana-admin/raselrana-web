@@ -8,6 +8,7 @@ export { default as ContactCTA } from "./sections/homepage/ContactCTA";
 export { default as ExperiencePreview } from "./sections/homepage/ExperiencePreview";
 export { default as FocusAreas } from "./sections/homepage/FocusAreas";
 export { default as Hero } from "./sections/homepage/Hero";
+export { default as LatestWriting } from "./sections/homepage/LatestWriting";
 export { default as ProjectsPreview } from "./sections/homepage/ProjectsPreview";
 
 // Sections — contact page
