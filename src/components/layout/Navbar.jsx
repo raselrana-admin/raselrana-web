@@ -75,10 +75,21 @@ export default function Navbar() {
           <button
             onClick={() => setOpen(true)}
             aria-label="Open menu"
-            className="flex flex-col gap-1.5"
+            aria-expanded={open}
+            className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--line)] text-[var(--ink)] transition-colors hover:border-[var(--signal)]"
           >
-            <span className="h-[1.5px] w-6 bg-[var(--ink)]" />
-            <span className="h-[1.5px] w-6 bg-[var(--ink)]" />
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              aria-hidden
+            >
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
           </button>
         </div>
       </div>
