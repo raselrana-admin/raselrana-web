@@ -26,7 +26,7 @@ Copy `.env.example` to `.env.local`. All other `.env*` files are gitignored.
 - `SESSION_SECRET` — signs the admin session cookie (32+ characters). Required for any login.
 - `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` — the *starter* admin login, used until the account is saved from `/admin/account` (then the database copy wins) and again if that saved account is deleted. Generate the hash and the secret with `npm run hash-password`.
 - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` — image uploads from the dashboard. Without them the upload buttons report that uploads are not set up; everything else works.
-- `BLOG_DOMAIN` — used by `next.config.mjs` to rewrite `/blog` and `/blog/*` to a separately deployed blog app. The blog is not part of this repo.
+- `BLOG_DOMAIN` — the separately deployed blog app. `next.config.mjs` rewrites `/blog` and `/blog/*` to it, and the home page fetches the latest posts from it. The blog is not part of this repo.
 
 ## Stack
 
@@ -85,6 +85,8 @@ The documents are a dashboard module. No files are stored in the repo (there is 
 **Portfolio.** Written in the `portfolio` module, independent of the other pages. `buildPortfolio()` in `src/lib/portfolio.js` shapes it (header from the public profile, summary blocks, entries grouped by their `section` text) for both outputs, so they cannot differ: the page `/portfolio` (`views/portfolio/PortfolioView.jsx` → `sections/portfolio/PortfolioDocument.jsx`) and the PDF `GET /portfolio.pdf` (`app/portfolio.pdf/route.js` renders `src/lib/pdf/PortfolioPdf.jsx` with `@react-pdf/renderer`, which must stay in `serverExternalPackages`). The PDF uses built-in Helvetica (Latin text only; no Bangla), is rate-limited, and has no page numbers because the library's `render` prop produced no text in this setup. A Downloads entry whose address is `/portfolio.pdf` (or the old `/documents/Rasel_Rana_Portfolio.pdf`, which redirects) downloads the PDF, previews `/portfolio`, and takes its "Updated" date from the newest portfolio entry.
 
 **Home page.** `views/home/HomeView.jsx` builds the previews from dashboard content: entries ticked "Show on the home page" (projects, roles, competitions), or the first few when none are ticked.
+
+**Blog (another app).** The blog is a separate project and zone served at `/blog`. Three things here touch it: (1) `getLatestPosts()` in `src/lib/services/blog-posts.js` fetches `${BLOG_DOMAIN}/blog/api/posts?limit=3` for the home page's "Latest writing" section (`sections/homepage/LatestWriting.jsx`); it validates every field, keeps the answer for 10 minutes, and returns `[]` on any failure so the section just disappears; (2) links into the blog must be plain `<a>` tags, not `next/link` — `isBlogLink()` in `src/lib/zones.js` is used by the navbar, mobile menu, footer and `SectionHeader`; (3) `@view-transition { navigation: auto; }` in `globals.css` cross-fades full page loads between the two apps. `docs/blog-design-brief.md` is the hand-over document for the blog project: the design tokens to copy, the page specs, and the API contract the home page depends on. Keep it in step with `globals.css` and `blog-posts.js`.
 
 **Freshness.** Every dashboard-backed inner page (About, Journey, Skills, Education, Achievements, Projects, Publications, Experience, Portfolio, Downloads) is `force-dynamic`. Everything else under `(site)` is static with `revalidate = 3600` (set in `(site)/layout.jsx`, because the footer reads the profile). Every save calls `revalidatePath("/", "layout")`, so changes appear immediately.
 

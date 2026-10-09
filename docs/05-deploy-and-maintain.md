@@ -96,6 +96,8 @@ These are already in place. Keep them when you change related code.
 | Contact form says "Email is not configured" | `RESEND_API_KEY` is missing | Add it, then restart or redeploy |
 | Contact form reports success but no email arrives | Wrong `CONTACT_EMAIL_TO`, or the sender domain is not verified in Resend | Check the value; look at the logs in the Resend dashboard; check your spam folder |
 | `/blog` shows an error | `BLOG_DOMAIN` is missing or the blog app is down | Check the value and the blog app |
+| The home page has no "Latest writing" section | The blog has no published posts, is unreachable, or does not yet offer `GET /blog/api/posts` in the agreed shape | Open `<BLOG_DOMAIN>/blog/api/posts?limit=3` in a browser and compare with section 8 of the blog design brief |
+| A new post is not on the home page yet | The home page keeps the list for up to 10 minutes | Wait a few minutes and reload |
 | Lint error "Calling setState synchronously within an effect" | `useState` + `useEffect` used to detect the browser | Use `useIsMounted()` from `lib/use-is-mounted.js` |
 
 ### I forgot my admin password

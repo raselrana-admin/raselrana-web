@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { useEffect } from "react";
 import { createPortal } from "react-dom";
+import { isBlogLink } from "@/lib/zones";
 import { useIsMounted } from "@/lib/use-is-mounted";
 
 export default function MobileMenu({ links, pathname, onClose }) {
@@ -51,9 +52,11 @@ export default function MobileMenu({ links, pathname, onClose }) {
         <ul className="flex flex-col gap-1">
           {links.map((link) => {
             const active = pathname === link.href;
+            // The blog is another app, so its link is a normal page load
+            const NavLink = isBlogLink(link.href) ? "a" : Link;
             return (
               <li key={link.href}>
-                <Link
+                <NavLink
                   href={link.href}
                   onClick={onClose}
                   className={`block border-b border-[var(--line)] py-3 font-[family-name:var(--font-body)] text-base ${
@@ -61,7 +64,7 @@ export default function MobileMenu({ links, pathname, onClose }) {
                   }`}
                 >
                   {link.label}
-                </Link>
+                </NavLink>
               </li>
             );
           })}

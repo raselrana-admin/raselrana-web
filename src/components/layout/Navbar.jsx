@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { isBlogLink } from "@/lib/zones";
 import MobileMenu from "./MobileMenu";
 
 const NAV_LINKS = [
@@ -37,8 +38,10 @@ export default function Navbar() {
         <nav className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => {
             const active = pathname === link.href;
+            // The blog is another app, so its link is a normal page load
+            const NavLink = isBlogLink(link.href) ? "a" : Link;
             return (
-              <Link
+              <NavLink
                 key={link.href}
                 href={link.href}
                 className="relative px-3 py-2 font-[family-name:var(--font-body)] text-sm text-[var(--slate)] transition-colors hover:text-[var(--ink)]"
@@ -53,7 +56,7 @@ export default function Navbar() {
                 <span className={active ? "text-[var(--ink)]" : ""}>
                   {link.label}
                 </span>
-              </Link>
+              </NavLink>
             );
           })}
           {/* <DownloadButton

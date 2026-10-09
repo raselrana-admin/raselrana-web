@@ -26,5 +26,7 @@ Read the pages in this order the first time. Later, jump straight to the one you
 
 ## Other documents
 
+- [Blog design brief](blog-design-brief.md) — a hand-over document **for the blog project**, not about this one. It gives the colours, fonts, logo and layout rules to copy so the blog matches this site, and defines the small API this site's home page uses to show the latest posts. Copy it into the blog project.
+
 - `README.md` in the project root — the short public description.
 - `CLAUDE.md` in the project root — a compact technical summary for AI coding assistants. It covers the same rules as this guide in fewer words. If you change a rule, update both.

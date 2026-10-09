@@ -5,8 +5,10 @@ import {
   ExperiencePreview,
   FocusAreas,
   Hero,
+  LatestWriting,
   ProjectsPreview,
 } from "@/components";
+import { getLatestPosts } from "@/lib/services/blog-posts";
 import { getEntries } from "@/lib/services/content-service";
 import { getSiteProfile } from "@/lib/services/site-profile";
 
@@ -21,11 +23,13 @@ function pickForHome(list, max) {
 // (profile plus the previews picked in the dashboard) and hands plain data
 // to the section components. Lives in views/ because it touches the database.
 export default async function HomeView() {
-  const [profile, projects, experience, achievements] = await Promise.all([
+  const [profile, projects, experience, achievements, posts] = await Promise.all([
     getSiteProfile(),
     getEntries("projects"),
     getEntries("experience"),
     getEntries("achievements"),
+    // From the blog app's API; an empty list if the blog can't be reached
+    getLatestPosts(3),
   ]);
 
   const featuredProjects = pickForHome(projects.project, 3).map((p) => ({
@@ -61,6 +65,7 @@ export default async function HomeView() {
       <ExperiencePreview items={roles} />
       <ProjectsPreview projects={featuredProjects} />
       <AchievementsPreview items={competitions} />
+      <LatestWriting posts={posts} />
       <ContactCTA email={profile.email} />
     </>
   );
