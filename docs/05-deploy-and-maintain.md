@@ -102,11 +102,15 @@ These are already in place. Keep them when you change related code.
 
 ### I forgot my admin password
 
-You cannot read the old password back, but you can return to the starter login:
+You cannot read the old password back, but you can set a new one.
+
+**The quick way.** On your computer, write `ADMIN_EMAIL` and a new `ADMIN_PASSWORD` in `.env.local` and run `npm run create-admin` (see [Getting started](01-getting-started.md#creating-the-admin-password-values)). If `.env.local` points to the live site's database, the saved account there gets the new password and you can sign in on the live site straight away.
+
+**By hand**, returning to the starter login:
 
 1. Open **MongoDB Atlas** → your cluster → **Browse Collections** → your database → the `settings` collection.
 2. Delete the document whose `_id` is `admin-account`. (Leave `site-profile` alone.)
-3. The site now accepts the starter login again: the `ADMIN_EMAIL` and the password behind `ADMIN_PASSWORD_HASH` in Vercel. If you have forgotten that one too, run `npm run hash-password`, put the new `ADMIN_PASSWORD_HASH` in Vercel, and redeploy.
+3. The site now accepts the starter login again: the `ADMIN_EMAIL` and the password behind `ADMIN_PASSWORD_HASH` in Vercel. If you have forgotten that one too, run `npm run create-admin` (it updates `.env.local` and prints the new value), put the printed `ADMIN_PASSWORD_HASH` in Vercel, and redeploy.
 4. Sign in and set a new password in the dashboard under Account.
 
 ### Where to look when something fails on the live site

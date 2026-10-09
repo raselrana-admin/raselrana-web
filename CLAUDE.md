@@ -9,7 +9,7 @@ npm run dev      # Next.js dev server on http://localhost:3000
 npm run build    # production build
 npm run start    # serve the production build
 npm run lint     # ESLint (flat config, eslint-config-next/core-web-vitals)
-npm run hash-password   # prompts for a password, prints ADMIN_PASSWORD_HASH and SESSION_SECRET
+npm run create-admin    # sets the admin login from ADMIN_EMAIL + ADMIN_PASSWORD in .env.local (writes the hash, empties the password)
 ```
 
 There is no test suite and no TypeScript — the project is plain JavaScript/JSX. `npm run lint` and `npm run build` are the only automated checks.
@@ -24,7 +24,7 @@ Copy `.env.example` to `.env.local`. All other `.env*` files are gitignored.
 - `MONGODB_DB` — defaults to `raselrana`.
 - `RESEND_API_KEY`, `CONTACT_EMAIL_TO` — contact form. `CONTACT_EMAIL_FROM` is optional and falls back to Resend's `onboarding@resend.dev` sender.
 - `SESSION_SECRET` — signs the admin session cookie (32+ characters). Required for any login.
-- `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` — the *starter* admin login, used until the account is saved from `/admin/account` (then the database copy wins) and again if that saved account is deleted. Generate the hash and the secret with `npm run hash-password`.
+- `ADMIN_EMAIL`, `ADMIN_PASSWORD_HASH` — the *starter* admin login, used until the account is saved from `/admin/account` (then the database copy wins) and again if that saved account is deleted. To set or reset the login, write `ADMIN_EMAIL` and `ADMIN_PASSWORD` (plain, 10+ characters) in `.env.local` and run `npm run create-admin` (`scripts/create-admin.mjs`): it writes the hash, empties `ADMIN_PASSWORD`, adds `SESSION_SECRET` when there is none, updates the saved database account if one exists (raising its session version), and prints the values for Vercel. `ADMIN_PASSWORD` is read only by that script, never by the site.
 - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` — image uploads from the dashboard. Without them the upload buttons report that uploads are not set up; everything else works.
 - `BLOG_DOMAIN` — the separately deployed blog app. `next.config.mjs` rewrites `/blog` and `/blog/*` to it, and the home page fetches the latest posts from it. The blog is not part of this repo.
 

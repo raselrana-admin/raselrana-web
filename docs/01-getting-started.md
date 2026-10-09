@@ -46,15 +46,24 @@ Sign in to Cloudinary → **Settings** (the gear) → **API Keys**. The page sho
 
 ### Creating the admin password values
 
-Never write your real password in `.env.local`. Run:
+Write the email and the password you want in `.env.local` (at least 10 characters for the password):
 
-```bash
-npm run hash-password
+```
+ADMIN_EMAIL=you@example.com
+ADMIN_PASSWORD=your-password
 ```
 
-Type the password you want. The command prints two lines, `ADMIN_PASSWORD_HASH=...` and `SESSION_SECRET=...`. Copy both into `.env.local`.
+Then run:
 
-This is only the *starter* login. Once you save your account or change your password in the dashboard (`/admin/account`), the login is stored in the database and these two starter values are no longer used. Change your password from the dashboard from then on. If you ever forget it, see "I forgot my admin password" in [Deploy and maintain](05-deploy-and-maintain.md#i-forgot-my-admin-password).
+```bash
+npm run create-admin
+```
+
+The command turns the password into `ADMIN_PASSWORD_HASH=...` in `.env.local`, replacing the old line, and **empties `ADMIN_PASSWORD`** so the plain password does not stay in the file. It adds `SESSION_SECRET=...` only if there is none yet (an existing secret is kept). Restart `npm run dev` afterwards and sign in at `/admin/login`. Do the same again whenever you want a new email or password.
+
+The command also prints the `ADMIN_EMAIL` and `ADMIN_PASSWORD_HASH` lines. Vercel is not updated automatically: paste those values into Vercel's environment variables and redeploy if the live site should use the same login. Never put `ADMIN_PASSWORD` in Vercel; the site does not read it.
+
+These values are the *starter* login. Once you save your account or change your password in the dashboard (`/admin/account`), the login is stored in the database and that copy is the one the site checks. `npm run create-admin` handles this for you: if a saved account exists in the database `.env.local` points to, it gets the same email and password, and every other session is signed out. If that is the live site's database, the live login changes too. If you ever forget the password, see "I forgot my admin password" in [Deploy and maintain](05-deploy-and-maintain.md#i-forgot-my-admin-password).
 
 ## Commands
 
@@ -64,7 +73,7 @@ This is only the *starter* login. Once you save your account or change your pass
 | `npm run lint` | Check the code for mistakes. It should report no problems |
 | `npm run build` | Build the site exactly as Vercel will. **Run this before every push** |
 | `npm run start` | Serve the built site locally (after `npm run build`) |
-| `npm run hash-password` | Create the admin password values |
+| `npm run create-admin` | Set the admin login from `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `.env.local` |
 
 There are no automated tests. `npm run lint` and `npm run build` are the checks.
 

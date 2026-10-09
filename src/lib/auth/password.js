@@ -1,7 +1,7 @@
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 
 // Stored format: scrypt:<salt hex>:<hash hex>
-// scripts/hash-password.mjs produces the same format for the first password.
+// scripts/create-admin.mjs produces the same format for the first password.
 
 export function hashPassword(password) {
   const salt = randomBytes(16);
