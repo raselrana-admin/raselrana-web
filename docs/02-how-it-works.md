@@ -6,7 +6,7 @@
 
 ```
 raselrana-web/
-├── scripts/                 hash-password.mjs (creates the starter admin password values)
+├── scripts/                 create-admin.mjs (sets the admin login from the email and password in .env.local)
 ├── next.config.mjs          Security headers, the /blog redirect, the old contact-card address
 └── src/
     ├── proxy.js             Guards /admin: sends signed-out visitors to the login page
