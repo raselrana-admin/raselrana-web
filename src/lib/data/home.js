@@ -16,7 +16,7 @@ export const profile = {
 };
 
 export const aboutPreview = {
-  body: "I work at the intersection of telecommunications infrastructure, electrical engineering and software development. As Manager (Technical) at BTCL, I combine technical leadership with hands-on work on GPON access networks, MikroTik-based network solutions and in-house development projects. Since 2021, I have built full-stack web applications with JavaScript, React, Next.js and MongoDB, covering everything from front-end design to database architecture. My foundation in electronics, hardware programming and robotics, which I have practiced since 2011, shapes how I approach every system I build or manage.",
+  body: "I work at the intersection of telecommunications infrastructure, electrical engineering and software development. As Manager (Technical) at BTCL, I combine technical management with hands-on work on GPON access networks and in-house development projects. Since 2021, I have also built full-stack web applications, from front-end design to database architecture. My foundation in electronics and hardware programming since 2011, and in robotics since 2014, shapes how I approach every system I build or manage.",
   href: "/about",
 };
 
