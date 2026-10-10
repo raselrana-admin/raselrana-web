@@ -155,12 +155,12 @@ export const MODULES = {
   education: {
     key: "education",
     label: "Education",
-    description: "Qualifications shown on the Education page.",
+    description: "Degrees and training courses, shown as two groups on the Education page.",
     collection: "education",
     publicPath: "/education",
     types: withPublished({
       qualification: {
-        label: "Qualifications",
+        label: "Education",
         singular: "qualification",
         titleField: "degree",
         metaFields: ["institution", "period"],
@@ -169,6 +169,19 @@ export const MODULES = {
           { name: "institution", label: "Institution", type: "text", required: true },
           { name: "period", label: "Period", type: "text", help: "e.g. 2012 — 2016." },
           { name: "details", label: "Details", type: "textarea", help: "Result, thesis, notable coursework." },
+          orderField,
+        ],
+      },
+      training: {
+        label: "Training",
+        singular: "course",
+        titleField: "course",
+        metaFields: ["institution", "period"],
+        fields: [
+          { name: "course", label: "Course", type: "text", required: true, help: "e.g. Microcontroller & Embedded Systems (3 months)." },
+          { name: "institution", label: "Institution", type: "text", required: true },
+          { name: "period", label: "Period", type: "text", help: "e.g. 2014." },
+          { name: "details", label: "Details", type: "textarea", help: "What the course covered." },
           orderField,
         ],
       },
