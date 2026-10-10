@@ -25,25 +25,25 @@ export const focusAreas = [
     label: "01",
     title: "Telecommunications",
     description:
-      "Managing and developing GPON access networks that deliver broadband and telecommunications services across Bangladesh.",
+      "Managing and developing GPON access networks at BTCL and working with MikroTik-based solutions to deliver reliable broadband and telecommunications services to customers across Bangladesh, from planning to day-to-day operations.",
   },
   {
     label: "02",
     title: "Power Systems",
     description:
-      "Hands-on operations experience at 157 MW and 300 MW power plants, covering generation control, grid coordination and performance reporting.",
+      "Hands-on operations experience at 157 MW and 300 MW power plants, covering generation control, grid coordination with the National Load Dispatch Centre, and daily, monthly and annual performance reporting.",
   },
   {
     label: "03",
     title: "Programming & Robotics",
     description:
-      "Working in electronics, hardware design and programming since 2011, and building competition robots since 2014, winning national titles at ROBOLUTION 2016 and Cybernauts 2016. I also develop full-stack web applications with React, Next.js and MongoDB.",
+      "Building competition robots since 2014, winning national titles at ROBOLUTION 2016 and Cybernauts 2016. I have worked in electronics, hardware programming and embedded systems since 2011, alongside full-stack web development.",
   },
   {
     label: "04",
     title: "Technical Management",
     description:
-      "Managing the field operations team that delivers BTCL services to customers, overseeing work from planning and coordination through to delivery and service quality. I also contribute to BTCL’s in-house technology development projects.",
+      "Managing the field operations team that delivers BTCL services to customers, overseeing work from planning and coordination through to service quality. I also contribute to BTCL’s in-house technology development projects.",
   },
 ];
 
