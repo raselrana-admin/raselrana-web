@@ -1,8 +1,7 @@
 // lib/data/home.js
 //
-// EXAMPLE CONTENT — everything below is a placeholder so the homepage has
-// something real to render. Replace freely; the section components only
-// care about the shape of each object, not the values.
+// The home page's own wording. The section components only care about the
+// shape of each object, not the values.
 
 // Starting values for the public profile. Once the profile is saved from the
 // dashboard (/admin/profile), the saved values are used instead.
@@ -12,44 +11,44 @@ export const profile = {
   org: "Bangladesh Telecommunications Company Limited (BTCL)",
   location: "Dhaka, Bangladesh",
   tagline:
-    "I plan, build, and keep telecommunications networks running — with a background in electrical and electronic engineering behind every decision.",
-  meta: "TELECOM · POWER SYSTEMS · NETWORK ENGINEERING",
+    "Manager (Technical) at BTCL, building telecommunications networks and in-house solutions with a foundation in electronics, programming and robotics.",
+  meta: "Telecommunications · Power systems · Programming & Robotics · Technical Management",
 };
 
 export const aboutPreview = {
-  body: "I work at the intersection of telecommunications infrastructure and electrical engineering — from transmission networks to the power systems that keep them alive. Over the past several years at BTCL, that's meant everything from field-level troubleshooting to planning decisions that affect service for thousands of subscribers.",
+  body: "I work at the intersection of telecommunications infrastructure, electrical engineering and software development. As Manager (Technical) at BTCL, I combine technical leadership with hands-on work on GPON access networks, MikroTik-based network solutions and in-house development projects. Since 2021, I have built full-stack web applications with JavaScript, React, Next.js and MongoDB, covering everything from front-end design to database architecture. My foundation in electronics, hardware programming and robotics, which I have practiced since 2011, shapes how I approach every system I build or manage.",
   href: "/about",
 };
 
 export const focusAreas = [
   {
     label: "01",
-    title: "Telecommunications Systems",
+    title: "Telecommunications",
     description:
-      "Transmission networks, switching, and the day-to-day engineering that keeps voice and data services reliable.",
+      "Managing and developing GPON access networks that deliver broadband and telecommunications services across Bangladesh.",
   },
   {
     label: "02",
-    title: "Power & Electrical Systems",
+    title: "Power Systems",
     description:
-      "Rectifiers, backup power, and the electrical infrastructure that telecom equipment depends on to stay online.",
+      "Hands-on operations experience at 157 MW and 300 MW power plants, covering generation control, grid coordination and performance reporting.",
   },
   {
     label: "03",
-    title: "Network Planning",
+    title: "Programming & Robotics",
     description:
-      "Capacity planning and technical decisions that balance current load against where a network needs to go next.",
+      "Working in electronics, hardware design and programming since 2011, and building competition robots since 2014, winning national titles at ROBOLUTION 2016 and Cybernauts 2016. I also develop full-stack web applications with React, Next.js and MongoDB.",
   },
   {
     label: "04",
     title: "Technical Management",
     description:
-      "Leading field teams, coordinating maintenance windows, and translating engineering constraints into working plans.",
+      "Managing the field operations team that delivers BTCL services to customers, overseeing work from planning and coordination through to delivery and service quality. I also contribute to BTCL’s in-house technology development projects.",
   },
 ];
 
 // The email shown here comes from the public profile (dashboard).
 export const contactCta = {
-  heading: "Let's talk shop.",
-  body: "Open to conversations on network engineering, telecom infrastructure, or technical collaboration.",
+  heading: "Let’s work together.",
+  body: "I welcome enquiries about network engineering, web development, robotics and technical collaboration, as well as invitations to speak or mentor.",
 };
