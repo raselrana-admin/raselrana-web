@@ -5,5 +5,9 @@ import { requireAdmin } from "@/lib/auth/session";
 // dashboard shell (sidebar + top bar).
 export default async function AdminPanelLayout({ children }) {
   const session = await requireAdmin();
-  return <AdminShell account={session}>{children}</AdminShell>;
+  return (
+    <AdminShell account={session} showShonchoy={Boolean(process.env.SHONCHOY_DOMAIN)}>
+      {children}
+    </AdminShell>
+  );
 }

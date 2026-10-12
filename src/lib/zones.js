@@ -2,6 +2,9 @@
 // rewrite in next.config.mjs. A next/link to it would try an in-app
 // navigation that cannot work across apps, so links into the blog must be
 // plain <a> tags that load the page normally.
+//
+// Shonchoy (/shonchoy) is a second zone of the same kind. It is private: the
+// only link to it is in the dashboard sidebar (AdminShell.jsx).
 
 /** True for addresses that belong to the blog app. */
 export function isBlogLink(href) {

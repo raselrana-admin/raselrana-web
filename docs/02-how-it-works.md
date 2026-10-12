@@ -309,4 +309,14 @@ This project touches the blog in three small ways:
 
 What the blog should look like, and the exact shape of the answer the home page expects, are written down in [the blog design brief](blog-design-brief.md).
 
+## Shonchoy (a private app)
+
+Shonchoy, the investment tracker, is a second separate app, joined on the same way: `next.config.mjs` forwards `/shonchoy` and everything under it to the address in `SHONCHOY_DOMAIN`. Three things are different from the blog:
+
+- **It is private.** `src/proxy.js` checks `/shonchoy` exactly as it checks `/admin`: without a dashboard sign-in, the visitor is sent to `/admin/login`. Shonchoy's own login comes after that.
+- **The only link to it is in the dashboard sidebar** ("Apps" in `components/admin/shell/AdminShell.jsx`), shown when `SHONCHOY_DOMAIN` is set. It is not in the menu, the footer or the sitemap, and `robots.js` tells search engines to stay out.
+- **The Shonchoy app must set `basePath: "/shonchoy"`** in its own `next.config`, so that its pages and files all live under `/shonchoy`. Without it the page opens without styles or jumps to a wrong address. Everything the Shonchoy project has to change is listed in [the Shonchoy hand-over](shonchoy-handover.md).
+
+One limit: this guards `raselrana.com.bd/shonchoy`. The app's own address (`shonchoy.raselrana.com.bd`) is still open to anyone who knows it, protected only by Shonchoy's login.
+
 Next: [3. How to… (recipes) →](03-how-to.md)

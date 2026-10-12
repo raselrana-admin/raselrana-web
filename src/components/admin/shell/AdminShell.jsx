@@ -17,6 +17,7 @@ import {
   Route,
   Trophy,
   UserRound,
+  Wallet,
   Wrench,
   X,
 } from "lucide-react";
@@ -67,26 +68,56 @@ const NAV_GROUPS = [
 
 const ALL_LINKS = NAV_GROUPS.flatMap((group) => group.links);
 
-function SidebarNav({ pathname, onNavigate }) {
+// Shonchoy is a separate private app served at /shonchoy (a rewrite in
+// next.config.mjs, gated by src/proxy.js). It is another app, so the link is
+// a plain <a>, not next/link.
+const APPS_GROUP = {
+  title: "Apps",
+  links: [{ label: "Shonchoy", href: "/shonchoy", icon: Wallet, external: true }],
+};
+
+const linkClass =
+  "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors";
+const idleLinkClass = "text-[var(--slate)] hover:bg-[var(--paper)] hover:text-[var(--ink)]";
+
+function SidebarNav({ pathname, onNavigate, showShonchoy }) {
+  const groups = showShonchoy ? [...NAV_GROUPS, APPS_GROUP] : NAV_GROUPS;
+
   return (
     <nav className="flex flex-col gap-6" aria-label="Admin">
-      {NAV_GROUPS.map((group) => (
+      {groups.map((group) => (
         <div key={group.title ?? "main"}>
           {group.title && <p className={`${eyebrowClass} mb-2 px-3`}>{group.title}</p>}
           <ul className="flex flex-col gap-0.5">
             {group.links.map((link) => {
               const active = pathname === link.href;
               const Icon = link.icon;
+              if (link.external) {
+                return (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={onNavigate}
+                      className={`${linkClass} ${idleLinkClass}`}
+                    >
+                      <Icon size={16} strokeWidth={1.75} aria-hidden />
+                      {link.label}
+                      <ExternalLink size={13} className="ml-auto" aria-hidden />
+                      <span className="sr-only">(opens in a new tab)</span>
+                    </a>
+                  </li>
+                );
+              }
               return (
                 <li key={link.href}>
                   <Link
                     href={link.href}
                     onClick={onNavigate}
                     aria-current={active ? "page" : undefined}
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
-                      active
-                        ? "bg-[var(--ink)] font-medium text-[var(--paper)]"
-                        : "text-[var(--slate)] hover:bg-[var(--paper)] hover:text-[var(--ink)]"
+                    className={`${linkClass} ${
+                      active ? "bg-[var(--ink)] font-medium text-[var(--paper)]" : idleLinkClass
                     }`}
                   >
                     <Icon size={16} strokeWidth={1.75} aria-hidden />
@@ -116,7 +147,7 @@ function Brand() {
   );
 }
 
-export default function AdminShell({ account, children }) {
+export default function AdminShell({ account, showShonchoy = false, children }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const title = ALL_LINKS.find((link) => link.href === pathname)?.label ?? "Admin";
@@ -127,7 +158,7 @@ export default function AdminShell({ account, children }) {
         {/* Sidebar — large screens */}
         <aside className="sticky top-0 hidden h-screen flex-col gap-8 overflow-y-auto border-r border-[var(--line)] bg-[var(--surface)] px-3 py-6 lg:flex">
           <Brand />
-          <SidebarNav pathname={pathname} />
+          <SidebarNav pathname={pathname} showShonchoy={showShonchoy} />
           <div className="mt-auto border-t border-[var(--line)] px-3 pt-4">
             <p className="truncate text-sm font-medium text-[var(--ink)]">{account.name}</p>
             <p className="truncate text-xs text-[var(--slate)]">{account.email}</p>
@@ -155,7 +186,11 @@ export default function AdminShell({ account, children }) {
                   <X size={16} aria-hidden />
                 </button>
               </div>
-              <SidebarNav pathname={pathname} onNavigate={() => setOpen(false)} />
+              <SidebarNav
+                pathname={pathname}
+                onNavigate={() => setOpen(false)}
+                showShonchoy={showShonchoy}
+              />
             </aside>
           </div>
         )}
