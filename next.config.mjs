@@ -51,7 +51,7 @@ const nextConfig = {
     ];
   },
   async rewrites() {
-    return [
+    const rewrites = [
       {
         source: "/blog",
         destination: `${process.env.BLOG_DOMAIN}/blog`,
@@ -61,6 +61,21 @@ const nextConfig = {
         destination: `${process.env.BLOG_DOMAIN}/blog/:path+`,
       },
     ];
+
+    // Shonchoy is a private app for the site owner. src/proxy.js lets only a
+    // signed-in admin through to these addresses.
+    const shonchoy = process.env.SHONCHOY_DOMAIN;
+    if (shonchoy) {
+      rewrites.push(
+        { source: "/shonchoy", destination: `${shonchoy}/shonchoy` },
+        {
+          source: "/shonchoy/:path+",
+          destination: `${shonchoy}/shonchoy/:path+`,
+        },
+      );
+    }
+
+    return rewrites;
   },
   serverExternalPackages: ["mongodb", "@react-pdf/renderer"],
 };

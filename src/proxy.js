@@ -5,6 +5,9 @@ import { SESSION_COOKIE, verifySessionToken } from "@/lib/auth/session-token";
 // It cannot tell whether the session was ended by a password change (that
 // needs the database), so every admin page and Server Action re-checks with
 // requireAdmin(). This is a first gate, not the only one.
+//
+// /shonchoy (a separate private app, forwarded by next.config.mjs) is behind
+// the same gate, so it opens only for someone signed in to the dashboard.
 export async function proxy(request) {
   if (request.nextUrl.pathname === "/admin/login") return NextResponse.next();
 
@@ -19,5 +22,5 @@ export async function proxy(request) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/shonchoy/:path*"],
 };

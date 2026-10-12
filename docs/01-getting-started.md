@@ -37,6 +37,7 @@ If the file is missing, copy `.env.example` to `.env.local` and fill in the valu
 | `CLOUDINARY_API_KEY` | Cloudinary API key | Photos cannot be uploaded from the dashboard |
 | `CLOUDINARY_API_SECRET` | Cloudinary API secret. Keep it private | Photos cannot be uploaded from the dashboard |
 | `BLOG_DOMAIN` | Address of the separate blog app | The `/blog` link does not work |
+| `SHONCHOY_DOMAIN` | Address of the separate Shonchoy app (optional) | The dashboard has no "Shonchoy" link and `/shonchoy` does not exist |
 
 After changing `.env.local`, stop and restart `npm run dev`.
 
