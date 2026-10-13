@@ -3,12 +3,17 @@ import SectionHeader from "@/components/ui/SectionHeader";
 export default function AboutFocus({ heading, principles }) {
   if (principles.length === 0) return null;
 
+  // Two or four cards sit in two columns (four makes a 2 x 2 block); any
+  // other number uses three, so no card is left alone on a row.
+  const columns =
+    principles.length === 2 || principles.length === 4 ? "md:grid-cols-2" : "md:grid-cols-3";
+
   return (
     <section className="border-t border-[var(--line)] py-20 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
         <SectionHeader eyebrow="Approach" heading={heading} />
 
-        <div className="reveal mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className={`reveal mt-12 grid grid-cols-1 gap-6 ${columns}`}>
           {principles.map((item, i) => (
             <div
               key={item.id}
