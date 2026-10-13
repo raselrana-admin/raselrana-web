@@ -35,7 +35,6 @@ export const footerNav = [
       { label: "Projects", href: "/projects" },
       { label: "Skills", href: "/skills" },
       { label: "Education", href: "/education" },
-      { label: "Publications", href: "/publications" },
       { label: "Downloads", href: "/downloads" },
       { label: "Blog", href: "/blog" },
     ],

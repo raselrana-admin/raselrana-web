@@ -137,4 +137,4 @@ Note the two service locations: `src/services/` (email) and `src/lib/services/` 
 
 ### Still sample content
 
-Most starter content and most dashboard entries still hold sample text (marked "Sample", "EXAMPLE", "TODO", "[Placeholder]" or "20XX"). The dashboard overview lists the dashboard entries that still contain it. Skills, Education, Projects, Publications and Portfolio are linked from the footer, not the navbar.
+Most starter content and most dashboard entries still hold sample text (marked "Sample", "EXAMPLE", "TODO", "[Placeholder]" or "20XX"). The dashboard overview lists the dashboard entries that still contain it. Skills, Education, Projects and Portfolio are linked from the footer, not the navbar. Publications has no entries yet, so the page (`/publications`) is not linked from the footer or listed in `sitemap.js`; add both back when the first publication is published.
