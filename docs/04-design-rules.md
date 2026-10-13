@@ -56,6 +56,8 @@ Common text styles, to copy:
 <p className="text-sm leading-relaxed text-[var(--slate)]">Text</p>
 ```
 
+**Text is left-aligned, never justified.** A browser justifies a paragraph by stretching the gaps between words, which leaves uneven holes in the text. It looks worst in cards and on phones, where lines are short, and it is harder to read. The site keeps the right edge tidy another way: `globals.css` stops a paragraph ending with one word alone on its last line, and makes the lines of a heading about equal in length.
+
 ## Layout
 
 - **One width for everything.** Every section's content sits in this container, the same one the navbar uses, so all left edges line up:
