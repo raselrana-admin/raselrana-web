@@ -31,7 +31,7 @@ Copy `.env.example` to `.env.local`. All other `.env*` files are gitignored.
 
 ## Stack
 
-Next.js 16 (App Router) with React 19, Tailwind CSS v4, Motion (`motion/react`), next-themes, MongoDB driver, Resend, Vercel Analytics. Deployed on Vercel; pushes to `main` deploy to raselrana.com.bd.
+Next.js 16 (App Router) with React 19, Tailwind CSS v4, Motion (`motion/react`), next-themes, MongoDB driver, Resend, Vercel Analytics and Speed Insights. Deployed on Vercel; pushes to `main` deploy to raselrana.com.bd.
 
 Branch workflow: every feature gets its own `feature/<name>` branch, merged into `develop` by PR. `develop` is merged into `main` to release. Do not commit feature work directly on `develop` or `main`.
 
@@ -130,6 +130,10 @@ Note the two service locations: `src/services/` (email) and `src/lib/services/` 
 ### SEO
 
 `src/app/layout.js` sets `metadataBase` and site-wide Open Graph/Twitter defaults from `siteInfo` in `lib/data/site.js`. `src/app/sitemap.js` lists the public paths by hand (add new pages there) and `src/app/robots.js` blocks `/admin` and `/api`. Pages set their own `title` and `description`; they do not set per-page Open Graph values yet.
+
+### Analytics
+
+`src/components/analytics/SiteAnalytics.jsx` (a Client Component rendered once in the root `layout.js`) mounts Vercel Web Analytics and Speed Insights. Its `beforeSend` drops every event from `/admin`, so the owner's dashboard visits are not counted; it is a Client Component because a function cannot be passed to these components from a Server Component. Both must also be enabled once per project in the Vercel dashboard, and report only from Vercel deployments.
 
 ### Still sample content
 
