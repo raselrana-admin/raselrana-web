@@ -1,6 +1,6 @@
+import SiteAnalytics from "@/components/analytics/SiteAnalytics";
 import ThemeProvider from "@/components/theme/ThemeProvider";
 import { siteInfo } from "@/lib/data/site";
-import { Analytics } from "@vercel/analytics/next";
 import { plexMono, plexSans, spaceGrotesk } from "./fonts";
 import "./globals.css";
 
@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           {children}
         </ThemeProvider>
-        <Analytics />
+        <SiteAnalytics />
       </body>
     </html>
   );

@@ -37,6 +37,14 @@ Vercel does not read your `.env.local`. Every value must also be entered in Verc
 - Paste values without quotation marks.
 - A changed value only applies to new builds. After changing one, redeploy.
 
+### Visitor numbers and page speed
+
+The site sends two kinds of measurements to Vercel: **Web Analytics** (visitors and page views) and **Speed Insights** (how fast pages load for real visitors). The code for both is in `src/components/analytics/SiteAnalytics.jsx`.
+
+- Each one must be switched on once in Vercel: **Project → Analytics → Enable** and **Project → Speed Insights → Enable**. Until then nothing is recorded.
+- Numbers appear a little after the next deployment has had real visits. Nothing is sent from `npm run dev`.
+- Pages under `/admin` are never counted, so your own work in the dashboard does not show up as visitors.
+
 ## Keeping packages up to date
 
 Every few months, and whenever GitHub or `npm` warns you:
