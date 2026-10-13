@@ -35,14 +35,9 @@ export default function AboutHero({ eyebrow, headline, intro, location, photo, n
         </div>
 
         <div
-          className="rise relative mx-auto w-full max-w-xs sm:max-w-sm"
+          className="rise mx-auto w-full max-w-xs sm:max-w-sm"
           style={{ "--delay": "160ms" }}
         >
-          {/* Offset outline behind the portrait */}
-          <div
-            aria-hidden
-            className="absolute inset-0 translate-x-3 translate-y-3 rounded-3xl border border-[var(--signal)] opacity-40"
-          />
           <div className="relative aspect-[4/5] overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--line)]">
             {photo ? (
               <CloudImage
