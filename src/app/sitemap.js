@@ -12,7 +12,6 @@ const PATHS = [
   "/projects",
   "/skills",
   "/education",
-  "/publications",
   "/downloads",
   "/contact",
 ];
