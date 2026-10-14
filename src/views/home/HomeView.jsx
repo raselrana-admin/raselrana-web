@@ -60,7 +60,7 @@ export default async function HomeView() {
   return (
     <>
       <Hero profile={profile} />
-      <AboutPreview />
+      <AboutPreview body={profile.homeProfile} />
       <FocusAreas />
       <ExperiencePreview items={roles} />
       <ProjectsPreview projects={featuredProjects} />

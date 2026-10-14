@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { PROFILE_FIELDS } from "@/lib/content/profile";
-import { profile as homeProfile } from "@/lib/data/home";
+import { aboutPreview, profile as homeProfile } from "@/lib/data/home";
 import { siteInfo, socialLinks } from "@/lib/data/site";
 import { getDb } from "@/lib/services/content-service";
 
@@ -15,6 +15,7 @@ function defaults() {
     role: homeProfile.role,
     org: homeProfile.org,
     tagline: homeProfile.tagline,
+    homeProfile: aboutPreview.body,
     footerTagline: siteInfo.tagline,
     focus: homeProfile.meta
       .split("·")
