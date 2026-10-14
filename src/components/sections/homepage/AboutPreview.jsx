@@ -2,14 +2,17 @@ import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
 import { aboutPreview } from "@/lib/data/home";
 
-export default function AboutPreview() {
+// `body` is "Home page profile" in Dashboard → Public profile.
+export default function AboutPreview({ body }) {
+  if (!body) return null;
+
   return (
     <section className="py-20 md:py-24">
       <div className="mx-auto grid max-w-6xl items-start gap-10 px-6 lg:grid-cols-[1fr_2fr] lg:gap-16">
         <SectionHeader eyebrow="About" heading="Profile" />
         <div>
-          <p className="max-w-[60ch] text-xl leading-relaxed text-[var(--ink)] md:text-2xl md:leading-relaxed">
-            {aboutPreview.body}
+          <p className="max-w-[60ch] text-lg leading-relaxed text-[var(--ink)] md:text-xl md:leading-relaxed">
+            {body}
           </p>
           <Link
             href={aboutPreview.href}

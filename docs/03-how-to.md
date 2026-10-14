@@ -29,9 +29,9 @@ First find where the content lives:
 | The entries of any inner page (About's cards and career rows, Journey stages, Experience, Achievements, Projects, Skills, Education, Publications, Portfolio, Downloads) | Dashboard → the page's screen |
 | The heading and intro at the top of a page; About's headline and story | Dashboard → the page's screen → **Page heading and text** (the fold-out card at the top) |
 | The Contact page's heading, intro and response time | Dashboard → Settings → Contact page |
-| Name, role, organization, tagline, focus tags, portrait, location, contact email, social links | Dashboard → Public profile |
+| Name, role, organization, tagline, the home page "Profile" paragraph, focus tags, portrait, location, contact email, social links | Dashboard → Public profile |
 | Which projects, roles and competitions show on the home page | Dashboard → edit the entry → tick "Show on the home page" |
-| Home page "Profile" paragraph, "What I work on" cards, contact panel wording | `src/lib/data/home.js` |
+| Home page "What I work on" cards, contact panel wording | `src/lib/data/home.js` |
 | Contact page row labels and notes, form subjects and messages | `src/lib/data/contact.js` |
 | Footer page links | `footerNav` in `src/lib/data/site.js` |
 | The two buttons at the bottom of About | `aboutCTA` in `src/lib/data/about.js` |

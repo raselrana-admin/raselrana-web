@@ -7,6 +7,7 @@ export const PROFILE_FIELDS = [
   { name: "role", label: "Role", type: "text", required: true, help: "e.g. Manager (Technical)." },
   { name: "org", label: "Organization", type: "text", required: true },
   { name: "tagline", label: "Tagline", type: "textarea", required: true, help: "The sentence under your name on the home page." },
+  { name: "homeProfile", label: "Home page profile", type: "textarea", required: true, help: "The paragraph under \"Profile\" on the home page, followed by a link to the About page." },
   { name: "footerTagline", label: "Footer description", type: "textarea", help: "The short description beside the logo in the footer." },
   { name: "focus", label: "Focus tags", type: "list", help: "Shown as small tags on the home page. One per line." },
   { name: "photo", label: "Portrait", type: "image", help: "Shown on the About page. Without one, the portrait built into the site is used. A photo taller than it is wide works best." },

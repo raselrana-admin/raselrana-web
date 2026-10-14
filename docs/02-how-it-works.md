@@ -55,9 +55,9 @@ Imports use `@/` as a short name for `src/`. So `@/lib/data/home` means `src/lib
 | --- | --- | --- |
 | The entries of About, Journey, Experience, Achievements, Projects, Skills, Education, Publications, Portfolio and Downloads | MongoDB | Dashboard: the page's own screen |
 | The heading and intro at the top of each of those pages, and of Contact (About also has its headline, story and section headings) | MongoDB | Dashboard: "Page heading and text" at the top of the page's screen; Contact has its own screen under Settings |
-| Your public profile: name, role, organization, tagline, focus tags, portrait, location, contact email, phone, social links | MongoDB | Dashboard: Public profile |
+| Your public profile: name, role, organization, tagline, the home page "Profile" paragraph, focus tags, portrait, location, contact email, phone, social links | MongoDB | Dashboard: Public profile |
 | Home page previews (featured projects, roles, competitions) | Taken from the entries above | Tick "Show on the home page" on an entry |
-| Home page "Profile" paragraph and "What I work on" cards, the contact panel wording | `src/lib/data/home.js` | Edit the file, commit, publish |
+| Home page "What I work on" cards, the contact panel wording | `src/lib/data/home.js` | Edit the file, commit, publish |
 | Contact page row labels and notes, form subjects and messages | `src/lib/data/contact.js` | Edit the file, commit, publish |
 | Footer page links; the two buttons at the bottom of About | `src/lib/data/site.js`, `src/lib/data/about.js` | Edit the file, commit, publish |
 | Navbar links | `src/components/layout/Navbar.jsx` | Edit the file, commit, publish |
@@ -66,7 +66,7 @@ The other files in `src/lib/data/` (`about.js`, `journey.js`, `skills.js`, `educ
 
 ## How a page is built (three layers)
 
-Every page has the same three layers. This simple version, with the content in a code file, is the easiest to follow; it is how the home page's "Profile" paragraph works (`lib/data/home.js` → `sections/homepage/AboutPreview.jsx` → the home page). Dashboard pages add one step, explained further down: the content comes from the database, read by a small "view" component.
+Every page has the same three layers. This simple version, with the content in a code file, is the easiest to follow; it is how the home page's "What I work on" cards work (`lib/data/home.js` → `sections/homepage/FocusAreas.jsx` → the home page). Dashboard pages add one step, explained further down: the content comes from the database, read by a small "view" component.
 
 ```
 1. DATA      — the words          a file in src/lib/data/, or the database

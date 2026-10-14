@@ -15,6 +15,8 @@ export const profile = {
   meta: "Telecommunications · Power systems · Programming & Robotics · Technical Management",
 };
 
+// The home page's "Profile" paragraph. `body` is only the starting value of
+// "Home page profile" in the public profile; edit it in the dashboard.
 export const aboutPreview = {
   body: "I work at the intersection of telecommunications infrastructure, electrical engineering and software development. As Manager (Technical) at BTCL, I combine technical management with hands-on work on GPON access networks and in-house development projects. Since 2021, I have also built full-stack web applications, from front-end design to database architecture. My foundation in electronics and hardware programming since 2011, and in robotics since 2014, shapes how I approach every system I build or manage.",
   href: "/about",
