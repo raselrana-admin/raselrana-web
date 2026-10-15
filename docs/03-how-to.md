@@ -84,6 +84,7 @@ To change how the PDF looks (sizes, colours, spacing), edit `src/lib/pdf/Portfol
 ## Add or change a footer or social link
 
 - **Social links** (YouTube, Facebook, GitHub, …): Dashboard → Public profile → Social links → Add link.
+- **Order:** every list of links in the dashboard (social links, an achievement's links) has up and down arrows beside each row. The site shows the links in that order. Press Save afterwards.
 - **Page links**: open `src/lib/data/site.js` and add `{ label: "Gallery", href: "/gallery" }` to a column's `links` in `footerNav`.
 
 ## Change the navbar links
