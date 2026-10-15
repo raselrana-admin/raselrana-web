@@ -16,4 +16,6 @@ export const PROFILE_FIELDS = [
   { name: "email", label: "Public contact email", type: "email", help: "Shown on the site. This is not your login email." },
   { name: "phone", label: "Phone", type: "text", help: "Optional. Used only in the contact card and its QR code, e.g. +880 1550 151897. Leave empty to keep your number off the site." },
   { name: "socialLinks", label: "Social links", type: "links", withType: false, help: "Shown under Connect in the footer." },
+  { name: "footerLinksTitle", label: "Footer links heading", type: "text", help: "The heading of the extra footer column. Leave empty for \"Links\"." },
+  { name: "footerLinks", label: "Footer links", type: "links", withType: false, help: "Other websites, e.g. your university or club, shown as an extra column in the footer. Leave empty to hide the column." },
 ];

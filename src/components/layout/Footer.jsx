@@ -1,6 +1,7 @@
 import Link from "next/link";
 import BrandMark from "@/components/ui/BrandMark";
 import { footerNav } from "@/lib/data/site";
+import { getValidLinks } from "@/components/ui/ExternalLinks";
 import { isBlogLink } from "@/lib/zones";
 
 const eyebrowClass =
@@ -45,8 +46,12 @@ export default function Footer({ profile }) {
           </div>
         </div>
 
-        {/* Link columns */}
-        <div className="grid grid-cols-2 gap-x-8 gap-y-10 border-t border-[var(--line)] py-12 md:grid-cols-4">
+        {/* Link columns: four, or five with the extra links from the dashboard */}
+        <div
+          className={`grid grid-cols-2 gap-x-8 gap-y-10 border-t border-[var(--line)] py-12 ${
+            extraLinks(profile).length > 0 ? "md:grid-cols-3 lg:grid-cols-5" : "md:grid-cols-4"
+          }`}
+        >
           {footerNav.map((group) => (
             <nav key={group.title} aria-label={group.title}>
               <p className={eyebrowClass}>{group.title}</p>
@@ -65,6 +70,29 @@ export default function Footer({ profile }) {
               </ul>
             </nav>
           ))}
+
+          {extraLinks(profile).length > 0 && (
+            <nav aria-label={profile.footerLinksTitle || "Links"}>
+              <p className={eyebrowClass}>{profile.footerLinksTitle || "Links"}</p>
+              <ul className="mt-4 space-y-3">
+                {extraLinks(profile).map((link) => (
+                  <li key={link.url}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={linkClass}
+                    >
+                      {link.label}
+                      <span aria-hidden className="ml-1 text-[var(--slate)]">
+                        ↗
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
 
           <nav aria-label="Connect">
             <p className={eyebrowClass}>Connect</p>
@@ -115,4 +143,10 @@ export default function Footer({ profile }) {
       </div>
     </footer>
   );
+}
+
+// The extra column's links (Dashboard → Public profile → Footer links),
+// keeping only real web addresses.
+function extraLinks(profile) {
+  return getValidLinks(profile.footerLinks);
 }
