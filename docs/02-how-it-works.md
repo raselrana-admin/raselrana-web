@@ -218,6 +218,8 @@ Your name, role, organization, tagline, focus tags, location, contact email and 
 
 Because the footer is on every page, saving the profile refreshes the whole site.
 
+**"Last updated" in the footer.** The bottom line of the footer shows the day the site last changed. It is the later of two dates: the newest save in the dashboard that visitors can see (a published entry, the public profile or a page's text; changing your password does not count), and the day the running version of the site was published, so design changes count too. Blog posts are not counted. The code is in `src/lib/services/site-updated.js`.
+
 ## How the admin panel works
 
 ### The screens

@@ -30,6 +30,9 @@ const securityHeaders = [
 const nextConfig = {
   // Do not advertise the framework in an X-Powered-By header
   poweredByHeader: false,
+  // When this version was built; one input of the footer's "Last updated"
+  // date (lib/services/site-updated.js)
+  env: { SITE_BUILT_AT: new Date().toISOString() },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
