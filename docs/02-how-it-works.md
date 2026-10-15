@@ -78,7 +78,9 @@ Every page has the same three layers. This simple version, with the content in a
 
 1. **Data.** Plain content, no design.
 2. **Sections.** Each file in `sections/<page>/` returns the HTML for one part of the page, for example `sections/about/AboutStory.jsx`. It receives its content and only decides how it looks.
-3. **Page.** `app/(site)/<page>/page.jsx` is short. It sets the browser tab title (`metadata`) and lists the sections in order.
+3. **Page.** `app/(site)/<page>/page.jsx` is short. It sets the browser tab title and the link preview (`metadata`, built with `pageMetadata()` from `lib/seo.js`) and lists the sections in order.
+
+**Link previews.** When someone shares a page on Facebook, LinkedIn, WhatsApp or X, those sites show a card with a picture, the page's title and its description. The picture is made by the site itself (`src/app/opengraph-image.jsx`): your name, role, organization, focus tags and portrait on the dark background, taken from Dashboard → Public profile, so it follows your edits within an hour. An achievement page with a cover photo uses that photo instead. Social sites keep a copy of a preview for some time; to refresh one on Facebook, paste the address into Facebook's Sharing Debugger and press "Scrape Again".
 
 Because of this split, changing text never requires touching design code, and changing design never risks deleting text.
 

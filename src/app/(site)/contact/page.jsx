@@ -2,12 +2,14 @@ import { ContactForm, ContactInfo } from "@/components";
 import { getPageText } from "@/lib/services/page-text";
 import { getSiteProfile } from "@/lib/services/site-profile";
 import PageHeading from "@/views/layout/PageHeading";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Contact | Rasel Rana",
   description:
     "Get in touch with Rasel Rana for inquiries, collaborations, or technical discussions in telecommunications and electrical/electronic engineering.",
-};
+  path: "/contact",
+});
 
 export default async function ContactPage() {
   // Email and location come from the public profile, the response time from

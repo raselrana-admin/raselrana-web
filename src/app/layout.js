@@ -1,6 +1,7 @@
 import SiteAnalytics from "@/components/analytics/SiteAnalytics";
 import ThemeProvider from "@/components/theme/ThemeProvider";
 import { siteInfo } from "@/lib/data/site";
+import { pageMetadata } from "@/lib/seo";
 import { plexMono, plexSans, spaceGrotesk } from "./fonts";
 import "./globals.css";
 
@@ -11,18 +12,9 @@ const description =
 export const metadata = {
   // Makes relative URLs in metadata (icons, social images) absolute
   metadataBase: new URL(siteInfo.url),
-  title,
-  description,
-  // Defaults for link previews when the site is shared
-  openGraph: {
-    type: "website",
-    siteName: siteInfo.name,
-    locale: "en_US",
-    url: "/",
-    title,
-    description,
-  },
-  twitter: { card: "summary", title, description },
+  // Defaults for anything without its own; public pages use pageMetadata()
+  // from lib/seo.js, so their link previews carry their own title and address.
+  ...pageMetadata({ title, description, path: "/" }),
 };
 
 export default function RootLayout({ children }) {

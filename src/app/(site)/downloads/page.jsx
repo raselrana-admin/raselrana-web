@@ -1,11 +1,13 @@
 import DownloadsView from "@/views/downloads/DownloadsView";
 import PageHeading from "@/views/layout/PageHeading";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Downloads | Rasel Rana",
   description:
     "Download the professional portfolio, contact card, and other documents of Rasel Rana.",
-};
+  path: "/downloads",
+});
 
 // This page reads live download counts from MongoDB (via DownloadsView) on
 // every request — opt out of static rendering so counts are not baked in

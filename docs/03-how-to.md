@@ -189,11 +189,14 @@ export default function GalleryGrid() {
 import GalleryGrid from "@/components/sections/gallery/GalleryGrid";
 import PageHeader from "@/components/ui/PageHeader";
 import { galleryPage } from "@/lib/data/gallery";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+// Tab title, plus the preview shown when the link is shared on social media
+export const metadata = pageMetadata({
   title: "Gallery | Rasel Rana",
   description: "Photos from the work and competitions of Rasel Rana.",
-};
+  path: "/gallery",
+});
 
 export default function GalleryPage() {
   return (
