@@ -59,13 +59,6 @@ export default function Navbar() {
               </NavLink>
             );
           })}
-          {/* <DownloadButton
-            href={cvDownload.filePath}
-            fileName={cvDownload.fileName}
-            label="CV"
-            variant="navbar"
-            className="ml-3"
-          /> */}
           <ThemeToggle />
         </nav>
 
