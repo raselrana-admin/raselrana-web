@@ -8,6 +8,7 @@ import {
   findAchievement,
   getAchievementsData,
 } from "@/lib/services/achievements-service";
+import { pageMetadata } from "@/lib/seo";
 import { stripFormatting, toParagraphs } from "@/lib/text";
 
 // Read from MongoDB on every request so admin edits show up immediately.
@@ -18,13 +19,26 @@ export async function generateMetadata({ params }) {
   const found = findAchievement(await getAchievementsData(), slug);
   if (!found) return {};
   const { item } = found;
-  return {
-    title: item.title,
-    // The first paragraph, without bold/italic stars
-    description:
-      stripFormatting(toParagraphs(item.description)[0] || "").replace(/\s+/g, " ") ||
-      `${item.title}, ${item.organizer}`,
-  };
+  // The first paragraph, without bold/italic stars, short enough for a preview
+  const firstParagraph = stripFormatting(toParagraphs(item.description)[0] || "").replace(/\s+/g, " ");
+  const description =
+    (firstParagraph.length > 200 ? `${firstParagraph.slice(0, 197).trimEnd()}…` : firstParagraph) ||
+    `${item.title}, ${item.organizer}`;
+
+  return pageMetadata({
+    title: `${item.title} | Rasel Rana`,
+    description,
+    path: `/achievements/${slug}`,
+    // The cover photo, cropped to the 1200 × 630 shape link previews use
+    image: item.cover
+      ? {
+          url: item.cover.url.replace("/image/upload/", "/image/upload/c_fill,g_auto,w_1200,h_630,f_jpg,q_auto/"),
+          width: 1200,
+          height: 630,
+          alt: item.title,
+        }
+      : undefined,
+  });
 }
 
 // The badge text shown above the title, per category.
