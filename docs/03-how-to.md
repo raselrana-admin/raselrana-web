@@ -47,6 +47,18 @@ A few headings are written inside components instead, for example "What I work o
 
 Note: apart from the files named in the table, the files in `lib/data` now hold only **starter content**. After you import it or save a page's text in the dashboard, editing those files changes nothing on the site.
 
+## Paragraphs, bold and italic
+
+The long text boxes in the dashboard (descriptions, summaries, details, Journey text, the About story) have **B** and *I* buttons above them.
+
+- **New paragraph:** leave an empty line. A single line break stays a line break on the page.
+- **Bold:** select words and press **B**, or type `**words**`.
+- **Italic:** select words and press *I*, or type `*words*`.
+
+The stars are turned into bold and italic on the site; nothing else (no HTML) is read from the text. Short one-line fields, page headings and the Portfolio (and its PDF) show the text exactly as typed.
+
+To give another long field these buttons, add `rich: true` to it in `src/lib/content/modules.js` and show it on the page with `<RichText text={…} />` from `components/ui/RichText.jsx`.
+
 ## Add photos
 
 - **Your portrait:** Dashboard → Public profile → Portrait → Upload photo → Save profile. It appears on the About page. A photo taller than it is wide works best.

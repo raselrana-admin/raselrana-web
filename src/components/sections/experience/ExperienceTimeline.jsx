@@ -1,3 +1,4 @@
+import RichText from "@/components/ui/RichText";
 // `organizations` is [{ organization, sector, positions: [role, …] }],
 // built in views/experience/ExperienceView.jsx.
 export default function ExperienceTimeline({ organizations }) {
@@ -39,9 +40,7 @@ export default function ExperienceTimeline({ organizations }) {
                   </p>
 
                   {position.summary && (
-                    <p className="mt-4 max-w-[60ch] leading-relaxed text-[var(--ink)]">
-                      {position.summary}
-                    </p>
+                    <RichText text={position.summary} className="mt-4 max-w-[60ch] leading-relaxed text-[var(--ink)]" />
                   )}
 
                   {position.responsibilities?.length > 0 && (

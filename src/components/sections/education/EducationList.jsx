@@ -1,3 +1,4 @@
+import RichText from "@/components/ui/RichText";
 // `groups` is [{ title, items }]; a group with no items is not shown.
 export default function EducationList({ groups }) {
   const shown = groups.filter((group) => group.items.length > 0);
@@ -27,9 +28,7 @@ export default function EducationList({ groups }) {
               </h3>
               <p className="mt-1 text-sm text-[var(--slate)]">{item.institution}</p>
               {item.details && (
-                <p className="mt-2 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]">
-                  {item.details}
-                </p>
+                <RichText text={item.details} className="mt-2 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]" />
               )}
             </li>
           ))}

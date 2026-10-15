@@ -1,3 +1,4 @@
+import RichText from "@/components/ui/RichText";
 export default function PublicationsList({ publications }) {
   if (publications.length === 0) {
     return (
@@ -21,9 +22,7 @@ export default function PublicationsList({ publications }) {
               {item.title}
             </h2>
             {item.summary && (
-              <p className="mt-2 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]">
-                {item.summary}
-              </p>
+              <RichText text={item.summary} className="mt-2 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]" />
             )}
             {item.url && (
               <a

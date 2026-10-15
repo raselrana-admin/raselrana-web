@@ -1,4 +1,5 @@
 import SectionHeader from "@/components/ui/SectionHeader";
+import RichText from "@/components/ui/RichText";
 
 export default function ExperiencePreview({ items }) {
   if (items.length === 0) return null;
@@ -27,9 +28,7 @@ export default function ExperiencePreview({ items }) {
                   {item.role}
                 </h3>
                 <p className="mt-1 text-sm text-[var(--signal)]">{item.org}</p>
-                <p className="mt-3 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]">
-                  {item.summary}
-                </p>
+                <RichText text={item.summary} inline className="mt-3 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]" />
               </div>
             </li>
           ))}

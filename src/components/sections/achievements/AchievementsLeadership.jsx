@@ -1,4 +1,5 @@
 import ExternalLinks from "@/components/ui/ExternalLinks";
+import RichText from "@/components/ui/RichText";
 
 export default function AchievementsLeadership({ leadership, affiliations }) {
   return (
@@ -22,9 +23,7 @@ export default function AchievementsLeadership({ leadership, affiliations }) {
               </h3>
               <p className="mt-1 text-sm text-[var(--slate)]">{item.org}</p>
               {item.description && (
-                <p className="mt-3 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]">
-                  {item.description}
-                </p>
+                <RichText text={item.description} className="mt-3 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]" />
               )}
               <ExternalLinks links={item.links} />
             </div>

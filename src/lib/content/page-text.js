@@ -21,7 +21,7 @@ export const PAGE_TEXT = {
       { name: "heading", label: "Headline", type: "textarea", required: true },
       { name: "intro", label: "Intro", type: "textarea" },
       { name: "storyHeading", label: "Story: heading", type: "text", required: true },
-      { name: "storyText", label: "Story: text", type: "textarea", help: "Leave an empty line between paragraphs." },
+      { name: "storyText", label: "Story: text", type: "textarea", rich: true },
       { name: "focusHeading", label: "\"How I work\" heading", type: "text", required: true, help: "The cards under it are the How I work entries below." },
       { name: "highlightsHeading", label: "Career snapshot heading", type: "text", required: true, help: "The rows under it are the Career snapshot entries below." },
       { name: "ctaHeading", label: "Closing panel: heading", type: "text", required: true },

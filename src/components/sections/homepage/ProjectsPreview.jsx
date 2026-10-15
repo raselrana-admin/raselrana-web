@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SectionHeader from "@/components/ui/SectionHeader";
+import RichText from "@/components/ui/RichText";
 
 export default function ProjectsPreview({ projects }) {
   if (projects.length === 0) return null;
@@ -27,9 +28,7 @@ export default function ProjectsPreview({ projects }) {
               <h3 className="mt-6 font-display text-xl font-medium text-[var(--ink)]">
                 {project.title}
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-[var(--slate)]">
-                {project.description}
-              </p>
+              <RichText text={project.description} inline className="mt-3 text-sm leading-relaxed text-[var(--slate)]" />
               <span className="mt-auto pt-8 font-mono text-xs text-[var(--slate)] transition-colors group-hover:text-[var(--signal)]">
                 View project →
               </span>

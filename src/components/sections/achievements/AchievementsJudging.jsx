@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LinkTypes } from "@/components/ui/ExternalLinks";
+import RichText from "@/components/ui/RichText";
 
 export default function AchievementsJudging({ judging }) {
   if (judging.length === 0) return null;
@@ -28,9 +29,7 @@ export default function AchievementsJudging({ judging }) {
                 {j.organizer} · {j.displayDate}
               </p>
               {j.description && (
-                <p className="mt-2 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]">
-                  {j.description}
-                </p>
+                <RichText text={j.description} className="mt-2 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]" />
               )}
               <LinkTypes links={j.links} />
             </Link>

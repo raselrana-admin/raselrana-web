@@ -1,4 +1,4 @@
-import { toParagraphs } from "@/lib/text";
+import RichText from "@/components/ui/RichText";
 
 export default function JourneyStage({ stage }) {
   return (
@@ -16,14 +16,12 @@ export default function JourneyStage({ stage }) {
       </h2>
       {stage.summary && <p className="mt-2 text-[var(--slate)]">{stage.summary}</p>}
 
-      <div className="mt-6 space-y-4">
-        {/* The text is stored whole; an empty line starts a new paragraph */}
-        {toParagraphs(stage.body).map((paragraph, i) => (
-          <p key={i} className="max-w-[65ch] leading-relaxed text-[var(--ink)]">
-            {paragraph}
-          </p>
-        ))}
-      </div>
+      {/* The text is stored whole; an empty line starts a new paragraph */}
+      <RichText
+        text={stage.body}
+        spacing="space-y-4"
+        className="mt-6 max-w-[65ch] leading-relaxed text-[var(--ink)]"
+      />
     </section>
   );
 }

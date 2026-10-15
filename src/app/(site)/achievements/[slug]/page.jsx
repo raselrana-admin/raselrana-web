@@ -2,11 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import CloudImage from "@/components/ui/CloudImage";
 import ExternalLinks from "@/components/ui/ExternalLinks";
+import RichText from "@/components/ui/RichText";
 import { cldUrl } from "@/lib/cloudinary-url";
 import {
   findAchievement,
   getAchievementsData,
 } from "@/lib/services/achievements-service";
+import { stripFormatting, toParagraphs } from "@/lib/text";
 
 // Read from MongoDB on every request so admin edits show up immediately.
 export const dynamic = "force-dynamic";
@@ -18,7 +20,10 @@ export async function generateMetadata({ params }) {
   const { item } = found;
   return {
     title: item.title,
-    description: item.description || `${item.title}, ${item.organizer}`,
+    // The first paragraph, without bold/italic stars
+    description:
+      stripFormatting(toParagraphs(item.description)[0] || "").replace(/\s+/g, " ") ||
+      `${item.title}, ${item.organizer}`,
   };
 }
 
@@ -78,9 +83,11 @@ export default async function AchievementDetailPage({ params }) {
         )}
 
         {item.description ? (
-          <p className="mt-10 max-w-[60ch] leading-relaxed text-[var(--slate)]">
-            {item.description}
-          </p>
+          <RichText
+            text={item.description}
+            spacing="space-y-5"
+            className="mt-10 max-w-[60ch] leading-relaxed text-[var(--slate)]"
+          />
         ) : (
           <p className="mt-10 max-w-[60ch] leading-relaxed text-[var(--slate)]">
             The full story is coming soon.

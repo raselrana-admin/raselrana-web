@@ -1,4 +1,5 @@
 import SectionHeader from "@/components/ui/SectionHeader";
+import RichText from "@/components/ui/RichText";
 
 export default function AboutFocus({ heading, principles }) {
   if (principles.length === 0) return null;
@@ -25,9 +26,7 @@ export default function AboutFocus({ heading, principles }) {
               <h3 className="mt-6 font-display text-xl font-medium text-[var(--ink)]">
                 {item.title}
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-[var(--slate)]">
-                {item.description}
-              </p>
+              <RichText text={item.description} className="mt-3 text-sm leading-relaxed text-[var(--slate)]" />
             </div>
           ))}
         </div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LinkTypes } from "@/components/ui/ExternalLinks";
+import RichText from "@/components/ui/RichText";
 
 export default function AchievementsSports({ sports }) {
   if (sports.length === 0) return null;
@@ -28,9 +29,7 @@ export default function AchievementsSports({ sports }) {
                 {s.organizer} · {s.displayDate}
               </p>
               {s.description && (
-                <p className="mt-2 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]">
-                  {s.description}
-                </p>
+                <RichText text={s.description} className="mt-2 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]" />
               )}
               <LinkTypes links={s.links} />
             </Link>

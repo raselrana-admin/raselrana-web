@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useState } from "react";
 import { LINK_TYPES, initialValues } from "@/lib/content/fields";
 import { GalleryInput, ImageInput } from "./ImageInputs";
+import RichTextarea from "./RichTextarea";
 import { useToast } from "./Toast";
 import {
   errorClass,
@@ -130,6 +131,12 @@ export default function SchemaForm({
 
     switch (field.type) {
       case "textarea":
+        if (field.rich) {
+          const { onChange: _, ...rest } = common;
+          return (
+            <RichTextarea {...rest} rows={10} onChange={(text) => set(field.name, text)} />
+          );
+        }
         return <textarea {...common} rows={5} />;
       case "list":
         return <textarea {...common} rows={4} />;
@@ -235,6 +242,11 @@ export default function SchemaForm({
             </label>
             {renderControl(field)}
             {field.help && <p className={helpClass}>{field.help}</p>}
+            {field.rich && (
+              <p className={helpClass}>
+                Leave an empty line between paragraphs. **bold**, *italic*.
+              </p>
+            )}
             {fieldErrors[field.name] && (
               <p role="alert" className={errorClass}>
                 {fieldErrors[field.name]}
