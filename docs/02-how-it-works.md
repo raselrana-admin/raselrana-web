@@ -55,7 +55,7 @@ Imports use `@/` as a short name for `src/`. So `@/lib/data/home` means `src/lib
 | --- | --- | --- |
 | The entries of About, Journey, Experience, Achievements, Projects, Skills, Education, Publications, Portfolio and Downloads | MongoDB | Dashboard: the page's own screen |
 | The heading and intro at the top of each of those pages, and of Contact (About also has its headline, story and section headings) | MongoDB | Dashboard: "Page heading and text" at the top of the page's screen; Contact has its own screen under Settings |
-| Your public profile: name, role, organization, tagline, the home page "Profile" paragraph, focus tags, portrait, location, contact email, phone, social links | MongoDB | Dashboard: Public profile |
+| Your public profile: name, role, organization, tagline, the home page "Profile" paragraph, focus tags, portrait, location, contact email, phone, social links, extra footer links | MongoDB | Dashboard: Public profile |
 | Home page previews (featured projects, roles, competitions) | Taken from the entries above | Tick "Show on the home page" on an entry |
 | Home page "What I work on" cards, the contact panel wording | `src/lib/data/home.js` | Edit the file, commit, publish |
 | Contact page row labels and notes, form subjects and messages | `src/lib/data/contact.js` | Edit the file, commit, publish |
