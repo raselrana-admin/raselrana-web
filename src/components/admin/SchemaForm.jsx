@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowDown, ArrowUp } from "lucide-react";
 import { useActionState, useEffect, useState } from "react";
 import { LINK_TYPES, initialValues } from "@/lib/content/fields";
 import { GalleryInput, ImageInput } from "./ImageInputs";
@@ -8,6 +9,7 @@ import { useToast } from "./Toast";
 import {
   errorClass,
   helpClass,
+  iconButtonClass,
   inputClass,
   labelClass,
   primaryButtonClass,
@@ -18,6 +20,12 @@ function LinksEditor({ field, links, onChange }) {
   const withType = field.withType !== false;
   const update = (index, patch) =>
     onChange(links.map((link, i) => (i === index ? { ...link, ...patch } : link)));
+  // Links are shown on the site in this order
+  const move = (index, step) => {
+    const next = [...links];
+    [next[index], next[index + step]] = [next[index + step], next[index]];
+    onChange(next);
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -55,13 +63,35 @@ function LinksEditor({ field, links, onChange }) {
             onChange={(e) => update(index, { url: e.target.value })}
             className={inputClass}
           />
-          <button
-            type="button"
-            onClick={() => onChange(links.filter((_, i) => i !== index))}
-            className={secondaryButtonClass}
-          >
-            Remove
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => move(index, -1)}
+              disabled={index === 0}
+              aria-label="Move link up"
+              title="Move up"
+              className={`${iconButtonClass} h-auto self-stretch disabled:cursor-not-allowed disabled:opacity-40`}
+            >
+              <ArrowUp size={15} aria-hidden />
+            </button>
+            <button
+              type="button"
+              onClick={() => move(index, 1)}
+              disabled={index === links.length - 1}
+              aria-label="Move link down"
+              title="Move down"
+              className={`${iconButtonClass} h-auto self-stretch disabled:cursor-not-allowed disabled:opacity-40`}
+            >
+              <ArrowDown size={15} aria-hidden />
+            </button>
+            <button
+              type="button"
+              onClick={() => onChange(links.filter((_, i) => i !== index))}
+              className={secondaryButtonClass}
+            >
+              Remove
+            </button>
+          </div>
         </div>
       ))}
       <div>
