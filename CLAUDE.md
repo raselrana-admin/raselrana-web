@@ -93,6 +93,8 @@ The documents are a dashboard module. No files are stored in the repo (there is 
 
 **Freshness.** Every dashboard-backed inner page (About, Journey, Skills, Education, Achievements, Projects, Publications, Experience, Portfolio, Downloads) is `force-dynamic`. Everything else under `(site)` is static with `revalidate = 3600` (set in `(site)/layout.jsx`, because the footer reads the profile). Every save calls `revalidatePath("/", "layout")`, so changes appear immediately.
 
+**"Last updated" date.** The footer's bottom line shows it. `getSiteUpdatedAt()` (`src/lib/services/site-updated.js`, memoised per request, never throws) takes the newest `updatedAt` of published entries in every module collection and of the `settings` documents except `admin-account`, and the build time (`SITE_BUILT_AT`, set in the `env` block of `next.config.mjs`), whichever is later. `views/layout/SiteFooter.jsx` passes it to `Footer`, which prints the day in `Asia/Dhaka`. Blog posts are not counted.
+
 **Mutations** are Server Actions in `src/app/admin/actions.js`, not API routes.
 
 ### Admin authentication

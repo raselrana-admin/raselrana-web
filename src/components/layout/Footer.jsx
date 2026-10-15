@@ -8,9 +8,18 @@ const eyebrowClass =
 const linkClass =
   "text-sm text-[var(--ink)] transition-colors hover:text-[var(--signal)]";
 
-// `profile` is the public profile (lib/services/site-profile.js), passed in
+// "15 October 2026", the day in Bangladesh
+const dhakaDate = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "Asia/Dhaka",
+});
+
+// `profile` is the public profile (lib/services/site-profile.js) and
+// `updatedAt` the last update (lib/services/site-updated.js), both passed in
 // by views/layout/SiteFooter.jsx. The link columns stay in lib/data/site.js.
-export default function Footer({ profile }) {
+export default function Footer({ profile, updatedAt }) {
   return (
     <footer
       id="footer"
@@ -107,6 +116,13 @@ export default function Footer({ profile }) {
         <div className="flex flex-col items-start justify-between gap-3 border-t border-[var(--line)] py-6 font-mono text-xs text-[var(--slate)] sm:flex-row sm:items-center">
           <span>
             © {new Date().getFullYear()} {profile.name}. All rights reserved.
+            {updatedAt && (
+              <>
+                <span aria-hidden> · </span>
+                Last updated{" "}
+                <time dateTime={updatedAt}>{dhakaDate.format(new Date(updatedAt))}</time>
+              </>
+            )}
           </span>
           <a href="#top" className="transition-colors hover:text-[var(--signal)]">
             Back to top ↑
