@@ -8,7 +8,6 @@ import {
 import { getEntries } from "@/lib/services/content-service";
 import { getPageText } from "@/lib/services/page-text";
 import { getSiteProfile } from "@/lib/services/site-profile";
-import { toParagraphs } from "@/lib/text";
 
 // Server Component — gathers the About page from MongoDB: its text
 // (dashboard → About → Page heading and text), its two lists (the entries on
@@ -31,7 +30,7 @@ export default async function AboutView() {
         photo={profile.photo}
         name={profile.name}
       />
-      <AboutStory heading={text.storyHeading} paragraphs={toParagraphs(text.storyText)} />
+      <AboutStory heading={text.storyHeading} text={text.storyText} />
       <AboutFocus heading={text.focusHeading} principles={entries.principle} />
       <AboutHighlights heading={text.highlightsHeading} timeline={entries.highlight} />
       <AboutCTA heading={text.ctaHeading} description={text.ctaDescription} />

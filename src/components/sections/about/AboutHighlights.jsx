@@ -1,4 +1,5 @@
 import SectionHeader from "@/components/ui/SectionHeader";
+import RichText from "@/components/ui/RichText";
 
 export default function AboutHighlights({ heading, timeline }) {
   if (timeline.length === 0) return null;
@@ -25,9 +26,7 @@ export default function AboutHighlights({ heading, timeline }) {
                   <p className="mt-1 text-sm text-[var(--signal)]">{item.org}</p>
                 )}
                 {item.description && (
-                  <p className="mt-3 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]">
-                    {item.description}
-                  </p>
+                  <RichText text={item.description} className="mt-3 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]" />
                 )}
               </div>
             </li>

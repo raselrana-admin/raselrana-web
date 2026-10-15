@@ -1,3 +1,4 @@
+import RichText from "@/components/ui/RichText";
 export default function ProjectsList({ projects }) {
   if (projects.length === 0) {
     return (
@@ -26,9 +27,7 @@ export default function ProjectsList({ projects }) {
             <h2 className="mt-3 font-display text-xl font-medium text-[var(--ink)]">
               {project.title}
             </h2>
-            <p className="mt-2 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]">
-              {project.description}
-            </p>
+            <RichText text={project.description} className="mt-2 max-w-[60ch] text-sm leading-relaxed text-[var(--slate)]" />
             {project.tags?.length > 0 && (
               <ul className="mt-4 flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
