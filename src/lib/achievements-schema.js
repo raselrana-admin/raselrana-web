@@ -57,6 +57,7 @@ export const ACHIEVEMENT_TYPES = {
       slugField,
       { name: "role", label: "Your role", type: "text", required: true, help: "e.g. Judge, Guest Judge, Mentor." },
       ...eventFields,
+      { name: "showOnHome", label: "Show on the home page", type: "checkbox" },
     ],
   },
   sports: {
@@ -70,6 +71,7 @@ export const ACHIEVEMENT_TYPES = {
       slugField,
       { name: "result", label: "Result", type: "text", required: true, help: "e.g. Champion." },
       ...eventFields,
+      { name: "showOnHome", label: "Show on the home page", type: "checkbox" },
     ],
   },
   leadership: {
@@ -83,6 +85,7 @@ export const ACHIEVEMENT_TYPES = {
       { name: "period", label: "Period", type: "text", required: true, help: "e.g. Session 2016–2017." },
       { name: "description", label: "Description", type: "textarea", rich: true },
       { name: "links", label: "Links", type: "links" },
+      { name: "showOnHome", label: "Show on the home page", type: "checkbox" },
       orderField,
     ],
   },
@@ -98,6 +101,7 @@ export const ACHIEVEMENT_TYPES = {
       { name: "url", label: "Article URL", type: "url", required: true },
       { name: "competition", label: "Related competition", type: "competition", help: "Optional. Shows this clipping on that competition's card and detail page." },
       { name: "featured", label: "Feature at the top of the Achievements page", type: "checkbox" },
+      { name: "showOnHome", label: "Show on the home page", type: "checkbox" },
       orderField,
     ],
   },

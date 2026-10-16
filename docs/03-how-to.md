@@ -30,7 +30,7 @@ First find where the content lives:
 | The heading and intro at the top of a page; About's headline and story | Dashboard → the page's screen → **Page heading and text** (the fold-out card at the top) |
 | The Contact page's heading, intro and response time | Dashboard → Settings → Contact page |
 | Name, role, organization, tagline, the home page "Profile" paragraph, focus tags, portrait, location, contact email, social links | Dashboard → Public profile |
-| Which projects, roles and competitions show on the home page | Dashboard → edit the entry → tick "Show on the home page" |
+| Which projects, roles and achievements show on the home page | Dashboard → edit the entry → tick "Show on the home page". In Achievements this works for competitions, judging, sports, leadership roles and press clippings; the home page shows up to 6 of them as cards. With none ticked, it shows the first 3 competitions |
 | Home page "What I work on" cards, contact panel wording | `src/lib/data/home.js` |
 | Contact page row labels and notes, form subjects and messages | `src/lib/data/contact.js` |
 | Footer page links | `footerNav` in `src/lib/data/site.js` |
