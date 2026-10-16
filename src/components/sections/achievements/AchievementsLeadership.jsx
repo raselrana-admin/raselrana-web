@@ -3,7 +3,9 @@ import RichText from "@/components/ui/RichText";
 
 export default function AchievementsLeadership({ leadership, affiliations }) {
   return (
-    <section className="border-t border-[var(--line)] py-20 md:py-24">
+    // id: the home page's leadership cards link here; scroll-mt keeps the
+    // heading clear of the sticky navbar
+    <section id="leadership" className="scroll-mt-24 border-t border-[var(--line)] py-20 md:py-24">
       <div className="mx-auto max-w-6xl px-6">
         <h2 className="font-display text-3xl font-semibold tracking-tight text-[var(--ink)] md:text-4xl">
           Leadership

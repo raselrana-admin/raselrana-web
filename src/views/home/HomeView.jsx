@@ -8,6 +8,7 @@ import {
   LatestWriting,
   ProjectsPreview,
 } from "@/components";
+import { homeAchievementCards } from "@/lib/home-achievements";
 import { getLatestPosts } from "@/lib/services/blog-posts";
 import { getEntries } from "@/lib/services/content-service";
 import { getSiteProfile } from "@/lib/services/site-profile";
@@ -48,14 +49,8 @@ export default async function HomeView() {
     summary: r.summary,
   }));
 
-  const competitions = pickForHome(achievements.competition, 3).map((c) => ({
-    id: c.id,
-    badge: c.placement,
-    meta: c.displayDate,
-    title: c.title,
-    description: `Organized by ${c.organizer}`,
-    href: `/achievements/${c.slug}`,
-  }));
+  // Achievements of any kind ticked "Show on the home page"
+  const recognition = homeAchievementCards(achievements);
 
   return (
     <>
@@ -64,7 +59,7 @@ export default async function HomeView() {
       <FocusAreas />
       <ExperiencePreview items={roles} />
       <ProjectsPreview projects={featuredProjects} />
-      <AchievementsPreview items={competitions} />
+      <AchievementsPreview items={recognition} />
       <LatestWriting posts={posts} />
       <ContactCTA email={profile.email} />
     </>
